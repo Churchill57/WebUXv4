@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ef001315b0640b798077a02ab0a8dcc" Name="Diagram1">
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.Component" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.Domain" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.LaunchInput" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.RoleAccess" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.SearchTag" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.UserApp" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.UserAppInput" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.UserAppSearchTag" Width="1.5" PointX="7.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GOLD.AppRegisterDBModel.UserSecondaryApp" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_Component_Domain" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_LaunchInput_Component" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_RoleAccess_Component" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_SearchTag_Component" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserApp_Component" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserSecondaryApp_PrimaryComponent" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserSecondaryApp_SecondaryComponent" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserAppInput_LaunchInput" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserAppInput_UserApp" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserAppSearchTag_UserApp" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.DependantComponent" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
