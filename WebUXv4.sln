@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppRegister.DataAccess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppRegister.ApiModels", "GOLD.AppRegister.ApiModels\GOLD.AppRegister.ApiModels.csproj", "{D2B25E1C-1B1F-4351-9F7B-ECB9F9FCDA02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppRegister.MVC", "GOLD.AppRegister.MVC\GOLD.AppRegister.MVC.csproj", "{45E979B3-B8A6-4E6F-9372-CD716552CA17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{D2B25E1C-1B1F-4351-9F7B-ECB9F9FCDA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B25E1C-1B1F-4351-9F7B-ECB9F9FCDA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2B25E1C-1B1F-4351-9F7B-ECB9F9FCDA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E979B3-B8A6-4E6F-9372-CD716552CA17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E979B3-B8A6-4E6F-9372-CD716552CA17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E979B3-B8A6-4E6F-9372-CD716552CA17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E979B3-B8A6-4E6F-9372-CD716552CA17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

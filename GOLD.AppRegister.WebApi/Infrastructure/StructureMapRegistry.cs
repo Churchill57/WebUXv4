@@ -29,10 +29,5 @@ namespace GOLD.AppRegister.WebApi.Infrastructure
                 scan.With(new StructureMapControllerConvention());
             });
         }
-
-        //public override void AddType(Type pluginType, Type concreteType, string name)
-        //{
-        //    base.AddType(pluginType, concreteType, name);
-        //}
     }
 }
