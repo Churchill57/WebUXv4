@@ -41,17 +41,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentDescriptionAttribute.cs" />
+    <Compile Include="Attributes\ComponentStateAttribute.cs" />
     <Compile Include="Attributes\ComponentTitleAttribute.cs" />
     <Compile Include="Attributes\LaunchInputAttribute.cs" />
     <Compile Include="Attributes\RoleAccessAttribute.cs" />
     <Compile Include="Attributes\SearchTagsAttribute.cs" />
     <Compile Include="Attributes\SecondaryRouteAttribute.cs" />
     <Compile Include="Attributes\PrimaryRouteAttribute.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\LogicalUnit.cs" />
+    <Compile Include="Components\LuLauncher.cs" />
+    <Compile Include="Components\OutcomeArgs.cs" />
+    <Compile Include="Components\UserExperience.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
+    <Folder Include="Outcomes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
