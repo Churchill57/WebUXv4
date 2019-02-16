@@ -25,6 +25,7 @@
         <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserAppInput_UserApp" ManuallyRouted="false" />
         <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserAppSearchTag_UserApp" ManuallyRouted="false" />
         <AssociationConnector Association="GOLD.AppRegisterDBModel.DependantComponent" ManuallyRouted="false" />
+        <AssociationConnector Association="GOLD.AppRegisterDBModel.FK_UserApp_Component1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

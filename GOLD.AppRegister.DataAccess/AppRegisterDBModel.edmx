@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GOLD.AppRegisterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GOLD.AppRegisterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Component">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,9 +14,10 @@
           <Property Name="Interface" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
-          <Property Name="IsPrimary" Type="bit" Nullable="false" />
-          <Property Name="IsSecondary" Type="bit" Nullable="false" />
-          <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsPrimaryApp" Type="bit" Nullable="false" />
+          <Property Name="IsSecondaryApp" Type="bit" Nullable="false" />
+          <Property Name="PrimaryAppRoute" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SecondaryAppRoute" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="DependantComponent">
           <Key>
@@ -65,7 +66,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="LaunchableComponentID" Type="int" Nullable="false" />
+          <Property Name="PrimaryComponentID" Type="int" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="100" />
           <Property Name="DisplayOrder" Type="int" Nullable="false" />
         </EntityType>
@@ -177,7 +178,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UserApp">
-              <PropertyRef Name="LaunchableComponentID" />
+              <PropertyRef Name="PrimaryComponentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -301,8 +302,7 @@
             <End Role="UserSecondaryApp" EntitySet="UserSecondaryApp" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GOLD.AppRegisterDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -315,9 +315,6 @@
           <Property Name="Interface" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsPrimary" Type="Boolean" Nullable="false" />
-          <Property Name="IsSecondary" Type="Boolean" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Domain" Relationship="Self.FK_Component_Domain" FromRole="Component" ToRole="Domain" />
           <NavigationProperty Name="LaunchInputs" Relationship="Self.FK_LaunchInput_Component" FromRole="Component" ToRole="LaunchInput" />
           <NavigationProperty Name="RoleAccesses" Relationship="Self.FK_RoleAccess_Component" FromRole="Component" ToRole="RoleAccess" />
@@ -327,6 +324,11 @@
           <NavigationProperty Name="UserSecondaryApps1" Relationship="Self.FK_UserSecondaryApp_SecondaryComponent" FromRole="Component" ToRole="UserSecondaryApp" />
           <NavigationProperty Name="Component1" Relationship="Self.DependantComponent" FromRole="Component" ToRole="Component1" />
           <NavigationProperty Name="Components" Relationship="Self.DependantComponent" FromRole="Component1" ToRole="Component" />
+          <Property Name="IsPrimaryApp" Type="Boolean" Nullable="false" />
+          <Property Name="IsSecondaryApp" Type="Boolean" Nullable="false" />
+          <Property Name="PrimaryAppRoute" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryAppRoute" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserApps1" Relationship="GOLD.AppRegisterDBModel.FK_UserApp_Component1" FromRole="Component" ToRole="UserApp" />
         </EntityType>
         <EntityType Name="Domain">
           <Key>
@@ -372,12 +374,13 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Guid" Nullable="false" />
-          <Property Name="LaunchableComponentID" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Component" Relationship="Self.FK_UserApp_Component" FromRole="UserApp" ToRole="Component" />
           <NavigationProperty Name="UserAppInputs" Relationship="Self.FK_UserAppInput_UserApp" FromRole="UserApp" ToRole="UserAppInput" />
           <NavigationProperty Name="UserAppSearchTags" Relationship="Self.FK_UserAppSearchTag_UserApp" FromRole="UserApp" ToRole="UserAppSearchTag" />
+          <Property Name="PrimaryComponentID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Component1" Relationship="GOLD.AppRegisterDBModel.FK_UserApp_Component1" FromRole="UserApp" ToRole="Component" />
         </EntityType>
         <EntityType Name="UserAppInput">
           <Key>
@@ -468,7 +471,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UserApp">
-              <PropertyRef Name="LaunchableComponentID" />
+              <PropertyRef Name="PrimaryComponentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -590,7 +593,23 @@
             <End Role="Component" EntitySet="Components" />
             <End Role="Component1" EntitySet="Components" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserApp_Component1" Association="GOLD.AppRegisterDBModel.FK_UserApp_Component1">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="UserApp" EntitySet="UserApps" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_UserApp_Component1">
+          <End Type="GOLD.AppRegisterDBModel.Component" Role="Component" Multiplicity="1" />
+          <End Type="GOLD.AppRegisterDBModel.UserApp" Role="UserApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserApp">
+              <PropertyRef Name="PrimaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -600,15 +619,16 @@
           <EntitySetMapping Name="Components">
             <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.Component">
               <MappingFragment StoreEntitySet="Component">
+                <ScalarProperty Name="SecondaryAppRoute" ColumnName="SecondaryAppRoute" />
+                <ScalarProperty Name="PrimaryAppRoute" ColumnName="PrimaryAppRoute" />
+                <ScalarProperty Name="IsSecondaryApp" ColumnName="IsSecondaryApp" />
+                <ScalarProperty Name="IsPrimaryApp" ColumnName="IsPrimaryApp" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DomainID" ColumnName="DomainID" />
                 <ScalarProperty Name="Interface" ColumnName="Interface" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
-                <ScalarProperty Name="IsSecondary" ColumnName="IsSecondary" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Domains">
@@ -651,9 +671,9 @@
           <EntitySetMapping Name="UserApps">
             <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.UserApp">
               <MappingFragment StoreEntitySet="UserApp">
+                <ScalarProperty Name="PrimaryComponentID" ColumnName="PrimaryComponentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LaunchableComponentID" ColumnName="LaunchableComponentID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
               </MappingFragment>

@@ -23,14 +23,15 @@ namespace GOLD.AppRegister.DataAccess
     
         public int ID { get; set; }
         public System.Guid UserID { get; set; }
-        public int LaunchableComponentID { get; set; }
         public string Title { get; set; }
         public int DisplayOrder { get; set; }
+        public int PrimaryComponentID { get; set; }
     
         public virtual Component Component { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAppInput> UserAppInputs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAppSearchTag> UserAppSearchTags { get; set; }
+        public virtual Component Component1 { get; set; }
     }
 }
