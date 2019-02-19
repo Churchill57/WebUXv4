@@ -3,9 +3,9 @@
 namespace GOLD.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class SecondaryRouteAttribute : Attribute
+    public class ComponentSecondaryRouteAttribute : Attribute
     {
-        public SecondaryRouteAttribute(string route)
+        public ComponentSecondaryRouteAttribute(string route)
         {
             Route = route;
         }

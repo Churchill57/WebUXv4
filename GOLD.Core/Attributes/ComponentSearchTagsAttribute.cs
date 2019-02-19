@@ -2,9 +2,9 @@
 
 namespace GOLD.Core.Attributes
 {
-    class SearchTagsAttribute : Attribute
+    class ComponentSearchTagsAttribute : Attribute
     {
-        public SearchTagsAttribute(params string[] tags)
+        public ComponentSearchTagsAttribute(params string[] tags)
         {
             Tags = tags;
         }

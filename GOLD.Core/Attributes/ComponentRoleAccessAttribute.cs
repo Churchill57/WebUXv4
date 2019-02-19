@@ -2,9 +2,9 @@
 
 namespace GOLD.Core.Attributes
 {
-    class RoleAccessAttribute : Attribute
+    class ComponentRoleAccessAttribute : Attribute
     {
-        public RoleAccessAttribute(params string[] roles)
+        public ComponentRoleAccessAttribute(params string[] roles)
         {
             Roles = roles;
         }

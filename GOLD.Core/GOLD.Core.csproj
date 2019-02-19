@@ -52,11 +52,11 @@
     <Compile Include="Attributes\ComponentDescriptionAttribute.cs" />
     <Compile Include="Attributes\ComponentStateAttribute.cs" />
     <Compile Include="Attributes\ComponentTitleAttribute.cs" />
-    <Compile Include="Attributes\LaunchInputAttribute.cs" />
-    <Compile Include="Attributes\RoleAccessAttribute.cs" />
-    <Compile Include="Attributes\SearchTagsAttribute.cs" />
-    <Compile Include="Attributes\SecondaryRouteAttribute.cs" />
-    <Compile Include="Attributes\PrimaryRouteAttribute.cs" />
+    <Compile Include="Attributes\ComponentLaunchInputAttribute.cs" />
+    <Compile Include="Attributes\ComponentRoleAccessAttribute.cs" />
+    <Compile Include="Attributes\ComponentSearchTagsAttribute.cs" />
+    <Compile Include="Attributes\ComponentSecondaryRouteAttribute.cs" />
+    <Compile Include="Attributes\ComponentPrimaryRouteAttribute.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\LogicalUnit.cs" />
     <Compile Include="Components\LuLauncher.cs" />
