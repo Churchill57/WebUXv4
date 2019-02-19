@@ -1,0 +1,727 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GOLD.AppRegisterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Component">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DomainID" Type="int" Nullable="false" />
+          <Property Name="Interface" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsPrimaryApp" Type="bit" Nullable="false" />
+          <Property Name="IsSecondaryApp" Type="bit" Nullable="false" />
+          <Property Name="PrimaryAppRoute" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SecondaryAppRoute" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DependantComponent">
+          <Key>
+            <PropertyRef Name="SubjectComponentID" />
+            <PropertyRef Name="DirectlyUsesComponentID" />
+          </Key>
+          <Property Name="SubjectComponentID" Type="int" Nullable="false" />
+          <Property Name="DirectlyUsesComponentID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="LaunchInput">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ComponentID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleAccess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ComponentID" Type="int" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SearchTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ComponentID" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserApp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrimaryComponentID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAppInput">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserAppID" Type="int" Nullable="false" />
+          <Property Name="LaunchInputID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAppSearchTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserAppId" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSecondaryApp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrimaryComponentID" Type="int" Nullable="false" />
+          <Property Name="SecondaryComponentID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Component_Domain">
+          <End Role="Domain" Type="Self.Domain" Multiplicity="1" />
+          <End Role="Component" Type="Self.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DependantComponent_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="DependantComponent" Type="Self.DependantComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DependantComponent">
+              <PropertyRef Name="DirectlyUsesComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaunchInput_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="LaunchInput" Type="Self.LaunchInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LaunchInput">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleAccess_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="RoleAccess" Type="Self.RoleAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleAccess">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SearchTag_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="SearchTag" Type="Self.SearchTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SearchTag">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubjectComponent_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="DependantComponent" Type="Self.DependantComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DependantComponent">
+              <PropertyRef Name="SubjectComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserApp_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserApp">
+              <PropertyRef Name="PrimaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppInput_LaunchInput">
+          <End Role="LaunchInput" Type="Self.LaunchInput" Multiplicity="1" />
+          <End Role="UserAppInput" Type="Self.UserAppInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaunchInput">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppInput">
+              <PropertyRef Name="LaunchInputID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppInput_UserApp">
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="1" />
+          <End Role="UserAppInput" Type="Self.UserAppInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppInput">
+              <PropertyRef Name="UserAppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppSearchTag_UserApp">
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="1" />
+          <End Role="UserAppSearchTag" Type="Self.UserAppSearchTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppSearchTag">
+              <PropertyRef Name="UserAppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSecondaryApp_PrimaryComponent">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserSecondaryApp" Type="Self.UserSecondaryApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSecondaryApp">
+              <PropertyRef Name="PrimaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSecondaryApp_SecondaryComponent">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserSecondaryApp" Type="Self.UserSecondaryApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSecondaryApp">
+              <PropertyRef Name="SecondaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GOLDAppRegisterDBModelStoreContainer">
+          <EntitySet Name="Component" EntityType="Self.Component" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DependantComponent" EntityType="Self.DependantComponent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Domain" EntityType="Self.Domain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LaunchInput" EntityType="Self.LaunchInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleAccess" EntityType="Self.RoleAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SearchTag" EntityType="Self.SearchTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserApp" EntityType="Self.UserApp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAppInput" EntityType="Self.UserAppInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAppSearchTag" EntityType="Self.UserAppSearchTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSecondaryApp" EntityType="Self.UserSecondaryApp" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Component_Domain" Association="Self.FK_Component_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="Component" EntitySet="Component" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DependantComponent_Component" Association="Self.FK_DependantComponent_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="DependantComponent" EntitySet="DependantComponent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaunchInput_Component" Association="Self.FK_LaunchInput_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="LaunchInput" EntitySet="LaunchInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAccess_Component" Association="Self.FK_RoleAccess_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="RoleAccess" EntitySet="RoleAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SearchTag_Component" Association="Self.FK_SearchTag_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="SearchTag" EntitySet="SearchTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubjectComponent_Component" Association="Self.FK_SubjectComponent_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="DependantComponent" EntitySet="DependantComponent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserApp_Component" Association="Self.FK_UserApp_Component">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="UserApp" EntitySet="UserApp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppInput_LaunchInput" Association="Self.FK_UserAppInput_LaunchInput">
+            <End Role="LaunchInput" EntitySet="LaunchInput" />
+            <End Role="UserAppInput" EntitySet="UserAppInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppInput_UserApp" Association="Self.FK_UserAppInput_UserApp">
+            <End Role="UserApp" EntitySet="UserApp" />
+            <End Role="UserAppInput" EntitySet="UserAppInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppSearchTag_UserApp" Association="Self.FK_UserAppSearchTag_UserApp">
+            <End Role="UserApp" EntitySet="UserApp" />
+            <End Role="UserAppSearchTag" EntitySet="UserAppSearchTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSecondaryApp_PrimaryComponent" Association="Self.FK_UserSecondaryApp_PrimaryComponent">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="UserSecondaryApp" EntitySet="UserSecondaryApp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSecondaryApp_SecondaryComponent" Association="Self.FK_UserSecondaryApp_SecondaryComponent">
+            <End Role="Component" EntitySet="Component" />
+            <End Role="UserSecondaryApp" EntitySet="UserSecondaryApp" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GOLD.AppRegisterDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Component">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DomainID" Type="Int32" Nullable="false" />
+          <Property Name="Interface" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsPrimaryApp" Type="Boolean" Nullable="false" />
+          <Property Name="IsSecondaryApp" Type="Boolean" Nullable="false" />
+          <Property Name="PrimaryAppRoute" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SecondaryAppRoute" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Domain" Relationship="Self.FK_Component_Domain" FromRole="Component" ToRole="Domain" />
+          <NavigationProperty Name="LaunchInputs" Relationship="Self.FK_LaunchInput_Component" FromRole="Component" ToRole="LaunchInput" />
+          <NavigationProperty Name="RoleAccesses" Relationship="Self.FK_RoleAccess_Component" FromRole="Component" ToRole="RoleAccess" />
+          <NavigationProperty Name="SearchTags" Relationship="Self.FK_SearchTag_Component" FromRole="Component" ToRole="SearchTag" />
+          <NavigationProperty Name="UserApps" Relationship="Self.FK_UserApp_Component" FromRole="Component" ToRole="UserApp" />
+          <NavigationProperty Name="UserSecondaryApps" Relationship="Self.FK_UserSecondaryApp_PrimaryComponent" FromRole="Component" ToRole="UserSecondaryApp" />
+          <NavigationProperty Name="UserSecondaryApps1" Relationship="Self.FK_UserSecondaryApp_SecondaryComponent" FromRole="Component" ToRole="UserSecondaryApp" />
+          <NavigationProperty Name="Component1" Relationship="Self.DependantComponent" FromRole="Component" ToRole="Component1" />
+          <NavigationProperty Name="Components" Relationship="Self.DependantComponent" FromRole="Component1" ToRole="Component" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Components" Relationship="Self.FK_Component_Domain" FromRole="Domain" ToRole="Component" />
+        </EntityType>
+        <EntityType Name="LaunchInput">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComponentID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Self.FK_LaunchInput_Component" FromRole="LaunchInput" ToRole="Component" />
+          <NavigationProperty Name="UserAppInputs" Relationship="Self.FK_UserAppInput_LaunchInput" FromRole="LaunchInput" ToRole="UserAppInput" />
+        </EntityType>
+        <EntityType Name="RoleAccess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComponentID" Type="Int32" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Self.FK_RoleAccess_Component" FromRole="RoleAccess" ToRole="Component" />
+        </EntityType>
+        <EntityType Name="SearchTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComponentID" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Self.FK_SearchTag_Component" FromRole="SearchTag" ToRole="Component" />
+        </EntityType>
+        <EntityType Name="UserApp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="PrimaryComponentID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Self.FK_UserApp_Component" FromRole="UserApp" ToRole="Component" />
+          <NavigationProperty Name="UserAppInputs" Relationship="Self.FK_UserAppInput_UserApp" FromRole="UserApp" ToRole="UserAppInput" />
+          <NavigationProperty Name="UserAppSearchTags" Relationship="Self.FK_UserAppSearchTag_UserApp" FromRole="UserApp" ToRole="UserAppSearchTag" />
+        </EntityType>
+        <EntityType Name="UserAppInput">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserAppID" Type="Int32" Nullable="false" />
+          <Property Name="LaunchInputID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LaunchInput" Relationship="Self.FK_UserAppInput_LaunchInput" FromRole="UserAppInput" ToRole="LaunchInput" />
+          <NavigationProperty Name="UserApp" Relationship="Self.FK_UserAppInput_UserApp" FromRole="UserAppInput" ToRole="UserApp" />
+        </EntityType>
+        <EntityType Name="UserAppSearchTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserAppId" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="UserApp" Relationship="Self.FK_UserAppSearchTag_UserApp" FromRole="UserAppSearchTag" ToRole="UserApp" />
+        </EntityType>
+        <EntityType Name="UserSecondaryApp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="PrimaryComponentID" Type="Int32" Nullable="false" />
+          <Property Name="SecondaryComponentID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Self.FK_UserSecondaryApp_PrimaryComponent" FromRole="UserSecondaryApp" ToRole="Component" />
+          <NavigationProperty Name="Component1" Relationship="Self.FK_UserSecondaryApp_SecondaryComponent" FromRole="UserSecondaryApp" ToRole="Component" />
+        </EntityType>
+        <Association Name="FK_Component_Domain">
+          <End Role="Domain" Type="Self.Domain" Multiplicity="1" />
+          <End Role="Component" Type="Self.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaunchInput_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="LaunchInput" Type="Self.LaunchInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LaunchInput">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleAccess_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="RoleAccess" Type="Self.RoleAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleAccess">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SearchTag_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="SearchTag" Type="Self.SearchTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SearchTag">
+              <PropertyRef Name="ComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserApp_Component">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserApp">
+              <PropertyRef Name="PrimaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSecondaryApp_PrimaryComponent">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserSecondaryApp" Type="Self.UserSecondaryApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSecondaryApp">
+              <PropertyRef Name="PrimaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSecondaryApp_SecondaryComponent">
+          <End Role="Component" Type="Self.Component" Multiplicity="1" />
+          <End Role="UserSecondaryApp" Type="Self.UserSecondaryApp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Component">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSecondaryApp">
+              <PropertyRef Name="SecondaryComponentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppInput_LaunchInput">
+          <End Role="LaunchInput" Type="Self.LaunchInput" Multiplicity="1" />
+          <End Role="UserAppInput" Type="Self.UserAppInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaunchInput">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppInput">
+              <PropertyRef Name="LaunchInputID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppInput_UserApp">
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="1" />
+          <End Role="UserAppInput" Type="Self.UserAppInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppInput">
+              <PropertyRef Name="UserAppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppSearchTag_UserApp">
+          <End Role="UserApp" Type="Self.UserApp" Multiplicity="1" />
+          <End Role="UserAppSearchTag" Type="Self.UserAppSearchTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppSearchTag">
+              <PropertyRef Name="UserAppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DependantComponent">
+          <End Role="Component" Type="Self.Component" Multiplicity="*" />
+          <End Role="Component1" Type="Self.Component" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AppRegisterDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Components" EntityType="Self.Component" />
+          <EntitySet Name="Domains" EntityType="Self.Domain" />
+          <EntitySet Name="LaunchInputs" EntityType="Self.LaunchInput" />
+          <EntitySet Name="RoleAccesses" EntityType="Self.RoleAccess" />
+          <EntitySet Name="SearchTags" EntityType="Self.SearchTag" />
+          <EntitySet Name="UserApps" EntityType="Self.UserApp" />
+          <EntitySet Name="UserAppInputs" EntityType="Self.UserAppInput" />
+          <EntitySet Name="UserAppSearchTags" EntityType="Self.UserAppSearchTag" />
+          <EntitySet Name="UserSecondaryApps" EntityType="Self.UserSecondaryApp" />
+          <AssociationSet Name="FK_Component_Domain" Association="Self.FK_Component_Domain">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="Component" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaunchInput_Component" Association="Self.FK_LaunchInput_Component">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="LaunchInput" EntitySet="LaunchInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAccess_Component" Association="Self.FK_RoleAccess_Component">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="RoleAccess" EntitySet="RoleAccesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SearchTag_Component" Association="Self.FK_SearchTag_Component">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="SearchTag" EntitySet="SearchTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserApp_Component" Association="Self.FK_UserApp_Component">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="UserApp" EntitySet="UserApps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSecondaryApp_PrimaryComponent" Association="Self.FK_UserSecondaryApp_PrimaryComponent">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="UserSecondaryApp" EntitySet="UserSecondaryApps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSecondaryApp_SecondaryComponent" Association="Self.FK_UserSecondaryApp_SecondaryComponent">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="UserSecondaryApp" EntitySet="UserSecondaryApps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppInput_LaunchInput" Association="Self.FK_UserAppInput_LaunchInput">
+            <End Role="LaunchInput" EntitySet="LaunchInputs" />
+            <End Role="UserAppInput" EntitySet="UserAppInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppInput_UserApp" Association="Self.FK_UserAppInput_UserApp">
+            <End Role="UserApp" EntitySet="UserApps" />
+            <End Role="UserAppInput" EntitySet="UserAppInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppSearchTag_UserApp" Association="Self.FK_UserAppSearchTag_UserApp">
+            <End Role="UserApp" EntitySet="UserApps" />
+            <End Role="UserAppSearchTag" EntitySet="UserAppSearchTags" />
+          </AssociationSet>
+          <AssociationSet Name="DependantComponent" Association="Self.DependantComponent">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="Component1" EntitySet="Components" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GOLDAppRegisterDBModelStoreContainer" CdmEntityContainer="AppRegisterDBContext">
+          <EntitySetMapping Name="Components">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.Component">
+              <MappingFragment StoreEntitySet="Component">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DomainID" ColumnName="DomainID" />
+                <ScalarProperty Name="Interface" ColumnName="Interface" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPrimaryApp" ColumnName="IsPrimaryApp" />
+                <ScalarProperty Name="IsSecondaryApp" ColumnName="IsSecondaryApp" />
+                <ScalarProperty Name="PrimaryAppRoute" ColumnName="PrimaryAppRoute" />
+                <ScalarProperty Name="SecondaryAppRoute" ColumnName="SecondaryAppRoute" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Domains">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.Domain">
+              <MappingFragment StoreEntitySet="Domain">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LaunchInputs">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.LaunchInput">
+              <MappingFragment StoreEntitySet="LaunchInput">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComponentID" ColumnName="ComponentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleAccesses">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.RoleAccess">
+              <MappingFragment StoreEntitySet="RoleAccess">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComponentID" ColumnName="ComponentID" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SearchTags">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.SearchTag">
+              <MappingFragment StoreEntitySet="SearchTag">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComponentID" ColumnName="ComponentID" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserApps">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.UserApp">
+              <MappingFragment StoreEntitySet="UserApp">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PrimaryComponentID" ColumnName="PrimaryComponentID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAppInputs">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.UserAppInput">
+              <MappingFragment StoreEntitySet="UserAppInput">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserAppID" ColumnName="UserAppID" />
+                <ScalarProperty Name="LaunchInputID" ColumnName="LaunchInputID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAppSearchTags">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.UserAppSearchTag">
+              <MappingFragment StoreEntitySet="UserAppSearchTag">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserAppId" ColumnName="UserAppId" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSecondaryApps">
+            <EntityTypeMapping TypeName="GOLD.AppRegisterDBModel.UserSecondaryApp">
+              <MappingFragment StoreEntitySet="UserSecondaryApp">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PrimaryComponentID" ColumnName="PrimaryComponentID" />
+                <ScalarProperty Name="SecondaryComponentID" ColumnName="SecondaryComponentID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DependantComponent" TypeName="GOLD.AppRegisterDBModel.DependantComponent" StoreEntitySet="DependantComponent">
+            <EndProperty Name="Component">
+              <ScalarProperty Name="ID" ColumnName="DirectlyUsesComponentID" />
+            </EndProperty>
+            <EndProperty Name="Component1">
+              <ScalarProperty Name="ID" ColumnName="SubjectComponentID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

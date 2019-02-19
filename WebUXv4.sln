@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppExecution.WebApi", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Core.Services", "GOLD.Core.Services\GOLD.Core.Services.csproj", "{DE9E5719-7580-4409-9B62-AD04102AEE19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppRegister.MVC-CRUD", "GOLD.AppRegister.MVC-CRUD\GOLD.AppRegister.MVC-CRUD.csproj", "{448C2227-6ABF-4673-92BB-CADA3360664D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Customer.Interfaces", "GOLD.Customer.Interfaces\GOLD.Customer.Interfaces.csproj", "{6D785E1C-C55B-4732-9027-BB58CD289F4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{DE9E5719-7580-4409-9B62-AD04102AEE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE9E5719-7580-4409-9B62-AD04102AEE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE9E5719-7580-4409-9B62-AD04102AEE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{448C2227-6ABF-4673-92BB-CADA3360664D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{448C2227-6ABF-4673-92BB-CADA3360664D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{448C2227-6ABF-4673-92BB-CADA3360664D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{448C2227-6ABF-4673-92BB-CADA3360664D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D785E1C-C55B-4732-9027-BB58CD289F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D785E1C-C55B-4732-9027-BB58CD289F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D785E1C-C55B-4732-9027-BB58CD289F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D785E1C-C55B-4732-9027-BB58CD289F4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

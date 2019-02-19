@@ -1,0 +1,50 @@
+{
+  "Context": "System.Dynamic.ExpandoObject, System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+  "Interfaces": [ "GOLD.Customer.Interfaces.IUxCustomerAdvSearchCriteria, GOLD.Customer.Interfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" ],
+  "Original": {
+    "Criteria": {
+      "Context": "System.Dynamic.ExpandoObject, System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "Interfaces": [ "GOLD.Customer.Interfaces.ICustomerAdvancedSearchCriteria, GOLD.Customer.Interfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" ],
+      "Original": {
+        "Age": 21,
+        "FirstName": "John",
+        "NINO": "AB123456C",
+        "PostCode": "CR3 7DH",
+        "Surname": "Smith",
+        "Town": "Croydon",
+        "Gender": 1
+      }
+    },
+    "ShowSwitchToBasic": true,
+    "Criterias": [
+      {
+        "Age": 11,
+        "FirstName": null,
+        "NINO": null,
+        "PostCode": null,
+        "Surname": null,
+        "Town": null,
+        "Gender": 0
+      },
+      {
+        "Age": 22,
+        "FirstName": null,
+        "NINO": null,
+        "PostCode": null,
+        "Surname": null,
+        "Town": null,
+        "Gender": 0
+      },
+      {
+        "Age": 22,
+        "Firs"
+        "tName": null,
+        "NINO": null,
+        "PostCode": null,
+        "Surname": null,
+        "Town": null,
+        "Gender": 0
+      }
+    ]
+  }
+}

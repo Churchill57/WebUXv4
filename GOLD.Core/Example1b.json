@@ -1,0 +1,41 @@
+{
+  "Criteria": {
+    "Age": 21,
+    "FirstName": "John",
+    "NINO": "AB123456C",
+    "PostCode": "CR3 7DH",
+    "Surname": "Smith",
+    "Town": "Croydon",
+    "Gender": 1
+  },
+  "ShowSwitchToBasic": true,
+  "Criterias": [
+    {
+      "Age": 11,
+      "FirstName": null,
+      "NINO": null,
+      "PostCode": null,
+      "Surname": null,
+      "Town": null,
+      "Gender": 0
+    },
+    {
+      "Age": 22,
+      "FirstName": null,
+      "NINO": null,
+      "PostCode": null,
+      "Surname": null,
+      "Town": null,
+      "Gender": 0
+    },
+    {
+      "Age": 22,
+      "FirstName": null,
+      "NINO": null,
+      "PostCode": null,
+      "Surname": null,
+      "Town": null,
+      "Gender": 0
+    }
+  ]
+}
