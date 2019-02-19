@@ -8,7 +8,7 @@ namespace GOLD.AppRegister.ApiModels
 {
     public class Domain
     {
-        public int ID { get; set; }
+        public System.Guid ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

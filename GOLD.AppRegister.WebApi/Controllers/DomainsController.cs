@@ -45,7 +45,7 @@ namespace GOLD.AppRegisterAPI.Controllers
 
         // PUT: api/Domains/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDomain(int id, Domain domain)
+        public async Task<IHttpActionResult> PutDomain(Guid id, Domain domain)
         {
             if (!ModelState.IsValid)
             {
@@ -118,7 +118,7 @@ namespace GOLD.AppRegisterAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool DomainExists(int id)
+        private bool DomainExists(Guid id)
         {
             return _db.Domains.Count(e => e.ID == id) > 0;
         }

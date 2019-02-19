@@ -25,12 +25,11 @@ namespace GOLD.AppRegister.DataAccess
             this.UserSecondaryApps1 = new HashSet<UserSecondaryApp>();
             this.Component1 = new HashSet<Component>();
             this.Components = new HashSet<Component>();
-            this.UserApps1 = new HashSet<UserApp>();
         }
     
         public int ID { get; set; }
-        public int DomainID { get; set; }
-        public string Interface { get; set; }
+        public System.Guid DomainID { get; set; }
+        public string InterfaceFullname { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsPrimaryApp { get; set; }
@@ -55,7 +54,5 @@ namespace GOLD.AppRegister.DataAccess
         public virtual ICollection<Component> Component1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Component> Components { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserApp> UserApps1 { get; set; }
     }
 }
