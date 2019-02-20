@@ -66,6 +66,8 @@
     <Compile Include="Models\Memory.cs" />
     <Compile Include="Models\Persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AppExecutionManager.cs" />
+    <Compile Include="Services\EntityContextManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
