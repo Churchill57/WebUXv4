@@ -63,11 +63,12 @@
     <Compile Include="Components\OutcomeArgs.cs" />
     <Compile Include="Components\UserExperience.cs" />
     <Compile Include="CoreFunctions.cs" />
+    <Compile Include="Models\Memory.cs" />
+    <Compile Include="Models\Persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
     <Folder Include="Outcomes\" />
   </ItemGroup>
   <ItemGroup>

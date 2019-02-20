@@ -6,112 +6,111 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using GOLD.AppRegister.MVC_CRUD;
-using GOLD;
+using GOLD.CustomerDomain.MVC_CRUD;
 
-namespace GOLD.AppRegister.MVC_CRUD.Controllers
+namespace GOLD.CustomerDomain.MVC_CRUD.Controllers
 {
-    public class DomainsController : Controller
+    public class CustomersController : Controller
     {
-        private AppRegisterDBContext db = new AppRegisterDBContext();
+        private CustomerDomainDBModel db = new CustomerDomainDBModel();
 
-        // GET: Domains
+        // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Domains.ToList());
+            return View(db.Customers.ToList());
         }
 
-        // GET: Domains/Details/5
+        // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Domain domain = db.Domains.Find(id);
-            if (domain == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(domain);
+            return View(customer);
         }
 
-        // GET: Domains/Create
+        // GET: Customers/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Domains/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description")] Domain domain)
+        public ActionResult Create([Bind(Include = "ID,Title,FirstName,LastName,Gender,DOB,NINO")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Domains.Add(domain);
+                db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(domain);
+            return View(customer);
         }
 
-        // GET: Domains/Edit/5
+        // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Domain domain = db.Domains.Find(id);
-            if (domain == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(domain);
+            return View(customer);
         }
 
-        // POST: Domains/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description")] Domain domain)
+        public ActionResult Edit([Bind(Include = "ID,Title,FirstName,LastName,Gender,DOB,NINO")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(domain).State = EntityState.Modified;
+                db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(domain);
+            return View(customer);
         }
 
-        // GET: Domains/Delete/5
+        // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Domain domain = db.Domains.Find(id);
-            if (domain == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(domain);
+            return View(customer);
         }
 
-        // POST: Domains/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Domain domain = db.Domains.Find(id);
-            db.Domains.Remove(domain);
+            Customer customer = db.Customers.Find(id);
+            db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

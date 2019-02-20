@@ -8,12 +8,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{448C2227-6ABF-4673-92BB-CADA3360664D}</ProjectGuid>
+    <ProjectGuid>{BDAB19A6-8F68-470F-9C03-C32A08DC5AE8}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GOLD.AppRegister.MVC_CRUD</RootNamespace>
-    <AssemblyName>GOLD.AppRegister.MVC-CRUD</AssemblyName>
+    <RootNamespace>GOLD.CustomerDomain.MVC_CRUD</RootNamespace>
+    <AssemblyName>GOLD.CustomerDomain.MVC-CRUD</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -55,15 +55,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -161,74 +152,49 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppRegisterDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppRegisterDBModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AppRegisterDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AppRegisterDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppRegisterDBModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Component.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\DomainsController.cs" />
-    <Compile Include="Controllers\DomainsFromApiController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Domain.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
+    <Compile Include="Customer.cs">
+      <DependentUpon>CustomerDomainDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDomainDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerDomainDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDomainDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerDomainDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDomainDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerDomainDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="LaunchInput.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleAccess.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SearchTag.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserApp.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserAppInput.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserAppSearchTag.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserSecondaryApp.cs">
-      <DependentUpon>AppRegisterDBModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppRegisterDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AppRegisterDBModel.Context.cs</LastGenOutput>
-      <DependentUpon>AppRegisterDBModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="AppRegisterDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AppRegisterDBModel.edmx</DependentUpon>
-      <LastGenOutput>AppRegisterDBModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CustomerDomainDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CustomerDomainDBModel.Context.cs</LastGenOutput>
+      <DependentUpon>CustomerDomainDBModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="CustomerDomainDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomerDomainDBModel.edmx</DependentUpon>
+      <LastGenOutput>CustomerDomainDBModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -238,12 +204,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="AppRegisterDBModel.edmx">
+    <EntityDeploy Include="CustomerDomainDBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AppRegisterDBModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>CustomerDomainDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="AppRegisterDBModel.edmx.diagram">
-      <DependentUpon>AppRegisterDBModel.edmx</DependentUpon>
+    <Content Include="CustomerDomainDBModel.edmx.diagram">
+      <DependentUpon>CustomerDomainDBModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -270,12 +236,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Domains\Create.cshtml" />
-    <Content Include="Views\Domains\Delete.cshtml" />
-    <Content Include="Views\Domains\Details.cshtml" />
-    <Content Include="Views\Domains\Edit.cshtml" />
-    <Content Include="Views\Domains\Index.cshtml" />
-    <Content Include="Views\DomainsFromApi\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -293,16 +258,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GOLD.AppRegister.ApiModels\GOLD.AppRegister.ApiModels.csproj">
-      <Project>{d2b25e1c-1b1f-4351-9f7b-ecb9f9fcda02}</Project>
-      <Name>GOLD.AppRegister.ApiModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
-      <Project>{bf46aaa5-216e-44ed-a81e-21035f31de5c}</Project>
-      <Name>GOLD.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -323,9 +278,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6725</DevelopmentServerPort>
+          <DevelopmentServerPort>1863</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:6725/</IISUrl>
+          <IISUrl>http://localhost:1912/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -340,11 +295,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-  </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
