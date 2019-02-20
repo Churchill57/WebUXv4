@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.WebApi"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.MVC-CRUD", "GOLD.CustomerDomain.MVC-CRUD\GOLD.CustomerDomain.MVC-CRUD.csproj", "{BDAB19A6-8F68-470F-9C03-C32A08DC5AE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.MVC", "GOLD.CustomerDomain.MVC\GOLD.CustomerDomain.MVC.csproj", "{FFE202BE-F436-4649-AF17-81F32E90C5DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{BDAB19A6-8F68-470F-9C03-C32A08DC5AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDAB19A6-8F68-470F-9C03-C32A08DC5AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDAB19A6-8F68-470F-9C03-C32A08DC5AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFE202BE-F436-4649-AF17-81F32E90C5DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE202BE-F436-4649-AF17-81F32E90C5DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE202BE-F436-4649-AF17-81F32E90C5DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE202BE-F436-4649-AF17-81F32E90C5DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

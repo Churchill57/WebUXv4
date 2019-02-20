@@ -6,27 +6,31 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using GOLD.CustomerDomain.DataAccess;
+//using GOLD.CustomerDomain.DataAccess;
+using GOLD.CustomerDomain.ApiModels;
 
 namespace GOLD.CustomerDomain.WebApi.Controllers
 {
-    public class CustomersController : ApiController
+    public class CustomerController : ApiController
     {
-        private CustomerDomainDBContext db = new CustomerDomainDBContext();
+        private GOLD.CustomerDomain.DataAccess.CustomerDomainDBContext db = new GOLD.CustomerDomain.DataAccess.CustomerDomainDBContext();
 
-        // GET: api/Customers
+        // GET: api/Customer
         public IQueryable<Customer> GetCustomers()
         {
-            return db.Customers;
+            return from c in db.Customers
+                   select new Customer { ID = c.ID, DOB = c.DOB, FirstName = c.FirstName, Gender = c.Gender, LastName = c.LastName, NINO = c.NINO, Title = c.Title };
         }
 
-        // GET: api/Customers/5
+        // GET: api/Customer/5
         [ResponseType(typeof(Customer))]
-        public IHttpActionResult GetCustomer(int id)
+        public async Task<IHttpActionResult> GetCustomer(int id)
         {
-            Customer customer = db.Customers.Find(id);
+            var c = await db.Customers.FindAsync(id);
+            var customer = new Customer { ID = c.ID, DOB = c.DOB, FirstName = c.FirstName, Gender = c.Gender, LastName = c.LastName, NINO = c.NINO, Title = c.Title };
             if (customer == null)
             {
                 return NotFound();
@@ -35,25 +39,26 @@ namespace GOLD.CustomerDomain.WebApi.Controllers
             return Ok(customer);
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/Customer/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCustomer(int id, Customer customer)
+        public async Task<IHttpActionResult> PutCustomer(int id, Customer c)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != customer.ID)
+            if (id != c.ID)
             {
                 return BadRequest();
             }
 
+            var customer = new GOLD.CustomerDomain.DataAccess.Customer { ID = c.ID, DOB = c.DOB, FirstName = c.FirstName, Gender = c.Gender, LastName = c.LastName, NINO = c.NINO, Title = c.Title };
             db.Entry(customer).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,33 +75,35 @@ namespace GOLD.CustomerDomain.WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Customers
+        // POST: api/Customer
         [ResponseType(typeof(Customer))]
-        public IHttpActionResult PostCustomer(Customer customer)
+        public async Task<IHttpActionResult> PostCustomer(Customer c)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var customer = new GOLD.CustomerDomain.DataAccess.Customer { ID = c.ID, DOB = c.DOB, FirstName = c.FirstName, Gender = c.Gender, LastName = c.LastName, NINO = c.NINO, Title = c.Title };
             db.Customers.Add(customer);
-            db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = customer.ID }, customer);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = c.ID }, c);
         }
 
-        // DELETE: api/Customers/5
+        // DELETE: api/Customer/5
         [ResponseType(typeof(Customer))]
-        public IHttpActionResult DeleteCustomer(int id)
+        public async Task<IHttpActionResult> DeleteCustomer(int id)
         {
-            Customer customer = db.Customers.Find(id);
+            var customer = await db.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
             }
 
             db.Customers.Remove(customer);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Ok(customer);
         }
