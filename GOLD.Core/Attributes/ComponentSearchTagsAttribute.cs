@@ -2,7 +2,8 @@
 
 namespace GOLD.Core.Attributes
 {
-    class ComponentSearchTagsAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    public class ComponentSearchTagsAttribute : Attribute
     {
         public ComponentSearchTagsAttribute(params string[] tags)
         {

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace GOLD.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public class ComponentStateAttribute : Attribute { }
+    public class PropertyIsComponentStateAttribute : Attribute { }
 }

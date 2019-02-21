@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Components
+namespace GOLD.Core.Interfaces
 {
-    public abstract class UserExperience : Component
+    public interface IEntityContextManager
     {
     }
 }

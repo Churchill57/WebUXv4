@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Services
+namespace GOLD.Core.Models
 {
-    public class AppExecutionManager
+    public class EntityContext
     {
     }
 }

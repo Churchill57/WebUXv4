@@ -1,12 +1,13 @@
-﻿using System;
+﻿using GOLD.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Services
+namespace GOLD.Core.Interfaces
 {
-    public class EntityContextManager
+    public class EntityContextManager : IEntityContextManager
     {
     }
 }

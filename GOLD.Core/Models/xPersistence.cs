@@ -34,11 +34,11 @@ namespace GOLD.Core.Models
         //
         // Also important to guard against random access to tasks which perhaps should not be repeated or revisited.
         // Especially if multiple browser windows are spawned by holding down the Ctrl key!!
-        public int ExecutingTaskId { get; set; } 
+        public int ExecutionId { get; set; } 
 
     }
 
-    public class LuLauncher
+    public class xLuLauncher
     {
         public int TaskId { get; set; }
         public string ClientRef { get; set; }
@@ -56,13 +56,13 @@ namespace GOLD.Core.Models
 
 
     }
-    public class LogicalUnit
+    public class xLogicalUnit
     {
         public int TaskId { get; set; }
         public string ClientRef { get; set; }
 
     }
-    public class UserExperience
+    public class xUserExperience
     {
         public int TaskId { get; set; }
         public string ClientRef { get; set; }

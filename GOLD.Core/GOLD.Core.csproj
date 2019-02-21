@@ -49,30 +49,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ComponentDependsUponAttribute.cs" />
+    <Compile Include="Attributes\PropertyIsContextInputAttribute.cs" />
     <Compile Include="Attributes\ComponentDescriptionAttribute.cs" />
-    <Compile Include="Attributes\ComponentStateAttribute.cs" />
+    <Compile Include="Attributes\PropertyIsComponentStateAttribute.cs" />
     <Compile Include="Attributes\ComponentTitleAttribute.cs" />
-    <Compile Include="Attributes\ComponentLaunchInputAttribute.cs" />
-    <Compile Include="Attributes\ComponentRoleAccessAttribute.cs" />
+    <Compile Include="Attributes\PropertyIsLaunchInputAttribute.cs" />
     <Compile Include="Attributes\ComponentSearchTagsAttribute.cs" />
     <Compile Include="Attributes\ComponentSecondaryRouteAttribute.cs" />
     <Compile Include="Attributes\ComponentPrimaryRouteAttribute.cs" />
     <Compile Include="Components\Component.cs" />
+    <Compile Include="Interfaces\IEntityContextManager.cs" />
+    <Compile Include="Interfaces\IExecutionManager.cs" />
+    <Compile Include="Outcomes\ComponentDoneOutcome.cs" />
     <Compile Include="Components\LogicalUnit.cs" />
     <Compile Include="Components\LuLauncher.cs" />
-    <Compile Include="Components\OutcomeArgs.cs" />
+    <Compile Include="Outcomes\Outcome.cs" />
     <Compile Include="Components\UserExperience.cs" />
     <Compile Include="CoreFunctions.cs" />
-    <Compile Include="Models\Memory.cs" />
-    <Compile Include="Models\Persistence.cs" />
+    <Compile Include="Models\EntityContext.cs" />
+    <Compile Include="Models\xMemory.cs" />
+    <Compile Include="Models\xPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AppExecutionManager.cs" />
+    <Compile Include="Services\ExecutionManager.cs" />
     <Compile Include="Services\EntityContextManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Outcomes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Example1a.json" />
     <None Include="Example1b.json" />

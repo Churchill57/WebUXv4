@@ -39,6 +39,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.MVC", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Portal.MVC", "GOLD.Portal.MVC\GOLD.Portal.MVC.csproj", "{F5BFDA26-5303-4343-956D-C1B8AA17F51D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.Interfaces", "GOLD.CustomerDomain.Interfaces\GOLD.CustomerDomain.Interfaces.csproj", "{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Service.ExecutionManagement", "GOLD.Service.ExecutionManagement\GOLD.Service.ExecutionManagement.csproj", "{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Service.ContextManagement", "GOLD.Service.ContextManagement\GOLD.Service.ContextManagement.csproj", "{4903E120-1C24-422C-B874-7A3E89CCAF62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +129,18 @@ Global
 		{F5BFDA26-5303-4343-956D-C1B8AA17F51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5BFDA26-5303-4343-956D-C1B8AA17F51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5BFDA26-5303-4343-956D-C1B8AA17F51D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Components
+namespace GOLD.Core.Models
 {
-    public abstract class UserExperience : Component
+    class xMemory
     {
     }
 }

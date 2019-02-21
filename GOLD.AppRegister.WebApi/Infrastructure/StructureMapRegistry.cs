@@ -17,7 +17,7 @@ namespace GOLD.AppRegister.WebApi.Infrastructure
 
                 // Needed to resolve types in referenced assemblies (dlls).
                 // Predicate here on specific assembliy names so as to exlude system and other dlls.
-                scan.AssembliesFromApplicationBaseDirectory(assy => assy.FullName.StartsWith("Gold"));
+                scan.AssembliesFromApplicationBaseDirectory(assy => assy.FullName.StartsWith("GOLD"));
                 //scan.AssembliesFromApplicationBaseDirectory(assy => assy.FullName.StartsWith("Customer"));
 
                 // Resolve ISomeType --> SomeType

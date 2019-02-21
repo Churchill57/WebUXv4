@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Models
+namespace GOLD.Core.Outcomes
 {
-    class Memory
+    public class ComponentDoneOutcome : Outcome
     {
     }
 }

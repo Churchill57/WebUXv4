@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Components
+namespace GOLD.Service.ExecutionManagement
 {
-    public abstract class UserExperience : Component
+    public class ExecutionManager
     {
     }
 }
