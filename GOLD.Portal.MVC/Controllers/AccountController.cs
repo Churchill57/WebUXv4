@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GOLD.Portal.MVC.Models;
+using StructureMap;
 
 namespace GOLD.Portal.MVC.Controllers
 {
@@ -18,6 +19,8 @@ namespace GOLD.Portal.MVC.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
+        [DefaultConstructor] // https://www.onthefencedevelopment.com/structuremap-and-mvc5-resolving-the-resolution-exception-for-iuserstore/
         public AccountController()
         {
         }

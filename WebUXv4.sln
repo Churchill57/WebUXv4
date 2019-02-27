@@ -41,9 +41,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Portal.MVC", "GOLD.Por
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.CustomerDomain.Interfaces", "GOLD.CustomerDomain.Interfaces\GOLD.CustomerDomain.Interfaces.csproj", "{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Service.ExecutionManagement", "GOLD.Service.ExecutionManagement\GOLD.Service.ExecutionManagement.csproj", "{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.ContextManagement.WebApi", "GOLD.ContextManagement.WebApi\GOLD.ContextManagement.WebApi.csproj", "{F19C1FEF-CFF0-467D-97E4-86611F2DE050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Service.ContextManagement", "GOLD.Service.ContextManagement\GOLD.Service.ContextManagement.csproj", "{4903E120-1C24-422C-B874-7A3E89CCAF62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.ContextManagement.ApiModels", "GOLD.ContextManagement.ApiModels\GOLD.ContextManagement.ApiModels.csproj", "{7D847CE2-5853-4FF5-93C9-5D35AB1F26C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.ContextManagement.ApiClient", "GOLD.ContextManagement.ApiClient\GOLD.ContextManagement.ApiClient.csproj", "{E3C1560B-DB1A-4F23-A7FF-658135C10978}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GOLD.ContextManagement.Database", "GOLD.ContextManagement.Database\GOLD.ContextManagement.Database.sqlproj", "{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppExecution.ApiClient", "GOLD.AppExecution.ApiClient\GOLD.AppExecution.ApiClient.csproj", "{14CE4A3A-8EA0-4353-AEBA-03A26909C2C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.AppRegister.ApiClient", "GOLD.AppRegister.ApiClient\GOLD.AppRegister.ApiClient.csproj", "{78AFAF65-9F3C-4B95-ABE6-46B25C20F91E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Core.AppManagement", "GOLD.Core.AppManagement\GOLD.Core.AppManagement.csproj", "{866332F0-AD69-494F-AFB3-A73BD10AAA27}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GOLD.Identity", "GOLD.Identity\GOLD.Identity.sqlproj", "{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,14 +145,42 @@ Global
 		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED84C966-DDAF-4FDF-8604-D8A374FF9CC4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7313FB56-3581-413F-9AE2-E5E3FDE43F3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4903E120-1C24-422C-B874-7A3E89CCAF62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F19C1FEF-CFF0-467D-97E4-86611F2DE050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F19C1FEF-CFF0-467D-97E4-86611F2DE050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F19C1FEF-CFF0-467D-97E4-86611F2DE050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F19C1FEF-CFF0-467D-97E4-86611F2DE050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D847CE2-5853-4FF5-93C9-5D35AB1F26C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D847CE2-5853-4FF5-93C9-5D35AB1F26C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D847CE2-5853-4FF5-93C9-5D35AB1F26C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D847CE2-5853-4FF5-93C9-5D35AB1F26C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3C1560B-DB1A-4F23-A7FF-658135C10978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C1560B-DB1A-4F23-A7FF-658135C10978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C1560B-DB1A-4F23-A7FF-658135C10978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C1560B-DB1A-4F23-A7FF-658135C10978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9035DFF2-4E9E-49AD-88F8-F5EC7E893077}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{14CE4A3A-8EA0-4353-AEBA-03A26909C2C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CE4A3A-8EA0-4353-AEBA-03A26909C2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CE4A3A-8EA0-4353-AEBA-03A26909C2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CE4A3A-8EA0-4353-AEBA-03A26909C2C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AFAF65-9F3C-4B95-ABE6-46B25C20F91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AFAF65-9F3C-4B95-ABE6-46B25C20F91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AFAF65-9F3C-4B95-ABE6-46B25C20F91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AFAF65-9F3C-4B95-ABE6-46B25C20F91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{866332F0-AD69-494F-AFB3-A73BD10AAA27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{866332F0-AD69-494F-AFB3-A73BD10AAA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{866332F0-AD69-494F-AFB3-A73BD10AAA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{866332F0-AD69-494F-AFB3-A73BD10AAA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

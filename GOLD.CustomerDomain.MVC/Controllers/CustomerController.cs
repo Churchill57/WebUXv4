@@ -1,4 +1,4 @@
-﻿using GOLD.Core.Interfaces;
+﻿using GOLD.Core.AppManagement.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.MVC.LogicalUnits;
 using Newtonsoft.Json;
@@ -21,6 +21,10 @@ namespace GOLD.CustomerDomain.MVC.Controllers
         }
 
 
+
+
+
+
         static string Baseurl = "http://localhost:19803/";
         private static HttpClient client = new HttpClient() { BaseAddress = new Uri(Baseurl) };
         private readonly IExecutionManager executionManager;
@@ -28,7 +32,6 @@ namespace GOLD.CustomerDomain.MVC.Controllers
         public async Task<ActionResult> Index()
         {
             var lu = new LuPreviewCustomer();
-            var msg = lu.Test1();
 
 
             List<Customer> customers = new List<Customer>();

@@ -16,6 +16,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace GOLD.CustomerDomain.MVC.DependencyResolution {
+    using GOLD.Core.AppManagement;
+    using GOLD.Core.AppManagement.Interfaces;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -32,6 +34,8 @@ namespace GOLD.CustomerDomain.MVC.DependencyResolution {
 					scan.With(new ControllerConvention());
                 });
             //For<IExample>().Use<Example>();
+            //For<IExecutionManager>().Use<ExecutionManager>().Singleton().Ctor<string>().Is(ExecutionManager.GoldDomainID());
+            For<IExecutionManager>().Use<ExecutionManager>().Singleton();
         }
 
         #endregion

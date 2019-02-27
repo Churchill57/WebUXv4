@@ -1,0 +1,82 @@
+﻿@model GOLD.AppRegister.ApiModels.ComponentByInterfaceFullName
+
+@{
+    ViewBag.Title = "DetailsForComponent";
+}
+
+<h2>DetailsForComponent</h2>
+
+<div>
+    <h4>ComponentByInterfaceFullName</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InterfaceFullname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InterfaceFullname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPrimaryApp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPrimaryApp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSecondaryApp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSecondaryApp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrimaryAppRoute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrimaryAppRoute)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecondaryAppRoute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecondaryAppRoute)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DomainID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DomainID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DomainName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DomainName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -32,9 +32,10 @@ namespace GOLD.AppRegisterAPI.Controllers
 
         // GET: api/Domains/5
         [ResponseType(typeof(Domain))]
-        public async Task<IHttpActionResult> GetDomain(int id)
+        public async Task<IHttpActionResult> GetDomain(string id)
         {
-            var d = await _db.Domains.FindAsync(id);
+            Guid guid = new Guid(id);
+            var d = await _db.Domains.FindAsync(guid);
             if (d == null)
             {
                 return NotFound();

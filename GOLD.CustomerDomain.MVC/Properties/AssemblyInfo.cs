@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using GOLD.Core.Attributes;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -33,3 +34,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: GoldDomain("2476C153-D94C-40B6-B0C3-221002AA5379")]

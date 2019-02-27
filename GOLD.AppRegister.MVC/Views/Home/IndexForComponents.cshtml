@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GOLD.AppRegister.ApiModels.ComponentByInterfaceFullName>
+
+@{
+    ViewBag.Title = "IndexForComponents";
+}
+
+<h2>IndexForComponents</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InterfaceFullname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPrimaryApp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSecondaryApp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrimaryAppRoute)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondaryAppRoute)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DomainID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DomainName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InterfaceFullname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPrimaryApp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSecondaryApp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrimaryAppRoute)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondaryAppRoute)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DomainID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DomainName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

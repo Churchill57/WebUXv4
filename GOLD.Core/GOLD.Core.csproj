@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentDependsUponAttribute.cs" />
+    <Compile Include="Attributes\GoldDomainAttribute.cs" />
     <Compile Include="Attributes\PropertyIsContextInputAttribute.cs" />
     <Compile Include="Attributes\ComponentDescriptionAttribute.cs" />
     <Compile Include="Attributes\PropertyIsComponentStateAttribute.cs" />
@@ -59,8 +60,10 @@
     <Compile Include="Attributes\ComponentSecondaryRouteAttribute.cs" />
     <Compile Include="Attributes\ComponentPrimaryRouteAttribute.cs" />
     <Compile Include="Components\Component.cs" />
-    <Compile Include="Interfaces\IEntityContextManager.cs" />
-    <Compile Include="Interfaces\IExecutionManager.cs" />
+    <Compile Include="Components\LuRedirect.cs" />
+    <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
+    <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />
+    <Compile Include="Outcomes\ComponentBackOutcome.cs" />
     <Compile Include="Outcomes\ComponentDoneOutcome.cs" />
     <Compile Include="Components\LogicalUnit.cs" />
     <Compile Include="Components\LuLauncher.cs" />
@@ -68,13 +71,11 @@
     <Compile Include="Components\UserExperience.cs" />
     <Compile Include="CoreFunctions.cs" />
     <Compile Include="Models\EntityContext.cs" />
-    <Compile Include="Models\xMemory.cs" />
-    <Compile Include="Models\xPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ExecutionManager.cs" />
-    <Compile Include="Services\EntityContextManager.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Example1a.json" />
     <None Include="Example1b.json" />

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{866332F0-AD69-494F-AFB3-A73BD10AAA27}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GOLD.Core.AppManagement</RootNamespace>
+    <AssemblyName>GOLD.Core.AppManagement</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExecutingComponent.cs" />
+    <Compile Include="ExecutionManager.cs" />
+    <Compile Include="ExecutionThread.cs" />
+    <Compile Include="Interfaces\IExecutionManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GOLD.AppExecution.ApiClient\GOLD.AppExecution.ApiClient.csproj">
+      <Project>{14ce4a3a-8ea0-4353-aeba-03a26909c2c8}</Project>
+      <Name>GOLD.AppExecution.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppExecution.ApiModels\GOLD.AppExecution.ApiModels.csproj">
+      <Project>{5085A3DB-068D-412B-8207-7E9A2AAF190F}</Project>
+      <Name>GOLD.AppExecution.ApiModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppRegister.ApiClient\GOLD.AppRegister.ApiClient.csproj">
+      <Project>{78afaf65-9f3c-4b95-abe6-46b25c20f91e}</Project>
+      <Name>GOLD.AppRegister.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
+      <Project>{bf46aaa5-216e-44ed-a81e-21035f31de5c}</Project>
+      <Name>GOLD.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
