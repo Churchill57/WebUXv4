@@ -6,113 +6,171 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using GOLD.AppExecution.DataAccess;
+using GOLD.AppExecution.ApiModels;
+using GOLD.Core.Enums;
+using GOLD.Core.Outcomes;
+using Newtonsoft.Json;
 
 namespace GOLD.AppExecution.WebApi.Controllers
 {
     public class ExecutionThreadsController : ApiController
     {
-        private AppExecutionDBContext db = new AppExecutionDBContext();
-
-        // GET: api/ExecutionThreads
-        public IQueryable<ExecutionThread> GetExecutionThreads()
+        private AppExecution.DataAccess.AppExecutionDBContext _dbContext { get; }
+        public ExecutionThreadsController(GOLD.AppExecution.DataAccess.AppExecutionDBContext dbContext)
         {
-            return db.ExecutionThreads;
-        }
-
-        // GET: api/ExecutionThreads/5
-        [ResponseType(typeof(ExecutionThread))]
-        public IHttpActionResult GetExecutionThread(int id)
-        {
-            ExecutionThread executionThread = db.ExecutionThreads.Find(id);
-            if (executionThread == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(executionThread);
-        }
-
-        // PUT: api/ExecutionThreads/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutExecutionThread(int id, ExecutionThread executionThread)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != executionThread.ID)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(executionThread).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ExecutionThreadExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            _dbContext = dbContext;
         }
 
         // POST: api/ExecutionThreads
-        [ResponseType(typeof(ExecutionThread))]
-        public IHttpActionResult PostExecutionThread(ExecutionThread executionThread)
+        //[ResponseType(typeof(ExecutionThread))]
+        public async Task<IHttpActionResult> PostExecutionThread(ExecutionThread executionThread)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.ExecutionThreads.Add(executionThread);
-            db.SaveChanges();
+            var et = Map(executionThread);
+            _dbContext.ExecutionThreads.Add(et);
+            await _dbContext.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = executionThread.ID }, executionThread);
+            var savedExecutionThread = Map(et);
+
+            return CreatedAtRoute("DefaultApi", new { id = et.ID }, savedExecutionThread);
         }
 
-        // DELETE: api/ExecutionThreads/5
-        [ResponseType(typeof(ExecutionThread))]
-        public IHttpActionResult DeleteExecutionThread(int id)
+        private GOLD.AppExecution.DataAccess.ExecutionThread Map(ExecutionThread executionThread)
         {
-            ExecutionThread executionThread = db.ExecutionThreads.Find(id);
-            if (executionThread == null)
+            return new GOLD.AppExecution.DataAccess.ExecutionThread()
             {
-                return NotFound();
-            }
 
-            db.ExecutionThreads.Remove(executionThread);
-            db.SaveChanges();
-
-            return Ok(executionThread);
+                ID = executionThread.ID,
+                ComponentExecutingID = executionThread.ComponentExecutingID,
+                ExecutingComponentsJson = JsonConvert.SerializeObject(executionThread.ExecutingComponents),
+                ExecutingComponentTitle = executionThread.ExecutingComponentTitle,
+                ExecutionStatus = (int)executionThread.ExecutionStatus,
+                LaunchCommandLineJson = executionThread.LaunchCommandLine, // TODO: Parse launch command somewhere sometime!
+                LaunchInputsJson = JsonConvert.SerializeObject(executionThread.LaunchInputs),
+                LockDateTime = executionThread.LockDateTime,
+                LockUserID = executionThread.LockUserID,
+                LockUserName = executionThread.LockUserName,
+                PendingOutcomeJson = JsonConvert.SerializeObject(executionThread.PendingOutcome),
+                RootComponentTitle = executionThread.RootComponentTitle
+            };
         }
-
-        protected override void Dispose(bool disposing)
+        private ExecutionThread Map(GOLD.AppExecution.DataAccess.ExecutionThread executionThread)
         {
-            if (disposing)
+            return new ExecutionThread()
             {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+                ID = executionThread.ID,
+                ComponentExecutingID = executionThread.ComponentExecutingID,
+                ExecutingComponents = JsonConvert.DeserializeObject<List<ExecutingComponent>>(executionThread.ExecutingComponentsJson),
+                ExecutingComponentTitle = executionThread.ExecutingComponentTitle,
+                ExecutionStatus = LogicalUnitStatusEnum.Initialised,  // TODO: What??
+                LaunchCommandLine = executionThread.LaunchCommandLineJson,
+                LaunchInputs = JsonConvert.DeserializeObject<Dictionary<string,string>>(executionThread.LaunchInputsJson),
+                LockDateTime = executionThread.LockDateTime,
+                LockUserID = executionThread.LockUserID,
+                LockUserName = executionThread.LockUserName,
+                PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThread.LaunchInputsJson),
+                RootComponentTitle = executionThread.RootComponentTitle
+            };
         }
 
-        private bool ExecutionThreadExists(int id)
-        {
-            return db.ExecutionThreads.Count(e => e.ID == id) > 0;
-        }
+        //// GET: api/ExecutionThreads/5
+        //[ResponseType(typeof(ExecutionThread))]
+        //public IHttpActionResult GetExecutionThread(int id)
+        //{
+        //    ExecutionThread executionThread = _dbContext.ExecutionThreads.Find(id);
+        //    if (executionThread == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(executionThread);
+        //}
+
+        //// PUT: api/ExecutionThreads/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutExecutionThread(int id, ExecutionThread executionThread)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    if (id != executionThread.ID)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _dbContext.Entry(executionThread).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        _dbContext.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ExecutionThreadExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
+
+        //// POST: api/ExecutionThreads
+        //[ResponseType(typeof(ExecutionThread))]
+        //public IHttpActionResult PostExecutionThread(ExecutionThread executionThread)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    _dbContext.ExecutionThreads.Add(executionThread);
+        //    _dbContext.SaveChanges();
+
+        //    return CreatedAtRoute("DefaultApi", new { id = executionThread.ID }, executionThread);
+        //}
+
+        //// DELETE: api/ExecutionThreads/5
+        //[ResponseType(typeof(ExecutionThread))]
+        //public IHttpActionResult DeleteExecutionThread(int id)
+        //{
+        //    ExecutionThread executionThread = _dbContext.ExecutionThreads.Find(id);
+        //    if (executionThread == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _dbContext.ExecutionThreads.Remove(executionThread);
+        //    _dbContext.SaveChanges();
+
+        //    return Ok(executionThread);
+        //}
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _dbContext.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
+
+        //private bool ExecutionThreadExists(int id)
+        //{
+        //    return _dbContext.ExecutionThreads.Count(e => e.ID == id) > 0;
+        //}
     }
 }

@@ -16,16 +16,16 @@ namespace GOLD.AppRegisterAPI.Controllers
 {
     public class DomainsController : ApiController
     {
-        private AppRegister.DataAccess.AppRegisterDBContext _db { get; }
-        public DomainsController(GOLD.AppRegister.DataAccess.AppRegisterDBContext db)
+        private AppRegister.DataAccess.AppRegisterDBContext _dbContext { get; }
+        public DomainsController(GOLD.AppRegister.DataAccess.AppRegisterDBContext dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
         }
 
         // GET: api/Domains
         public IQueryable<Domain> GetDomains()
         {
-            return from d in _db.Domains
+            return from d in _dbContext.Domains
                    select new Domain { ID = d.ID, Name = d.Name, Description = d.Description };
 
         }
@@ -35,7 +35,7 @@ namespace GOLD.AppRegisterAPI.Controllers
         public async Task<IHttpActionResult> GetDomain(string id)
         {
             Guid guid = new Guid(id);
-            var d = await _db.Domains.FindAsync(guid);
+            var d = await _dbContext.Domains.FindAsync(guid);
             if (d == null)
             {
                 return NotFound();
@@ -58,11 +58,11 @@ namespace GOLD.AppRegisterAPI.Controllers
                 return BadRequest();
             }
 
-            _db.Entry(domain).State = EntityState.Modified;
+            _dbContext.Entry(domain).State = EntityState.Modified;
 
             try
             {
-                await _db.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -88,8 +88,8 @@ namespace GOLD.AppRegisterAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            _db.Domains.Add(new GOLD.AppRegister.DataAccess.Domain { ID = domain.ID, Name = domain.Name, Description = domain.Description });
-            await _db.SaveChangesAsync();
+            _dbContext.Domains.Add(new GOLD.AppRegister.DataAccess.Domain { ID = domain.ID, Name = domain.Name, Description = domain.Description });
+            await _dbContext.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = domain.ID }, domain);
         }
@@ -98,14 +98,14 @@ namespace GOLD.AppRegisterAPI.Controllers
         [ResponseType(typeof(Domain))]
         public async Task<IHttpActionResult> DeleteDomain(int id)
         {
-            var d = await _db.Domains.FindAsync(id);
+            var d = await _dbContext.Domains.FindAsync(id);
             if (d == null)
             {
                 return NotFound();
             }
 
-            _db.Domains.Remove(new GOLD.AppRegister.DataAccess.Domain { ID = d.ID, Name = d.Name, Description = d.Description });
-            await _db.SaveChangesAsync();
+            _dbContext.Domains.Remove(new GOLD.AppRegister.DataAccess.Domain { ID = d.ID, Name = d.Name, Description = d.Description });
+            await _dbContext.SaveChangesAsync();
 
             return Ok(d);
         }
@@ -114,14 +114,14 @@ namespace GOLD.AppRegisterAPI.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dbContext.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool DomainExists(Guid id)
         {
-            return _db.Domains.Count(e => e.ID == id) > 0;
+            return _dbContext.Domains.Count(e => e.ID == id) > 0;
         }
     }
 }

@@ -36,6 +36,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,10 +54,6 @@
     <ProjectReference Include="..\GOLD.AppExecution.ApiModels\GOLD.AppExecution.ApiModels.csproj">
       <Project>{5085a3db-068d-412b-8207-7e9a2aaf190f}</Project>
       <Name>GOLD.AppExecution.ApiModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GOLD.AppExecution.WebApi\GOLD.AppExecution.WebApi.csproj">
-      <Project>{92540b3e-5a24-4098-b23d-278f93df8d6e}</Project>
-      <Name>GOLD.AppExecution.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

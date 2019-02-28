@@ -57,6 +57,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.Core.AppManagement", "
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GOLD.Identity", "GOLD.Identity\GOLD.Identity.sqlproj", "{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.TestsDomain.MVC", "GOLD.TestsDomain.MVC\GOLD.TestsDomain.MVC.csproj", "{51B34033-421F-4E6C-A8BF-6FEDF80CAD47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOLD.TestsDomain.Interfaces", "GOLD.TestsDomain.Interfaces\GOLD.TestsDomain.Interfaces.csproj", "{01D59F82-B127-4A81-886E-5B8637727111}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +185,14 @@ Global
 		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A3420D0-845B-427A-8CBF-32D4A2BABFBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{51B34033-421F-4E6C-A8BF-6FEDF80CAD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B34033-421F-4E6C-A8BF-6FEDF80CAD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B34033-421F-4E6C-A8BF-6FEDF80CAD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B34033-421F-4E6C-A8BF-6FEDF80CAD47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D59F82-B127-4A81-886E-5B8637727111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D59F82-B127-4A81-886E-5B8637727111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D59F82-B127-4A81-886E-5B8637727111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D59F82-B127-4A81-886E-5B8637727111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

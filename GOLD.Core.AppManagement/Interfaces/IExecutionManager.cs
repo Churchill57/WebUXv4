@@ -8,6 +8,7 @@ namespace GOLD.Core.AppManagement.Interfaces
 {
     public interface IExecutionManager
     {
-        string StartExecutionThread(Type componentInterface);
+        Task<string> RedirectLaunchApp(string componentInterfaceFullname);
+        //string StartExecutionThread(Type componentInterface);
     }
 }

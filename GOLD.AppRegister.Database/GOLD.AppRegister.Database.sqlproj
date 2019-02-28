@@ -73,6 +73,7 @@
     <Build Include="dbo\Tables\UserSecondaryApp.sql" />
     <Build Include="dbo\Tables\DependantComponent.sql" />
     <Build Include="dbo\Tables\Component.sql" />
+    <None Include="RegisterTestsDomainAndComponents.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RegisterCustomerDomainAndComponents.sql" />

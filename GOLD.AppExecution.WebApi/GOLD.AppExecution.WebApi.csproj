@@ -81,6 +81,12 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap, Version=4.1.0.361, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.1.0.361\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=4.1.0.361, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.1.0.361\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -139,6 +145,9 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="WebApi.StructureMap, Version=1.0.23.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebApi.StructureMap.1.0.23\lib\net462\WebApi.StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -192,6 +201,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\StructureMapControllerConvention.cs" />
+    <Compile Include="Infrastructure\StructureMapRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +273,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -291,7 +304,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
@@ -303,6 +318,10 @@
     <ProjectReference Include="..\GOLD.AppExecution.DataAccess\GOLD.AppExecution.DataAccess.csproj">
       <Project>{f90fe07d-9dd1-49f7-9afa-fab5e956dd69}</Project>
       <Name>GOLD.AppExecution.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
+      <Project>{BF46AAA5-216E-44ED-A81E-21035F31DE5C}</Project>
+      <Name>GOLD.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

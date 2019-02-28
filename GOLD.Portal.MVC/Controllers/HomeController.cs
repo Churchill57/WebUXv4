@@ -3,6 +3,7 @@ using GOLD.CustomerDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,11 +36,13 @@ namespace GOLD.Portal.MVC.Controllers
 
             return View();
         }
-        public ActionResult RunApp()
+        public async Task<ActionResult> RunApp()
         {
-            var url = executionManager.StartExecutionThread(typeof(ILuPreviewCustomer));
+            var url = await executionManager.RedirectLaunchApp("GOLD.TestsDomain.Interfaces.ILuTest1");
 
-            return View();
+            return Redirect(url);
+
+
         }
     }
 }

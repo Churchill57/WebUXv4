@@ -9,7 +9,7 @@ INSERT INTO [dbo].[Domain]
            ,[Description])
      VALUES
            (@CustomerDomainID
-           ,'http://localhost:1975/'
+           ,'http://localhost:1975'
            ,'GOLD.CustomerDomain.MVC')
 
 INSERT INTO [dbo].[Component]
@@ -23,13 +23,13 @@ INSERT INTO [dbo].[Component]
            ,[SecondaryAppRoute])
      VALUES
            (@CustomerDomainID
-           ,'GOLD.CustomerDomain.MVC.LogicalUnits.ILuPreviewCustomer'
+           ,'GOLD.CustomerDomain.Interfaces.ILuPreviewCustomer'
            ,'Preview Customer'
            ,'Shows the personal details of a specific customer'
            ,1
            ,1
-           ,'Customer\PreviewCustomer'
-           ,'Customer\PreviewCustomer')
+           ,'Customer/PreviewCustomer'
+           ,'Customer/PreviewCustomer')
 
 GO
 

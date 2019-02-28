@@ -41,9 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecutingComponent.cs" />
     <Compile Include="ExecutionManager.cs" />
-    <Compile Include="ExecutionThread.cs" />
     <Compile Include="Interfaces\IExecutionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +57,10 @@
     <ProjectReference Include="..\GOLD.AppRegister.ApiClient\GOLD.AppRegister.ApiClient.csproj">
       <Project>{78afaf65-9f3c-4b95-abe6-46b25c20f91e}</Project>
       <Name>GOLD.AppRegister.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppRegister.ApiModels\GOLD.AppRegister.ApiModels.csproj">
+      <Project>{D2B25E1C-1B1F-4351-9F7B-ECB9F9FCDA02}</Project>
+      <Name>GOLD.AppRegister.ApiModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
       <Project>{bf46aaa5-216e-44ed-a81e-21035f31de5c}</Project>
