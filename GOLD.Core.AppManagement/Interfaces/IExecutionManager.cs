@@ -8,7 +8,7 @@ namespace GOLD.Core.AppManagement.Interfaces
 {
     public interface IExecutionManager
     {
-        Task<string> RedirectLaunchApp(string componentInterfaceFullname);
-        //string StartExecutionThread(Type componentInterface);
+        Task<string> RedirectLaunchAppAsync(string componentInterfaceFullname, string returnUrl);
+        Task<string> RedirectResumeExecutionThreadAsync(int ID);
     }
 }

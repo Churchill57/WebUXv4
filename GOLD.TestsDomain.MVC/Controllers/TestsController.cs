@@ -9,9 +9,13 @@ namespace GOLD.TestsDomain.MVC.Controllers
     public class TestsController : Controller
     {
         // GET: Tests
-        public RedirectResult LuTest1Primary(string txid)
+        //public RedirectResult LuTest1Primary(string txid)
+        //{
+        //    return Redirect("https://bbc.co.uk");
+        //}
+        public ContentResult LuTest1Primary(string txid)
         {
-            return Redirect("https://bbc.co.uk");
+            return Content($"txid={txid}");
         }
 
         public ContentResult LuTest1()

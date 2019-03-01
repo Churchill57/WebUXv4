@@ -24,23 +24,39 @@ namespace GOLD.AppExecution.WebApi.Controllers
             _dbContext = dbContext;
         }
 
-        // POST: api/ExecutionThreads
-        //[ResponseType(typeof(ExecutionThread))]
-        public async Task<IHttpActionResult> PostExecutionThread(ExecutionThread executionThread)
+        // GET: api/ExecutionThreads/5
+        [ResponseType(typeof(ExecutionThread))]
+        public async Task<IHttpActionResult> GetExecutionThreadAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var et = Map(executionThread);
-            _dbContext.ExecutionThreads.Add(et);
-            await _dbContext.SaveChangesAsync();
-
-            var savedExecutionThread = Map(et);
-
-            return CreatedAtRoute("DefaultApi", new { id = et.ID }, savedExecutionThread);
+            GOLD.AppExecution.DataAccess.ExecutionThread executionThreadDB = await _dbContext.ExecutionThreads.FindAsync(id);
+            if (executionThreadDB == null) return NotFound();
+            return Ok(Map(executionThreadDB));
         }
+
+
+        // POST: api/ExecutionThreads
+        [ResponseType(typeof(ExecutionThread))]
+        public async Task<IHttpActionResult> PostExecutionThreadAsync(ExecutionThread executionThread)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var executionThreadDB = Map(executionThread);
+            _dbContext.ExecutionThreads.Add(executionThreadDB);
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtRoute("DefaultApi", new { id = executionThreadDB.ID }, Map(executionThreadDB));
+        }
+
+        [ResponseType(typeof(ExecutionThread))]
+        public async Task<IHttpActionResult> PutExecutionThreadAsync(ExecutionThread executionThread)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var executionThreadDB = Map(executionThread);
+            _dbContext.Entry(executionThreadDB).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return Ok(Map(executionThreadDB));
+        }
+
 
         private GOLD.AppExecution.DataAccess.ExecutionThread Map(ExecutionThread executionThread)
         {
@@ -61,37 +77,24 @@ namespace GOLD.AppExecution.WebApi.Controllers
                 RootComponentTitle = executionThread.RootComponentTitle
             };
         }
-        private ExecutionThread Map(GOLD.AppExecution.DataAccess.ExecutionThread executionThread)
+        private ExecutionThread Map(GOLD.AppExecution.DataAccess.ExecutionThread executionThreadDB)
         {
             return new ExecutionThread()
             {
-                ID = executionThread.ID,
-                ComponentExecutingID = executionThread.ComponentExecutingID,
-                ExecutingComponents = JsonConvert.DeserializeObject<List<ExecutingComponent>>(executionThread.ExecutingComponentsJson),
-                ExecutingComponentTitle = executionThread.ExecutingComponentTitle,
+                ID = executionThreadDB.ID,
+                ComponentExecutingID = executionThreadDB.ComponentExecutingID,
+                ExecutingComponents = JsonConvert.DeserializeObject<List<ExecutingComponent>>(executionThreadDB.ExecutingComponentsJson),
+                ExecutingComponentTitle = executionThreadDB.ExecutingComponentTitle,
                 ExecutionStatus = LogicalUnitStatusEnum.Initialised,  // TODO: What??
-                LaunchCommandLine = executionThread.LaunchCommandLineJson,
-                LaunchInputs = JsonConvert.DeserializeObject<Dictionary<string,string>>(executionThread.LaunchInputsJson),
-                LockDateTime = executionThread.LockDateTime,
-                LockUserID = executionThread.LockUserID,
-                LockUserName = executionThread.LockUserName,
-                PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThread.LaunchInputsJson),
-                RootComponentTitle = executionThread.RootComponentTitle
+                LaunchCommandLine = executionThreadDB.LaunchCommandLineJson,
+                LaunchInputs = JsonConvert.DeserializeObject<Dictionary<string,string>>(executionThreadDB.LaunchInputsJson),
+                LockDateTime = executionThreadDB.LockDateTime,
+                LockUserID = executionThreadDB.LockUserID,
+                LockUserName = executionThreadDB.LockUserName,
+                PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThreadDB.LaunchInputsJson),
+                RootComponentTitle = executionThreadDB.RootComponentTitle
             };
         }
-
-        //// GET: api/ExecutionThreads/5
-        //[ResponseType(typeof(ExecutionThread))]
-        //public IHttpActionResult GetExecutionThread(int id)
-        //{
-        //    ExecutionThread executionThread = _dbContext.ExecutionThreads.Find(id);
-        //    if (executionThread == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(executionThread);
-        //}
 
         //// PUT: api/ExecutionThreads/5
         //[ResponseType(typeof(void))]
