@@ -5,6 +5,7 @@ using GOLD.AppRegister.ApiModels;
 using GOLD.Core.AppManagement.Interfaces;
 using GOLD.Core.Components;
 using GOLD.Core.Enums;
+using GOLD.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace GOLD.Core.AppManagement
                         InterfaceFullname = componentInterfaceFullname,
                         URL = componentUrl,
                         Breadcrumb = $"LuLauncher(1)/{componentInterfaceName}(2)",
-                        ClientRef = componentInterfaceName, 
+                        ClientRef = "LuLauncher(1)", 
                         ParentExecutingID = 1, // LuLauncher acts as parent to root component.
                         State = null,
                         Title = registeredComponent.Title
@@ -106,9 +107,9 @@ namespace GOLD.Core.AppManagement
         }
 
 
-        public async Task<string> RedirectResumeExecutionThreadAsync(int ID)
+        public async Task<string> RedirectResumeExecutionThreadAsync(int tid)
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(ID);
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(tid);
             return await RedirectResumeExecutionThreadAsync(executionThread);
         }
 
@@ -119,6 +120,49 @@ namespace GOLD.Core.AppManagement
             executionThread.ExecutionStatus = LogicalUnitStatusEnum.Started;
             executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
             return componentExecuting.URL;
+        }
+
+        //public async Task<ExecutionThread> LoadExecutionThreadAsync(int tid)
+        //{
+        //    return await AppExecution.LoadExecutionThreadAsync(tid);
+        //}
+
+        public async Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new()
+        {
+            return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
+        }
+
+        public async Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new()
+        {
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid.tid);
+            return LoadComponentFromExecutionThread<T>(executionThread, txid.xid);
+        }
+
+        private T LoadComponentFromExecutionThread<T>(ExecutionThread executionThread, int xid) where T : Component, new()
+        {
+            var t = new T();
+            var component = t as LogicalUnit;
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == xid);
+
+            component.TXID = new TXID(executionThread.ID, xid);
+            component.ClientRef = executingComponent.ClientRef;
+            component.State = executingComponent.State;
+
+            return t;
+        }
+
+        public async Task SaveComponentToExecutionThreadAsync(Component component)
+        {
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(component.TXID.tid);
+            await SaveComponentToExecutionThreadAsync(component, executionThread);
+        }
+
+        private async Task SaveComponentToExecutionThreadAsync(Component component, ExecutionThread executionThread)
+        {
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == component.TXID.xid);
+            executingComponent.State = component.State;
+            executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
         }
 
     }

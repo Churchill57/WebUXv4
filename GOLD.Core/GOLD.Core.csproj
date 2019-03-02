@@ -62,6 +62,7 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\LuRedirect.cs" />
     <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
+    <Compile Include="Models\TXID.cs" />
     <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />
     <Compile Include="Outcomes\ComponentBackOutcome.cs" />
     <Compile Include="Outcomes\ComponentDoneOutcome.cs" />
