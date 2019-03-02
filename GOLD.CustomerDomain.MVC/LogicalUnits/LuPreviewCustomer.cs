@@ -19,7 +19,7 @@ namespace GOLD.CustomerDomain.MVC.LogicalUnits
     [ComponentSecondaryRoute("Customer/PreviewCustomer")]
     [ComponentSearchTags("Preview", "Customer", "another tag","and another tage")]
     [ComponentDependsUpon(typeof(UxPreviewCustomer))]
-    public class LuPreviewCustomer : LogicalUnitBase, ILuPreviewCustomer
+    public class LuPreviewCustomer : LogicalUnit, ILuPreviewCustomer
     {
         [PropertyIsLaunchInput("Customer ID", "int")]
         [PropertyIsContextInput("customer")]

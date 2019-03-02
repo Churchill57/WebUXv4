@@ -40,6 +40,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,6 +63,9 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\LuRedirect.cs" />
     <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
+    <Compile Include="ExecutionManager.cs" />
+    <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
+    <Compile Include="Interfaces\IExecutionManager.cs" />
     <Compile Include="Models\TXID.cs" />
     <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />
     <Compile Include="Outcomes\ComponentBackOutcome.cs" />
@@ -74,13 +78,29 @@
     <Compile Include="Models\EntityContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Example1a.json" />
     <None Include="Example1b.json" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GOLD.AppExecution.ApiClient\GOLD.AppExecution.ApiClient.csproj">
+      <Project>{14ce4a3a-8ea0-4353-aeba-03a26909c2c8}</Project>
+      <Name>GOLD.AppExecution.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppExecution.ApiModels\GOLD.AppExecution.ApiModels.csproj">
+      <Project>{5085a3db-068d-412b-8207-7e9a2aaf190f}</Project>
+      <Name>GOLD.AppExecution.ApiModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppRegister.ApiClient\GOLD.AppRegister.ApiClient.csproj">
+      <Project>{78afaf65-9f3c-4b95-abe6-46b25c20f91e}</Project>
+      <Name>GOLD.AppRegister.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOLD.AppRegister.ApiModels\GOLD.AppRegister.ApiModels.csproj">
+      <Project>{d2b25e1c-1b1f-4351-9f7b-ecb9f9fcda02}</Project>
+      <Name>GOLD.AppRegister.ApiModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

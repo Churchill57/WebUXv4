@@ -1,5 +1,5 @@
-﻿using GOLD.Core.AppManagement;
-using GOLD.Core.AppManagement.Interfaces;
+﻿using GOLD.Core.Components;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.TestsDomain.MVC.LogicalUnits;
 using System;
@@ -20,20 +20,22 @@ namespace GOLD.TestsDomain.MVC.Controllers
             this.executionManager = executionManager;
         }
 
-        // GET: Tests
+        // GET: TestsEE
         //public RedirectResult LuTest1Primary(string txid)
         //{
         //    return Redirect("https://bbc.co.uk");
         //}
         public async Task<ContentResult> LuTest1Primary(string txid)
         {
-            var luTest1 = await executionManager.LoadComponentFromExecutionThreadAsync<LuTest1>(new TXID(txid));
+            var luTest1 = await Component.LoadAsync<LuTest1>(txid);
+            //var luTest1 = await executionManager.LoadComponentFromExecutionThreadAsync<LuTest1>(new TXID(txid));
 
-            luTest1.SomeInteger = 99;
-            luTest1.SomeString = "1 2 3 testing...";
-            luTest1.SomeCustomer = new EntityContext(1, "fred smith", "some lame description");
+            luTest1.SomeInteger = 11;
+            luTest1.SomeString = "4 5 6 testing...";
+            luTest1.SomeCustomer = new EntityContext(2, "fred smith", "some lame description");
 
-            await executionManager.SaveComponentToExecutionThreadAsync(luTest1);
+            luTest1.Save();
+            //await executionManager.SaveComponentToExecutionThreadAsync(luTest1);
 
             return Content($"=>...txid={txid}");
 

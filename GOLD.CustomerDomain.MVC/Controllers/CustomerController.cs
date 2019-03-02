@@ -1,4 +1,4 @@
-﻿using GOLD.Core.AppManagement.Interfaces;
+﻿using GOLD.Core.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.MVC.LogicalUnits;
 using Newtonsoft.Json;

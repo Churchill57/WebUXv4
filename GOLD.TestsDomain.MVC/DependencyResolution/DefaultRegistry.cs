@@ -16,8 +16,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace GOLD.TestsDomain.MVC.DependencyResolution {
-    using GOLD.Core.AppManagement;
-    using GOLD.Core.AppManagement.Interfaces;
+    using GOLD.Core;
+    using GOLD.Core.Interfaces;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;

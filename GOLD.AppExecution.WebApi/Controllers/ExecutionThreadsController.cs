@@ -67,13 +67,13 @@ namespace GOLD.AppExecution.WebApi.Controllers
                 ComponentExecutingID = executionThread.ComponentExecutingID,
                 ExecutingComponentsJson = JsonConvert.SerializeObject(executionThread.ExecutingComponents),
                 ExecutingComponentTitle = executionThread.ExecutingComponentTitle,
-                ExecutionStatus = (int)executionThread.ExecutionStatus,
+                ExecutionStatus = executionThread.ExecutionStatus,
                 LaunchCommandLineJson = executionThread.LaunchCommandLine, // TODO: Parse launch command somewhere sometime!
                 LaunchInputsJson = JsonConvert.SerializeObject(executionThread.LaunchInputs),
                 LockDateTime = executionThread.LockDateTime,
                 LockUserID = executionThread.LockUserID,
                 LockUserName = executionThread.LockUserName,
-                PendingOutcomeJson = JsonConvert.SerializeObject(executionThread.PendingOutcome),
+                //JH PendingOutcomeJson = JsonConvert.SerializeObject(executionThread.PendingOutcome),
                 RootComponentTitle = executionThread.RootComponentTitle
             };
         }
@@ -85,13 +85,13 @@ namespace GOLD.AppExecution.WebApi.Controllers
                 ComponentExecutingID = executionThreadDB.ComponentExecutingID,
                 ExecutingComponents = JsonConvert.DeserializeObject<List<ExecutingComponent>>(executionThreadDB.ExecutingComponentsJson),
                 ExecutingComponentTitle = executionThreadDB.ExecutingComponentTitle,
-                ExecutionStatus = LogicalUnitStatusEnum.Initialised,  // TODO: What??
+                ExecutionStatus = executionThreadDB.ExecutionStatus,
                 LaunchCommandLine = executionThreadDB.LaunchCommandLineJson,
                 LaunchInputs = JsonConvert.DeserializeObject<Dictionary<string,string>>(executionThreadDB.LaunchInputsJson),
                 LockDateTime = executionThreadDB.LockDateTime,
                 LockUserID = executionThreadDB.LockUserID,
                 LockUserName = executionThreadDB.LockUserName,
-                PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThreadDB.LaunchInputsJson),
+                //JH PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThreadDB.LaunchInputsJson),
                 RootComponentTitle = executionThreadDB.RootComponentTitle
             };
         }

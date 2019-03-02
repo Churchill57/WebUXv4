@@ -301,9 +301,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GOLD.Core.AppManagement\GOLD.Core.AppManagement.csproj">
-      <Project>{866332F0-AD69-494F-AFB3-A73BD10AAA27}</Project>
-      <Name>GOLD.Core.AppManagement</Name>
+    <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
+      <Project>{BF46AAA5-216E-44ED-A81E-21035F31DE5C}</Project>
+      <Name>GOLD.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\GOLD.CustomerDomain.Interfaces\GOLD.CustomerDomain.Interfaces.csproj">
       <Project>{ed84c966-ddaf-4fdf-8604-d8a374ff9cc4}</Project>

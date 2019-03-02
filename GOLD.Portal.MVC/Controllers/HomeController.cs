@@ -1,4 +1,4 @@
-﻿using GOLD.Core.AppManagement.Interfaces;
+﻿using GOLD.Core.Interfaces;
 using GOLD.CustomerDomain.Interfaces;
 using System;
 using System.Collections.Generic;

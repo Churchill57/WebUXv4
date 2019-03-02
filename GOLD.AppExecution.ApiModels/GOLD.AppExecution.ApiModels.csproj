@@ -44,11 +44,5 @@
     <Compile Include="ExecutionThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
-      <Project>{BF46AAA5-216E-44ED-A81E-21035F31DE5C}</Project>
-      <Name>GOLD.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

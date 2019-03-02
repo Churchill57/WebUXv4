@@ -170,10 +170,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="LogicalUnits\LogicalUnitBase.cs" />
     <Compile Include="LogicalUnits\LuTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserExperiences\UserExperienceBase.cs" />
     <Compile Include="UserExperiences\UxB.cs" />
     <Compile Include="UserExperiences\UxA.cs" />
   </ItemGroup>
@@ -236,10 +234,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GOLD.Core.AppManagement\GOLD.Core.AppManagement.csproj">
-      <Project>{866332f0-ad69-494f-afb3-a73bd10aaa27}</Project>
-      <Name>GOLD.Core.AppManagement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GOLD.Core\GOLD.Core.csproj">
       <Project>{bf46aaa5-216e-44ed-a81e-21035f31de5c}</Project>
       <Name>GOLD.Core</Name>

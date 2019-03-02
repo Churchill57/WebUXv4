@@ -17,7 +17,7 @@ namespace GOLD.Core.Components
         //public int? ComponentTaskId { get; internal set; }
 
         [PropertyIsComponentState]
-        public string ReturnUrl { get; set; }
+        internal string ReturnUrl { get; set; }
 
         //[PropertyIsComponentState]
         //public int? ReturnTaskId { get; set; }

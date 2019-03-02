@@ -19,7 +19,7 @@ namespace GOLD.TestsDomain.MVC.LogicalUnits
     [ComponentSecondaryRoute("Tests/LuTest1Secondary")]
     [ComponentSearchTags("Test1")]
     [ComponentDependsUpon(typeof(UxA), typeof(UxB))]
-    public class LuTest1 : LogicalUnitBase, ILuTest1
+    public class LuTest1 : LogicalUnit, ILuTest1
     {
         [PropertyIsLaunchInput("Some Customer ID", "int")]
         [PropertyIsContextInput("customer")]

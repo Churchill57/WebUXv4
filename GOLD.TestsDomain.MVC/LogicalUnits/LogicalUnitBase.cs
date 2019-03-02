@@ -1,5 +1,5 @@
 ﻿using GOLD.Core.Components;
-using GOLD.Core.AppManagement.Interfaces;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Outcomes;
 using System;
 using System.Collections.Generic;
