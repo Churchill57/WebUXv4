@@ -13,8 +13,10 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
 
     // N.B. This particular component will not be a directly launchable component and so does not carry primary/secondary route attributes.
     // It can however be invoked from a LogicalUnit such as LuPreviewCustomer.
+    [ComponentInterface(typeof(IUxB))]
     public class UxB : UserExperience, IUxB
     {
-
+        public string SomeInterfaceProperty { get; set; }
+        public string UxB_Property { get; set; }
     }
 }

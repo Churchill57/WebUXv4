@@ -23,18 +23,9 @@ namespace GOLD.AppRegister.ApiClient
 
         public async Task<ComponentByInterfaceFullName> GetComponentByInterfaceFullName(string componentInterfaceFullName)
         {
-            var component = new ComponentByInterfaceFullName();
-
-            // IMPORTANT: Trailing slash in URL mitigates period problem in interface full name (e.g. namespace)!
             var response = await httpClient.GetAsync($"api/Components/GetComponentByInterfaceFullName/{componentInterfaceFullName}/");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var result = response.Content.ReadAsStringAsync().Result;
-                component = JsonConvert.DeserializeObject<ComponentByInterfaceFullName>(result);
-            }
-
-            return component;
+            response.EnsureSuccessStatusCode();
+            return response.Content.ReadAsAsync<ComponentByInterfaceFullName>().Result;
         }
 
     }

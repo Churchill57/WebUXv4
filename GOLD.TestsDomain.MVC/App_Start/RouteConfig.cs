@@ -22,7 +22,7 @@ namespace GOLD.TestsDomain.MVC
             routes.MapRoute(
                 name: "GOLD",
                 url: "{controller}/{action}/{txid}",
-                defaults: new { controller = "Tests", action = "LuTest1", txid = UrlParameter.Optional }
+                defaults: new { controller = "Tests", action = "TestsDomainEntryPointNot", txid = UrlParameter.Optional }
             );
 
         }

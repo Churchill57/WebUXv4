@@ -9,13 +9,17 @@ using System.Threading.Tasks;
 
 namespace GOLD.Core.Interfaces
 {
-    public interface IExecutionManager
+    internal interface IExecutionManagerInternal
     {
         Task<string> RedirectLaunchAppAsync(string componentInterfaceFullname, string returnUrl);
-        //Task<string> RedirectResumeExecutionThreadAsync(int ID);
+        Task<string> RedirectResumeExecutionThreadAsync(int ID);
         //Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new();
-        //Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();
-        //Task SaveComponentToExecutionThreadAsync(Component component);
+        Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();
+        T LoadComponentFromExecutionThread<T>(string txid) where T : Component, new();
+        Task SaveComponentToExecutionThreadAsync(Component component);
+        //T ExtractComponentFromExecutionThread<T>(Component parentComponent, string clientRef) where T : Component, new();
+        void SaveComponentToExecutionThread(Component component);
+        Task<T> GetComponentAsync<T>(Component parentComponent, string clientRef) where T : Component, new();
 
     }
 }

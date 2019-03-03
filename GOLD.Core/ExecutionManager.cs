@@ -2,6 +2,7 @@
 using GOLD.AppExecution.ApiModels;
 using GOLD.AppRegister.ApiClient;
 using GOLD.AppRegister.ApiModels;
+using GOLD.Core.Attributes;
 using GOLD.Core.Components;
 using GOLD.Core.Enums;
 using GOLD.Core.Interfaces;
@@ -15,6 +16,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace GOLD.Core
 {
@@ -62,9 +64,8 @@ namespace GOLD.Core
         {
             // Get info about the registered component.
             var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
-            // TODO: What if requested component interface is not registered?
+            if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
             var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
-            var componentUrl = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}";
 
             var launcher = new LuLauncher() { ClientRef = componentInterfaceFullname,  ReturnUrl = returnUrl };
 
@@ -74,10 +75,10 @@ namespace GOLD.Core
                 {
                     new ExecutingComponent()
                     {
-                        ExecutingID = 1, // Starts at 1 and will later be incremented for each additional component instance executing within the thread.
+                        ExecutingID = 0, // Starts at 0 and will later be incremented for each additional component instance executing within the thread.
                         InterfaceFullname = typeof(LuLauncher).FullName, // a system Launcher Component is always the entry point to a thread
                         //URL = "?", // Relevant for LuLauncher??
-                        Breadcrumb = "LuLauncher(1)", // Includes ExecutingID.
+                        Breadcrumb = "LuLauncher(0)", // Includes ExecutingID.
                         ParentExecutingID = 0, // No parent for entry point launcher
                         ClientRef = launcher.ClientRef,
                         State = launcher.State,
@@ -85,17 +86,17 @@ namespace GOLD.Core
                     },
                     new ExecutingComponent() // The root component (i.e. the component launched for execution).
                     {
-                        ExecutingID = 2, // Starts at 1 and is incremented for each component executed within the thread.
+                        ExecutingID = 1, // Starts at 0 and is incremented for each component executed within the thread.
                         InterfaceFullname = componentInterfaceFullname,
-                        URL = componentUrl,
-                        Breadcrumb = $"LuLauncher(1)/{componentInterfaceName}(2)",
-                        ClientRef = "LuLauncher(1)", 
+                        URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}",
+                        Breadcrumb = $"LuLauncher(0)/{componentInterfaceName}(1)",
+                        ClientRef = componentInterfaceName, 
                         ParentExecutingID = 1, // LuLauncher acts as parent to root component.
                         State = null,
                         Title = registeredComponent.Title
                     }
                 },
-                ComponentExecutingID = 2, // Execution starts at the root component.
+                ComponentExecutingID = 1, // Execution starts at the root component.
                 ExecutingComponentTitle = registeredComponent.Title,
                 ExecutionStatus = (int)LogicalUnitStatusEnum.Initialised,
                 LaunchInputs = null,
@@ -134,23 +135,38 @@ namespace GOLD.Core
 
         public async Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new()
         {
-            return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
+            var txid2 = new TXID(txid);
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            return ExtractComponentFromExecutionThread<T>(executionThread, txid2.xid);
+
+            //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
         }
 
-        public async Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new()
+        public T LoadComponentFromExecutionThread<T>(string txid) where T : Component, new()
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid.tid);
-            return LoadComponentFromExecutionThread<T>(executionThread, txid.xid);
+            var txid2 = new TXID(txid);
+            var executionThread = AppExecution.LoadExecutionThread(txid2.tid);
+            return ExtractComponentFromExecutionThread<T>(executionThread, txid2.xid);
+
+            //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
         }
 
-        private T LoadComponentFromExecutionThread<T>(ExecutionThread executionThread, int xid) where T : Component, new()
+        //public async Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new()
+        //{
+        //    var executionThread = await AppExecution.LoadExecutionThreadAsync(txid.tid);
+        //    return ExtractComponentFromExecutionThread<T>(executionThread, txid.xid);
+        //}
+
+        private T ExtractComponentFromExecutionThread<T>(ExecutionThread executionThread, int xid) where T : Component, new()
         {
             var t = new T();
-            var component = t as LogicalUnit;
+            var component = t as Component;
+            if (component == null) return null;
 
             var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == xid);
 
             //Component.executionManager = this; // See constructor
+            component.executionThread = executionThread;
             component.TXID = new TXID(executionThread.ID, xid);
             component.ClientRef = executingComponent.ClientRef;
             component.State = executingComponent.State;
@@ -163,6 +179,11 @@ namespace GOLD.Core
             var executionThread = await AppExecution.LoadExecutionThreadAsync(component.TXID.tid);
             await SaveComponentToExecutionThreadAsync(component, executionThread);
         }
+        public void SaveComponentToExecutionThread(Component component)
+        {
+            var executionThread = AppExecution.LoadExecutionThread(component.TXID.tid);
+            SaveComponentToExecutionThread(component, executionThread);
+        }
 
         private async Task SaveComponentToExecutionThreadAsync(Component component, ExecutionThread executionThread)
         {
@@ -170,6 +191,84 @@ namespace GOLD.Core
             executingComponent.State = component.State;
             executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
         }
+
+        private void SaveComponentToExecutionThread(Component component, ExecutionThread executionThread)
+        {
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == component.TXID.xid);
+            executingComponent.State = component.State;
+            executionThread = AppExecution.SaveExecutionThread(executionThread);
+        }
+
+        internal T ExtractComponentFromExecutionThread<T>(Component parentComponent, string clientRef) where T : new()
+        {
+            var t = new T();
+            var component = t as Component;
+            if (component == null) return default(T);
+
+            var executionThread = parentComponent.executionThread;
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ParentExecutingID == parentComponent.TXID.xid && e.ClientRef == clientRef
+            );
+
+            //Component.executionManager = this; // See constructor
+            component.executionThread = executionThread;
+            component.TXID = new TXID(executionThread.ID, executingComponent.ExecutingID);
+            component.ClientRef = executingComponent.ClientRef;
+            component.State = executingComponent.State;
+
+            return t;
+        }
+
+       public async Task<T> GetComponentAsync<T>(Component parentComponent, string clientRef) where T : Component, new()
+        {
+            var t = new T();
+            var component = t as Component;
+            if (component == null) return null;
+
+            var executionThread = parentComponent.executionThread;
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ParentExecutingID == parentComponent.TXID.xid && e.ClientRef == clientRef
+            );
+
+            var componentInterfaceFullname = typeof(T).GetCustomAttribute<ComponentInterfaceAttribute>()?.Type.FullName;
+            var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+
+            if (executingComponent == null)
+            {
+                var parentExecutingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == parentComponent.TXID.xid);
+                if (parentExecutingComponent == null) throw new Exception($"Exececuting component with id'{parentComponent.TXID.xid}' not found in execution thread with id'{parentComponent.TXID.tid}.");
+
+                if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
+                var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
+
+                int nextExecutingID = executionThread.ExecutingComponents.Count(); // Zero based.
+                executingComponent = new ExecutingComponent()
+                {
+                    ExecutingID = nextExecutingID,
+                    InterfaceFullname = componentInterfaceFullname,
+                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}",
+                    Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
+                    ClientRef = clientRef,
+                    ParentExecutingID = parentExecutingComponent.ExecutingID,
+                    State = null,
+                    Title = registeredComponent.Title
+                };
+                executionThread.ExecutingComponents.Add(executingComponent);
+                executionThread.ComponentExecutingID = nextExecutingID;
+                executionThread.ExecutingComponentTitle = registeredComponent.Title;
+                executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
+            }
+
+            component.executionThread = executionThread;
+            component.TXID = new TXID(executionThread.ID, executingComponent.ExecutingID);
+            component.ClientRef = executingComponent.ClientRef;
+            component.State = executingComponent.State;
+
+            return t;
+        }
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using GOLD.Core.Attributes;
+﻿using GOLD.AppExecution.ApiModels;
+using GOLD.Core.Attributes;
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using Newtonsoft.Json;
@@ -13,12 +14,13 @@ namespace GOLD.Core.Components
 {
     public abstract class Component
     {
+        internal static IExecutionManagerInternal executionManager { get; set; }
+
+        internal ExecutionThread executionThread { get; set; }
         //public int RegisteredComponentID { get; set; }
         //public int ExecutionThreadID { get; set; } // The App execution thread (from when the root component was launched until it is done or suspended).
         //public int ComponentExecutionID { get; set; } // Equivalend to TaskId in WebUXv2.
         //public string ComponentExecutionUrl { get; set; }
-        internal static IExecutionManagerInternal executionManager { get; set; }
-
         internal protected TXID TXID { get; set; }
         internal protected string ClientRef { get; set; }
         internal protected Dictionary<string, object> State
@@ -86,7 +88,7 @@ namespace GOLD.Core.Components
 
         public void Save()
         {
-            executionManager.SaveComponentToExecutionThreadAsync(this);
+            executionManager.SaveComponentToExecutionThread(this);
         }
         public async Task SaveAsync()
         {
@@ -94,20 +96,50 @@ namespace GOLD.Core.Components
         }
         public static T Load<T>(string txid) where T : Component, new()
         {
-            return Load<T>(new TXID(txid));
+            return executionManager.LoadComponentFromExecutionThread<T>(txid);
         }
-        public static T Load<T>(TXID txid) where T : Component, new()
-        {
-            return executionManager.LoadComponentFromExecutionThreadAsync<T>(txid).Result;
-        }
+        //public static T Load<T>(TXID txid) where T : Component, new()
+        //{
+        //    return executionManager.LoadComponentFromExecutionThreadAsync<T>(txid).Result;
+        //}
         public async static Task<T> LoadAsync<T>(string txid) where T : Component, new()
-        {
-            return await LoadAsync<T>(new TXID(txid));
-        }
-        public async static Task<T> LoadAsync<T>(TXID txid) where T : Component, new()
         {
             return await executionManager.LoadComponentFromExecutionThreadAsync<T>(txid);
         }
+        //public async static Task<T> LoadAsync<T>(TXID txid) where T : Component, new()
+        //{
+        //    return await executionManager.LoadComponentFromExecutionThreadAsync<T>(txid);
+        //}
+
+        public async Task<T> UseComponentAsync<T>(string clientRef) where T : Component, new()
+        {
+            return await executionManager.GetComponentAsync<T>(this, clientRef);
+        }
+
+        public async Task<T> UseComponentInterfaceAsync<T>(string clientRef)
+        {
+            return default(T);
+        }
+
+        //if (typeof(T).IsSubclassOf(typeof(Component)))
+        //{
+        //}
+        //if (typeof(T).IsInterface)
+        //{
+        //}
+        //else
+        //{
+        //}
+
+
+
+        //private async Task<T> UseConcreteComponentAsync<T>(string ClientRef)
+        //{
+        //}
+
+        //private async Task<T> UseComponentInterfaceAsync<T>(string ClientRef)
+        //{
+        //}
 
     }
 }

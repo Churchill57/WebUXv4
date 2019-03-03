@@ -37,14 +37,32 @@ namespace GOLD.AppExecution.ApiClient
             return await response.Content.ReadAsAsync<ExecutionThread>();
         }
 
+        public ExecutionThread SaveExecutionThread(ExecutionThread executionThread)
+        {
+            var task = httpClient.PutAsJsonAsync<ExecutionThread>("api/ExecutionThreads", executionThread);
+            task.Wait();
+            var response = task.Result;
+            response.EnsureSuccessStatusCode();
+            return response.Content.ReadAsAsync<ExecutionThread>().Result;
+        }
+
 
         public async Task<ExecutionThread> LoadExecutionThreadAsync(int ID)
         {
             var response = await httpClient.GetAsync($"api/ExecutionThreads/{ID}");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<ExecutionThread>();
+            return response.Content.ReadAsAsync<ExecutionThread>().Result;
+        }
+
+        public ExecutionThread LoadExecutionThread(int ID)
+        {
+            var task = httpClient.GetAsync($"api/ExecutionThreads/{ID}");
+            task.Wait();
+            var response = task.Result;
+            response.EnsureSuccessStatusCode();
+            return response.Content.ReadAsAsync<ExecutionThread>().Result;
         }
 
     }
 
-    }
+}

@@ -8,5 +8,6 @@ namespace GOLD.TestsDomain.Interfaces
 {
     public interface IUxA
     {
+        string SomeInterfaceProperty { get; set; }
     }
 }

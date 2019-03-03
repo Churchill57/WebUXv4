@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ComponentInterfaceAttribute.cs" />
     <Compile Include="Attributes\ComponentDependsUponAttribute.cs" />
     <Compile Include="Attributes\GoldDomainAttribute.cs" />
     <Compile Include="Attributes\PropertyIsContextInputAttribute.cs" />
@@ -64,8 +65,8 @@
     <Compile Include="Components\LuRedirect.cs" />
     <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
     <Compile Include="ExecutionManager.cs" />
-    <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
     <Compile Include="Interfaces\IExecutionManager.cs" />
+    <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
     <Compile Include="Models\TXID.cs" />
     <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />
     <Compile Include="Outcomes\ComponentBackOutcome.cs" />
