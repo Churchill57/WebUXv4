@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GOLD.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GOLD.Core.Models
 {
-    public class TXID
+    public class TXID : ITXID
     {
         private int _tid;
         private int _xid;

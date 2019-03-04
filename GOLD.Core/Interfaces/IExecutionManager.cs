@@ -15,8 +15,9 @@ namespace GOLD.Core.Interfaces
         Task<string> ExecuteLogicalUnitAsync<T>(string txid) where T : LogicalUnit, new();
         //Task<string> RedirectResumeExecutionThreadAsync(int ID);
         //Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new();
-        //Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();
+        Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();
         //Task SaveComponentToExecutionThreadAsync(Component component);
+        Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class;
 
     }
 }

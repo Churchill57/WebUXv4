@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GOLD.CustomerDomain.MVC.UserExperiences
+namespace GOLD.TestsDomain.MVC.UserExperiences
 {
     //[Authorize(Roles = "Admin, pleb")]
 

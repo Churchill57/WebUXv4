@@ -3,8 +3,8 @@ using GOLD.Core.Components;
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
-using GOLD.CustomerDomain.MVC.UserExperiences;
 using GOLD.TestsDomain.Interfaces;
+using GOLD.TestsDomain.MVC.UserExperiences;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,12 +42,13 @@ namespace GOLD.TestsDomain.MVC.LogicalUnits
 
         public override async Task<IComponent> GetNextComponentAsync()
         {
-            //var obj = await UseComponentAsync<UxA>("A");
-            //obj.SomeInterfaceProperty = "some value UxA";
-            //obj.UxA_Property = "some other property";
+            var obj = await UseComponentAsync<UxA>("A");
+            obj.SomeInterfaceProperty = "some value UxA";
+            obj.UxA_Property = "some other property";
 
-            var proxy = UseComponentInterfaceAsync<IUxA>("A");
-            proxy.SomeInterfaceProperty= "some value IUxA";
+            var proxy = await UseComponentInterfaceAsync<IUxA>("A1");
+            proxy.SomeInterfaceProperty = $"The time is {DateTime.Now}";
+            //proxy.SomeInterfaceProperty = "some value IUxA";
 
             return (IComponent)proxy;
         }

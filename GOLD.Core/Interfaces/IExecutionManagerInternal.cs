@@ -20,6 +20,7 @@ namespace GOLD.Core.Interfaces
         //T ExtractComponentFromExecutionThread<T>(Component parentComponent, string clientRef) where T : Component, new();
         void SaveComponentToExecutionThread(Component component);
         Task<T> GetComponentAsync<T>(Component parentComponent, string clientRef) where T : Component, new();
-
+        Task<IComponent> GetComponentInterfaceAsync<T>(Component parentComponent, string clientRef) where T : class;//, IComponent;
+        Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class;
     }
 }

@@ -27,6 +27,12 @@ namespace GOLD
             return deserializedOriginal.ActLike<T>();
         }
 
+        public static T CreateProxy<T>(string json, Type type) where T : class
+        {
+            var deserializedOriginal = JsonConvert.DeserializeObject(json);
+            return deserializedOriginal.ActLike<T>(type);
+        }
+
         private static object GetProxy(Type type)
         {
             var proxy = new ExpandoObject();

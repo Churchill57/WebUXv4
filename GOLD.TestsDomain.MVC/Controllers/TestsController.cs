@@ -1,7 +1,6 @@
 ﻿using GOLD.Core.Components;
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
-using GOLD.CustomerDomain.MVC.UserExperiences;
 using GOLD.TestsDomain.MVC.LogicalUnits;
 using System;
 using System.Collections.Generic;
@@ -54,9 +53,11 @@ namespace GOLD.TestsDomain.MVC.Controllers
             return Content("Welcome to the Tests Domain. Please use specific entry point actions for logical unit and user experiences.");
         }
 
-        public ContentResult UxA(string txid)
+        public async Task<ViewResult> UxA(string txid)
         {
-            return Content($"Hello from UxA - {txid}");
+            var UxA = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxA>(txid);
+
+            return View(UxA);
         }
         public ContentResult UxB(string txid)
         {

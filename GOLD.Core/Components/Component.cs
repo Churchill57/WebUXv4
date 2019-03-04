@@ -85,7 +85,7 @@ namespace GOLD.Core.Components
 
             }
         }
-        public TXID TXID { get; set; }
+        public ITXID TXID { get; set; }
         //public TXID TXID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Save()
@@ -118,11 +118,15 @@ namespace GOLD.Core.Components
             return await executionManager.GetComponentAsync<T>(this, clientRef);
         }
 
-        public T UseComponentInterfaceAsync<T>(string clientRef) where T : class
+        public async Task<T> UseComponentInterfaceAsync<T>(string clientRef) where T : class//, IComponent
         {
-            var proxy = CoreFunctions.CreateProxy<T>(typeof(IComponent));
-            ((IComponent)proxy).TXID = new TXID("1.2");
-            return proxy;
+            var proxy = await executionManager.GetComponentInterfaceAsync<T>(this, clientRef);
+            return proxy as T;
+
+            //var proxy = CoreFunctions.CreateProxy<T>(typeof(IComponent));
+            // TODO: put proxy into thread/get it out from state
+            //((IComponent)proxy).TXID = new TXID("1.2");
+            //return proxy;
         }
 
         //if (typeof(T).IsSubclassOf(typeof(Component)))

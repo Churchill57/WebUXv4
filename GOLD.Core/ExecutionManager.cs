@@ -151,6 +151,16 @@ namespace GOLD.Core
             //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
         }
 
+        public async Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class
+        {
+            var txid2 = new TXID(txid);
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            return ExtractComponentInterfaceFromExecutionThread<T>(executionThread, txid2.xid);
+
+            //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
+        }
+
+
         //public async Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new()
         //{
         //    var executionThread = await AppExecution.LoadExecutionThreadAsync(txid.tid);
@@ -173,6 +183,29 @@ namespace GOLD.Core
 
             return t;
         }
+
+        private T ExtractComponentInterfaceFromExecutionThread<T>(ExecutionThread executionThread, int xid) where T : class
+        {
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == xid);
+
+            T proxy;
+            IComponent component;
+            if (executingComponent == null)
+            {
+                proxy = CoreFunctions.CreateProxy<T>(typeof(IComponent));
+                component = proxy as IComponent;
+                component.TXID = new TXID(executionThread.ID, executingComponent.ExecutingID);
+            }
+            else
+            {
+                var stateJson = JsonConvert.SerializeObject(executingComponent.State);
+                proxy = CoreFunctions.CreateProxy<T>(stateJson, typeof(IComponent));
+                component = proxy as IComponent;
+            }
+
+            return proxy;
+        }
+
 
         public async Task SaveComponentToExecutionThreadAsync(Component component)
         {
@@ -258,7 +291,6 @@ namespace GOLD.Core
                 executionThread.ExecutingComponents.Add(executingComponent);
                 executionThread.ComponentExecutingID = nextExecutingID;
                 executionThread.ExecutingComponentTitle = registeredComponent.Title;
-                //executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
             }
 
             component.executionThread = executionThread;
@@ -269,6 +301,60 @@ namespace GOLD.Core
             return t;
         }
 
+        public async Task<IComponent> GetComponentInterfaceAsync<T>(Component parentComponent, string clientRef) where T : class//, IComponent
+        {
+            var executionThread = parentComponent.executionThread;
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ParentExecutingID == parentComponent.TXID.xid && e.ClientRef == clientRef
+            );
+
+            var childComponentWithClientRefNotInThread = (executingComponent == null);
+            if (childComponentWithClientRefNotInThread)
+            {
+                var componentInterfaceFullname = typeof(T).FullName;
+                var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+
+                var parentExecutingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == parentComponent.TXID.xid);
+                if (parentExecutingComponent == null) throw new Exception($"Exececuting component with id'{parentComponent.TXID.xid}' not found in execution thread with id'{parentComponent.TXID.tid}.");
+
+                if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
+                var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
+
+                int nextExecutingID = executionThread.ExecutingComponents.Count(); // Zero based.
+                executingComponent = new ExecutingComponent()
+                {
+                    ExecutingID = nextExecutingID,
+                    InterfaceFullname = componentInterfaceFullname,
+                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
+                    Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
+                    ClientRef = clientRef,
+                    ParentExecutingID = parentExecutingComponent.ExecutingID,
+                    State = null, 
+                    Title = registeredComponent.Title
+                };
+                executionThread.ExecutingComponents.Add(executingComponent);
+                executionThread.ComponentExecutingID = nextExecutingID;
+                executionThread.ExecutingComponentTitle = registeredComponent.Title;
+            }
+
+            T proxy;
+            IComponent component;
+            if (childComponentWithClientRefNotInThread)
+            {
+                proxy = CoreFunctions.CreateProxy<T>(typeof(IComponent));
+                component = proxy as IComponent;
+                component.TXID = new TXID(executionThread.ID, executingComponent.ExecutingID);
+            }
+            else
+            {
+                var stateJson = JsonConvert.SerializeObject(executingComponent.State);
+                proxy = CoreFunctions.CreateProxy<T>(stateJson, typeof(IComponent));
+                component = proxy as IComponent;
+            }
+
+            return component;
+        }
 
         public async Task<string> ExecuteLogicalUnitAsync<T>(string txid) where T : LogicalUnit, new()
         {
@@ -276,8 +362,15 @@ namespace GOLD.Core
 
             var nextComponent = await lu.GetNextComponentAsync();
 
-            var executingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == nextComponent.TXID.xid);
+            var executingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ExecutingID == nextComponent.TXID.xid
+            );
+
+            executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(CoreFunctions.ProxyAsJson(nextComponent));
             var url = executingComponent.URL;
+
+            lu.executionThread = await AppExecution.SaveExecutionThreadAsync(lu.executionThread);
+
             return url;
         }
 

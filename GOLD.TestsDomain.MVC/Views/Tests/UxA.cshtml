@@ -1,0 +1,26 @@
+﻿@model GOLD.TestsDomain.Interfaces.IUxA
+
+@{
+    ViewBag.Title = "UxA";
+}
+
+<h2>UxA</h2>
+
+<div>
+    <h4>UxA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SomeInterfaceProperty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SomeInterfaceProperty)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
