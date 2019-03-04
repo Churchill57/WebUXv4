@@ -248,7 +248,7 @@ namespace GOLD.Core
                 {
                     ExecutingID = nextExecutingID,
                     InterfaceFullname = componentInterfaceFullname,
-                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}",
+                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
                     Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
                     ClientRef = clientRef,
                     ParentExecutingID = parentExecutingComponent.ExecutingID,
@@ -258,7 +258,7 @@ namespace GOLD.Core
                 executionThread.ExecutingComponents.Add(executingComponent);
                 executionThread.ComponentExecutingID = nextExecutingID;
                 executionThread.ExecutingComponentTitle = registeredComponent.Title;
-                executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
+                //executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
             }
 
             component.executionThread = executionThread;
@@ -267,6 +267,18 @@ namespace GOLD.Core
             component.State = executingComponent.State;
 
             return t;
+        }
+
+
+        public async Task<string> ExecuteLogicalUnitAsync<T>(string txid) where T : LogicalUnit, new()
+        {
+            var lu = await LoadComponentFromExecutionThreadAsync<T>(txid);
+
+            var nextComponent = await lu.GetNextComponentAsync();
+
+            var executingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == nextComponent.TXID.xid);
+            var url = executingComponent.URL;
+            return url;
         }
 
 

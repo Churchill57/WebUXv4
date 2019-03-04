@@ -26,29 +26,26 @@ namespace GOLD.TestsDomain.MVC.Controllers
         //{
         //    return Redirect("https://bbc.co.uk");
         //}
-        public async  Task<ContentResult> LuTest1Primary(string txid)
+        public async Task<RedirectResult> LuTest1Primary(string txid)
         {
-            //var luTest1 = Component.Load<LuTest1>(txid);
-            var luTest1 = await Component.LoadAsync<LuTest1>(txid);
-            //var luTest1 = await executionManager.LoadComponentFromExecutionThreadAsync<LuTest1>(new TXID(txid));
+            var nextUrl = await executionManager.ExecuteLogicalUnitAsync<LuTest1>(txid);
+            return Redirect(nextUrl);
 
-            var nextComponent = await luTest1.GetNextComponentAsync();
+            ////var luTest1 = Component.Load<LuTest1>(txid);
+            //var luTest1 = await Component.LoadAsync<LuTest1>(txid);
+            ////var luTest1 = await executionManager.LoadComponentFromExecutionThreadAsync<LuTest1>(new TXID(txid));
 
-            luTest1.SomeInteger = 33;
-            luTest1.SomeString = "1 2 3 testing...";
-            luTest1.SomeCustomer = new EntityContext(3, "fred smith", "some lame description");
+            //var nextComponent = await luTest1.GetNextComponentAsync();
 
-            //luTest1.Save();
-            await luTest1.SaveAsync();
+            //luTest1.SomeInteger = 33;
+            //luTest1.SomeString = "1 2 3 testing...";
+            //luTest1.SomeCustomer = new EntityContext(3, "fred smith", "some lame description");
 
-            //var uxA = await UseComponentAsync<UxA>("A"); // Only possible if concrete type UxA is known i.e. same domain!
-            //var uxA = await UseComponentAsync<IUxA>("A"); // Use interface in different domain where concrete type is not available!
-            var uxA = new UxA();
+            ////luTest1.Save();
+            //await luTest1.SaveAsync();
+            ////await executionManager.SaveComponentToExecutionThreadAsync(luTest1);
 
-            //await executionManager.SaveComponentToExecutionThreadAsync(luTest1);
-
-            return Content($"=>...txid={txid}");
-
+            //return Content($"=>...txid={txid}");
 
         }
 
@@ -59,11 +56,11 @@ namespace GOLD.TestsDomain.MVC.Controllers
 
         public ContentResult UxA(string txid)
         {
-            return Content("Hello from UxA");
+            return Content($"Hello from UxA - {txid}");
         }
         public ContentResult UxB(string txid)
         {
-            return Content("Hello from UxB");
+            return Content($"Hello from UxB - {txid}");
         }
     }
 }

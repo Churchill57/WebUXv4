@@ -65,6 +65,7 @@
     <Compile Include="Components\LuRedirect.cs" />
     <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
     <Compile Include="ExecutionManager.cs" />
+    <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IExecutionManager.cs" />
     <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
     <Compile Include="Models\TXID.cs" />

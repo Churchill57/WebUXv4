@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GOLD.Core.Components
 {
-    public abstract class Component
+    public abstract class Component : IComponent
     {
         internal static IExecutionManagerInternal executionManager { get; set; }
 
@@ -21,7 +21,7 @@ namespace GOLD.Core.Components
         //public int ExecutionThreadID { get; set; } // The App execution thread (from when the root component was launched until it is done or suspended).
         //public int ComponentExecutionID { get; set; } // Equivalend to TaskId in WebUXv2.
         //public string ComponentExecutionUrl { get; set; }
-        internal protected TXID TXID { get; set; }
+        //internal protected TXID TXID { get; set; }
         internal protected string ClientRef { get; set; }
         internal protected Dictionary<string, object> State
         {
@@ -85,6 +85,8 @@ namespace GOLD.Core.Components
 
             }
         }
+        public TXID TXID { get; set; }
+        //public TXID TXID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Save()
         {
@@ -116,9 +118,11 @@ namespace GOLD.Core.Components
             return await executionManager.GetComponentAsync<T>(this, clientRef);
         }
 
-        public async Task<T> UseComponentInterfaceAsync<T>(string clientRef)
+        public T UseComponentInterfaceAsync<T>(string clientRef) where T : class
         {
-            return default(T);
+            var proxy = CoreFunctions.CreateProxy<T>(typeof(IComponent));
+            ((IComponent)proxy).TXID = new TXID("1.2");
+            return proxy;
         }
 
         //if (typeof(T).IsSubclassOf(typeof(Component)))

@@ -1,5 +1,6 @@
 ﻿using GOLD.Core.Attributes;
 using GOLD.Core.Components;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
 using GOLD.CustomerDomain.MVC.UserExperiences;
@@ -39,18 +40,25 @@ namespace GOLD.TestsDomain.MVC.LogicalUnits
 
         #endregion
 
-        public async Task<Component> GetNextComponentAsync()
+        public override async Task<IComponent> GetNextComponentAsync()
         {
-            var interfaceProxy = await UseComponentInterfaceAsync<IUxA>("A");
+            //var obj = await UseComponentAsync<UxA>("A");
+            //obj.SomeInterfaceProperty = "some value UxA";
+            //obj.UxA_Property = "some other property";
 
-            return interfaceProxy;
+            var proxy = UseComponentInterfaceAsync<IUxA>("A");
+            proxy.SomeInterfaceProperty= "some value IUxA";
 
-            //return await UseComponentAsync<UxA>("A");
+            return (IComponent)proxy;
         }
 
-        public override Component GetNextComponent()
+        public override IComponent GetNextComponent()
         {
-            throw new NotImplementedException();
+            var obj = UseComponentAsync<UxA>("A").Result;
+
+            var interfaceProxy = UseComponentInterfaceAsync<IUxA>("A");
+
+            return (IComponent)interfaceProxy;
         }
 
 

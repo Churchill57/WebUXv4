@@ -1,4 +1,5 @@
-﻿using ImpromptuInterface;
+﻿using GOLD.Core.Interfaces;
+using ImpromptuInterface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,6 +11,11 @@ namespace GOLD
 {
     public static class CoreFunctions
     {
+        public static T CreateProxy<T>(Type type) where T : class
+        {
+            return GetProxy(typeof(T)).ActLike<T>(type);
+        }
+
         public static T CreateProxy<T>() where T : class
         {
             return GetProxy(typeof(T)).ActLike<T>();

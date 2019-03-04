@@ -36,7 +36,7 @@ namespace GOLD.Portal.MVC.Controllers
 
             return View();
         }
-        public async Task<ActionResult> RunApp()
+        public async Task<ActionResult> LuTest1()
         {
             var url = Request?.UrlReferrer?.AbsoluteUri ?? "";
             var nextUrl = await executionManager.RedirectLaunchAppAsync("GOLD.TestsDomain.Interfaces.ILuTest1", url);

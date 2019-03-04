@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GOLD.Core.Attributes;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Outcomes;
 
 namespace GOLD.Core.Components
@@ -35,7 +36,12 @@ namespace GOLD.Core.Components
         //    ReturnUrl = returnUrl;
         //}
 
-        public override Component GetNextComponent()
+        public override IComponent GetNextComponent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<IComponent> GetNextComponentAsync()
         {
             throw new NotImplementedException();
         }
