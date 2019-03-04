@@ -1,14 +1,14 @@
-﻿@model GOLD.TestsDomain.Interfaces.IUxA
+﻿@model GOLD.TestsDomain.Interfaces.IUxB
 
 @{
-    ViewBag.Title = "UxA";
+    ViewBag.Title = "UxB";
     var txid = (string)ViewBag.txid + "/";
 }
 
-<h2>UxA</h2>
+<h2>UxB</h2>
 
 <div>
-    <h4>UxA</h4>
+    <h4>UxB</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -22,8 +22,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Goto UxB (Bad Method)", "UxB", new { txid = txid })
+    @Html.ActionLink("Goto UxA (Bad Method)", "UxA", new { txid = txid })
 </p>
 <p>
-    @Html.ActionLink("Goto UxB (Better Method)", "GotoUxB", new { txid = txid })
+    @Html.ActionLink("Goto UxA (Better Method)", "GotoUxA", new { txid = txid })
 </p>

@@ -73,7 +73,7 @@ namespace GOLD.AppExecution.WebApi.Controllers
                 LockDateTime = executionThread.LockDateTime,
                 LockUserID = executionThread.LockUserID,
                 LockUserName = executionThread.LockUserName,
-                //JH PendingOutcomeJson = JsonConvert.SerializeObject(executionThread.PendingOutcome),
+                PendingOutcomeJson = JsonConvert.SerializeObject(executionThread.PendingOutcome),
                 RootComponentTitle = executionThread.RootComponentTitle
             };
         }
@@ -91,7 +91,7 @@ namespace GOLD.AppExecution.WebApi.Controllers
                 LockDateTime = executionThreadDB.LockDateTime,
                 LockUserID = executionThreadDB.LockUserID,
                 LockUserName = executionThreadDB.LockUserName,
-                //JH PendingOutcome = JsonConvert.DeserializeObject<Outcome>(executionThreadDB.LaunchInputsJson),
+                PendingOutcome = JsonConvert.DeserializeObject<GOLD.AppExecution.ApiModels.Outcome>(executionThreadDB.PendingOutcomeJson),
                 RootComponentTitle = executionThreadDB.RootComponentTitle
             };
         }

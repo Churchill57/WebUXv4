@@ -68,6 +68,7 @@
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IExecutionManager.cs" />
     <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
+    <Compile Include="Interfaces\IOutcome.cs" />
     <Compile Include="Interfaces\ITXID.cs" />
     <Compile Include="Models\TXID.cs" />
     <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />

@@ -360,6 +360,12 @@ namespace GOLD.Core
         {
             var lu = await LoadComponentFromExecutionThreadAsync<T>(txid);
 
+            if (lu.executionThread.PendingOutcome != null)
+            {
+                //JH Check execution parent ID
+                //lu.HandleOutcome(lu.executionThread.PendingOutcome);
+            }
+
             var nextComponent = await lu.GetNextComponentAsync();
 
             var executingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(
@@ -374,6 +380,34 @@ namespace GOLD.Core
             return url;
         }
 
+        public async Task<string> RaiseOutcomeAsync(IComponent sourceComponent, IOutcome outcome)
+        {
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(sourceComponent.TXID.tid);
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ExecutingID == sourceComponent.TXID.xid
+            );
+
+            var parentExecutingComponent = executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ExecutingID == executingComponent.ParentExecutingID
+            );
+
+            executionThread.ComponentExecutingID = parentExecutingComponent.ExecutingID;
+            executionThread.ExecutingComponentTitle = parentExecutingComponent.Title;
+            executionThread.ExecutionStatus = (int)LogicalUnitStatusEnum.Started; // TODO: Strictly necessary here?
+
+            executionThread.PendingOutcome = new GOLD.AppExecution.ApiModels.Outcome()
+            {
+                TypeName = typeof(Outcome).FullName,
+                SourceExecutionID = sourceComponent.TXID.xid,
+                TargetExecutionID = executingComponent.ParentExecutingID,
+                Data = outcome.Data
+            };
+
+            await AppExecution.SaveExecutionThreadAsync(executionThread);
+
+            return parentExecutingComponent.URL;
+        }
 
     }
 }

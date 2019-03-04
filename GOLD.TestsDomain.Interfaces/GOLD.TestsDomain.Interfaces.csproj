@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IGotoUxAOutcome.cs" />
     <Compile Include="ILuTest1.cs" />
     <Compile Include="IUxB.cs" />
     <Compile Include="IUxA.cs" />
+    <Compile Include="IGotoUxBOutcome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

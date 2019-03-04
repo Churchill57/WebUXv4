@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLD.Core.Outcomes
+namespace GOLD.TestsDomain.Interfaces
 {
-    public class ComponentInitializeOutcome : Outcome<ComponentInitializeOutcome>
+    public interface IGotoUxAOutcome
     {
+        int DevilsOwn { get; set; }
     }
 }

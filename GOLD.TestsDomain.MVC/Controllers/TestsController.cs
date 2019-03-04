@@ -1,7 +1,9 @@
 ﻿using GOLD.Core.Components;
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
+using GOLD.Core.Outcomes;
 using GOLD.TestsDomain.MVC.LogicalUnits;
+using GOLD.TestsDomain.MVC.Outcomes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,12 +58,30 @@ namespace GOLD.TestsDomain.MVC.Controllers
         public async Task<ViewResult> UxA(string txid)
         {
             var UxA = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxA>(txid);
-
+            ViewBag.txid = txid;
             return View(UxA);
         }
-        public ContentResult UxB(string txid)
+        public async Task<ViewResult> UxB(string txid)
         {
-            return Content($"Hello from UxB - {txid}");
+            var UxB = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxB>(txid);
+            ViewBag.txid = txid;
+            return View(UxB);
         }
+
+        public async Task<RedirectResult> GoToUxB(string txid)
+        {
+            var UxB = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxB>(txid);
+            UxB.SomeInterfaceProperty = $"Outcome raised at {DateTime.Now}";
+
+            var gotoUxBOutcome = new GotoUxBOutcome();
+            gotoUxBOutcome.Data.Add("param1", "value1");
+            gotoUxBOutcome.Data.Add("customer context", new EntityContext(99,"John Smith","A test customer context"));
+            var nextUrl = await executionManager.RaiseOutcomeAsync((IComponent)UxB, gotoUxBOutcome);
+
+            return Redirect(nextUrl);
+
+
+        }
+
     }
 }

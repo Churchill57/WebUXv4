@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GOLD.Core.Outcomes
 {
-    public class ComponentBackOutcome : Outcome
+    public class ComponentBackOutcome : Outcome<ComponentBackOutcome>
     {
     }
 }

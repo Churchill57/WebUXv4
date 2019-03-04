@@ -171,6 +171,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="LogicalUnits\LuTest1.cs" />
+    <Compile Include="Outcomes\GotoUxAOutcome.cs" />
+    <Compile Include="Outcomes\GotoUxBOutcome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserExperiences\UxB.cs" />
     <Compile Include="UserExperiences\UxA.cs" />
@@ -215,6 +217,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Tests\UxA.cshtml" />
+    <Content Include="Views\Tests\UxB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

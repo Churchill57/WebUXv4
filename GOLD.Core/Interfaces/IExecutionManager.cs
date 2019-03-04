@@ -19,5 +19,7 @@ namespace GOLD.Core.Interfaces
         //Task SaveComponentToExecutionThreadAsync(Component component);
         Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class;
 
+        Task<string> RaiseOutcomeAsync(IComponent sourceComponent, IOutcome outcome);
+
     }
 }
