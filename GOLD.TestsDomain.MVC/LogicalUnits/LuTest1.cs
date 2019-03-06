@@ -4,6 +4,7 @@ using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
 using GOLD.TestsDomain.Interfaces;
+using GOLD.TestsDomain.MVC.Outcomes;
 using GOLD.TestsDomain.MVC.UserExperiences;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace GOLD.TestsDomain.MVC.LogicalUnits
         [PropertyIsComponentState]
         public EntityContext SomeCustomer { get; set; } // N.B. NOT part of iLuTest1!!!
 
+        [PropertyIsComponentState]
+        public string nextUx { get; set; } = "UxA";
+
         #region iLuTest properties
 
         [PropertyIsComponentState]
@@ -42,30 +46,54 @@ namespace GOLD.TestsDomain.MVC.LogicalUnits
 
         public override async Task<IComponent> GetNextComponentAsync()
         {
-            var obj = await UseComponentAsync<UxA>("A");
-            obj.SomeInterfaceProperty = "some value UxA";
-            obj.UxA_Property = "some other property";
+            if (nextUx == "UxA")
+            {
+                var proxyIUxA = await UseComponentInterfaceAsync<IUxA>("A1");
+                proxyIUxA.SomeInterfacePropertyA = $"The time is {DateTime.Now}";
+                nextUx = "UxB";
+                return (IComponent)proxyIUxA;
+            }
 
-            var proxy = await UseComponentInterfaceAsync<IUxA>("A1");
-            proxy.SomeInterfaceProperty = $"The time is {DateTime.Now}";
-            //proxy.SomeInterfaceProperty = "some value IUxA";
+            if (nextUx == "UxB")
+            {
+                var proxyIUxB = await UseComponentInterfaceAsync<IUxB>("B1");
+                proxyIUxB.SomeInterfacePropertyB = $"The time is {DateTime.Now}";
+                nextUx = null;
+                return (IComponent)proxyIUxB;
+            }
 
-            return (IComponent)proxy;
+            // Done
+            return null;
+
         }
 
-        public override IComponent GetNextComponent()
-        {
-            var obj = UseComponentAsync<UxA>("A").Result;
+        //public override IComponent GetNextComponent()
+        //{
+        //    var obj = UseComponentAsync<UxA>("A").Result;
 
-            var interfaceProxy = UseComponentInterfaceAsync<IUxA>("A");
+        //    var interfaceProxy = UseComponentInterfaceAsync<IUxA>("A");
 
-            return (IComponent)interfaceProxy;
-        }
+        //    return (IComponent)interfaceProxy;
+        //}
 
 
         public override void HandleOutcome(Outcome outcome)
         {
-            throw new NotImplementedException();
+            if (outcome as GotoUxAOutcome != null)
+            {
+                nextUx = "UxA";
+            }
+
+            if (outcome as GotoUxBOutcome != null)
+            {
+                nextUx = "UxB";
+            }
+
+            if (outcome as ComponentDoneOutcome != null)
+            {
+                nextUx = "Done";
+            }
+
         }
 
     }

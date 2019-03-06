@@ -86,7 +86,6 @@ namespace GOLD.Core.Components
             }
         }
         public ITXID TXID { get; set; }
-        //public TXID TXID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Save()
         {

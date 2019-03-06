@@ -16,7 +16,9 @@ namespace GOLD.TestsDomain.MVC.UserExperiences
     [ComponentInterface(typeof(IUxA))]
     public class UxA : UserExperience, IUxA
     {
-        public string SomeInterfaceProperty { get; set; }
-        public string UxA_Property { get; set; }
+        public string SomeInterfacePropertyA { get; set; }
+
+        [PropertyIsComponentState]
+        public string UxA_State_Property1 { get; set; }
     }
 }

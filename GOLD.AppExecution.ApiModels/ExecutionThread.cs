@@ -19,6 +19,6 @@ namespace GOLD.AppExecution.ApiModels
         public string ExecutingComponentTitle { get; set; }
         public int ComponentExecutingID { get; set; }
         public List<ExecutingComponent> ExecutingComponents { get; set; }
-        public Outcome PendingOutcome { get; set; }
+        public string PendingOutcomeJson { get; set; }
     }
 }

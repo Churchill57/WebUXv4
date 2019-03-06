@@ -7,7 +7,7 @@ using System.Web;
 
 namespace GOLD.TestsDomain.MVC.Outcomes
 {
-    public class GotoUxAOutcome : Outcome<GotoUxAOutcome>, IGotoUxAOutcome
+    public class GotoUxAOutcome : Outcome<GotoUxAOutcome>
     {
         public int DevilsOwn { get; set; }
     }

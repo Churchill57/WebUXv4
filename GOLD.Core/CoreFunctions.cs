@@ -5,12 +5,24 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Reflection;
+using System.Runtime;
 
 namespace GOLD
 {
     public static class CoreFunctions
     {
+        public static Type GetType(string typename)
+        {
+            var result = (
+                from a in AppDomain.CurrentDomain.GetAssemblies()
+                from t in a.GetTypes()
+                select t
+            ).FirstOrDefault(t => t.FullName == typename);
+            return result;
+        }
+
         public static T CreateProxy<T>(Type type) where T : class
         {
             return GetProxy(typeof(T)).ActLike<T>(type);
@@ -33,7 +45,7 @@ namespace GOLD
             return deserializedOriginal.ActLike<T>(type);
         }
 
-        private static object GetProxy(Type type)
+        private static ExpandoObject GetProxy(Type type)
         {
             var proxy = new ExpandoObject();
             foreach (PropertyInfo prop in type.GetProperties())

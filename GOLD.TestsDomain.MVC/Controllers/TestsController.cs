@@ -2,6 +2,7 @@
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
+using GOLD.TestsDomain.Interfaces;
 using GOLD.TestsDomain.MVC.LogicalUnits;
 using GOLD.TestsDomain.MVC.Outcomes;
 using System;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using GOLD.TestsDomain.MVC.UserExperiences;
 
 namespace GOLD.TestsDomain.MVC.Controllers
 {
@@ -29,25 +31,12 @@ namespace GOLD.TestsDomain.MVC.Controllers
         //}
         public async Task<RedirectResult> LuTest1Primary(string txid)
         {
-            var nextUrl = await executionManager.ExecuteLogicalUnitAsync<LuTest1>(txid);
-            return Redirect(nextUrl);
+            return Redirect(await executionManager.ExecuteLogicalUnitAsync<LuTest1>(txid));
+        }
 
-            ////var luTest1 = Component.Load<LuTest1>(txid);
-            //var luTest1 = await Component.LoadAsync<LuTest1>(txid);
-            ////var luTest1 = await executionManager.LoadComponentFromExecutionThreadAsync<LuTest1>(new TXID(txid));
-
-            //var nextComponent = await luTest1.GetNextComponentAsync();
-
-            //luTest1.SomeInteger = 33;
-            //luTest1.SomeString = "1 2 3 testing...";
-            //luTest1.SomeCustomer = new EntityContext(3, "fred smith", "some lame description");
-
-            ////luTest1.Save();
-            //await luTest1.SaveAsync();
-            ////await executionManager.SaveComponentToExecutionThreadAsync(luTest1);
-
-            //return Content($"=>...txid={txid}");
-
+        public async Task<RedirectResult> LuTest1Done(string txid)
+        {
+            return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
         }
 
         public ContentResult TestsDomainEntryPointNot()
@@ -68,15 +57,33 @@ namespace GOLD.TestsDomain.MVC.Controllers
             return View(UxB);
         }
 
+        public async Task<RedirectResult> GoToUxA(string txid)
+        {
+            //var UxA = await executionManager.LoadComponentFromExecutionThreadAsync<UxA>(txid);
+            var UxA = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxA>(txid);
+            UxA.SomeInterfacePropertyA = $"Outcome raised at {DateTime.Now}";
+
+            var outcome = new GotoUxAOutcome();
+            outcome.DevilsOwn = 666;
+            outcome.Data = new Dictionary<string, object>() { { "alpha", 1 }, { "beta", 2 } };
+            var nextUrl = await executionManager.RaiseOutcomeAsync((IComponent)UxA, outcome);
+
+            return Redirect(nextUrl);
+
+
+        }
+
         public async Task<RedirectResult> GoToUxB(string txid)
         {
+            //var UxB = await executionManager.LoadComponentFromExecutionThreadAsync<UxB>(txid);
             var UxB = await executionManager.LoadComponentInterfaceFromExecutionThreadAsync<Interfaces.IUxB>(txid);
-            UxB.SomeInterfaceProperty = $"Outcome raised at {DateTime.Now}";
+            UxB.SomeInterfacePropertyB = $"Outcome raised at {DateTime.Now}";
 
-            var gotoUxBOutcome = new GotoUxBOutcome();
-            gotoUxBOutcome.Data.Add("param1", "value1");
-            gotoUxBOutcome.Data.Add("customer context", new EntityContext(99,"John Smith","A test customer context"));
-            var nextUrl = await executionManager.RaiseOutcomeAsync((IComponent)UxB, gotoUxBOutcome);
+            var outcome = new GotoUxBOutcome();
+            outcome.WhatTheHell = true;
+            outcome.Data = new Dictionary<string, object>() { { "gamma", 3 }, { "delte", 4 } };
+            outcome.List = new List<string>() { "a", "b", "c" };
+            var nextUrl = await executionManager.RaiseOutcomeAsync((IComponent)UxB, outcome);
 
             return Redirect(nextUrl);
 

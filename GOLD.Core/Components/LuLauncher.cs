@@ -36,10 +36,10 @@ namespace GOLD.Core.Components
         //    ReturnUrl = returnUrl;
         //}
 
-        public override IComponent GetNextComponent()
-        {
-            throw new NotImplementedException();
-        }
+        //public override IComponent GetNextComponent()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override Task<IComponent> GetNextComponentAsync()
         {

@@ -12,18 +12,18 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SomeInterfaceProperty)
+            @Html.DisplayNameFor(model => model.SomeInterfacePropertyB)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SomeInterfaceProperty)
+            @Html.DisplayFor(model => model.SomeInterfacePropertyB)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Goto UxA (Bad Method)", "UxA", new { txid = txid })
+    @Html.ActionLink("Goto UxA (Better Method)", "GotoUxA", new { txid = txid })
 </p>
 <p>
-    @Html.ActionLink("Goto UxA (Better Method)", "GotoUxA", new { txid = txid })
+    @Html.ActionLink("Done", "LuTest1Done", new { txid = txid }, new { @class = "btn btn-success" })
 </p>

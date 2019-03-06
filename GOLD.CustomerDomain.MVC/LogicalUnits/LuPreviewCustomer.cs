@@ -28,10 +28,10 @@ namespace GOLD.CustomerDomain.MVC.LogicalUnits
         [PropertyIsComponentState]
         public EntityContext CustomerToPreview { get; set; }
 
-        public override IComponent GetNextComponent()
-        {
-            throw new NotImplementedException();
-        }
+        //public override IComponent GetNextComponent()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override Task<IComponent> GetNextComponentAsync()
         {

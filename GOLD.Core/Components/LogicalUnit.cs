@@ -10,7 +10,7 @@ namespace GOLD.Core.Components
 {
     public abstract class LogicalUnit : Component
     {
-        public abstract IComponent GetNextComponent();
+       // public abstract IComponent GetNextComponent();
         public abstract Task<IComponent> GetNextComponentAsync();
         public abstract void HandleOutcome(Outcome outcome);
     }

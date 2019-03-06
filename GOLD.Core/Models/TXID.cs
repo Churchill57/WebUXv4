@@ -32,5 +32,10 @@ namespace GOLD.Core.Models
         public int tid { get => _tid; }
 
         public int xid { get => _xid; }
+
+        public override string ToString()
+        {
+            return $"{_tid}.{_xid}";
+        }
     }
 }

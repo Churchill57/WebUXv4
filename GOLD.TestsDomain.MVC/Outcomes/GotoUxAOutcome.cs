@@ -7,8 +7,9 @@ using System.Web;
 
 namespace GOLD.TestsDomain.MVC.Outcomes
 {
-    public class GotoUxBOutcome : Outcome<GotoUxBOutcome>, IGotoUxBOutcome
+    public class GotoUxBOutcome : Outcome<GotoUxBOutcome>
     {
         public bool WhatTheHell { get; set; }
+        public List<string> List { get; set; } = new List<string>();
     }
 }

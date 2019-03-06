@@ -16,7 +16,7 @@ namespace GOLD.TestsDomain.MVC.UserExperiences
     [ComponentInterface(typeof(IUxB))]
     public class UxB : UserExperience, IUxB
     {
-        public string SomeInterfaceProperty { get; set; }
+        public string SomeInterfacePropertyB { get; set; }
         public string UxB_Property { get; set; }
     }
 }

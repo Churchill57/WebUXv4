@@ -1,6 +1,7 @@
 ﻿using GOLD.AppExecution.ApiModels;
 using GOLD.Core.Components;
 using GOLD.Core.Models;
+using GOLD.Core.Outcomes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,9 @@ namespace GOLD.Core.Interfaces
         Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();
         //Task SaveComponentToExecutionThreadAsync(Component component);
         Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class;
-
-        Task<string> RaiseOutcomeAsync(IComponent sourceComponent, IOutcome outcome);
+        Task<string> RaiseOutcomeAsync(IComponent sourceComponent, Outcome outcome);
+        Task<string> RaiseOutcomeAsync(ITXID sourceTXID, Outcome outcome);
+        //T NewOutcome<T>() where T : class;
 
     }
 }
