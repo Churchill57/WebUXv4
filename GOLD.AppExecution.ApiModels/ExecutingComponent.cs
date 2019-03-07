@@ -10,6 +10,7 @@ namespace GOLD.AppExecution.ApiModels
     {
         public int ExecutingID { get; set; } // Was TaskId in WebUXv2
         public string InterfaceFullname { get; set; }
+        public string TypeFullname { get; set; }
         public string Title { get; set; }
         public string URL { get; set; } // e.g. https://ww.TestDomain.MVC/Tests/test1/123.2/
         public string Breadcrumb { get; set; }

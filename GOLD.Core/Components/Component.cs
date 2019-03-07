@@ -99,6 +99,7 @@ namespace GOLD.Core.Components
         {
             return executionManager.LoadComponentFromExecutionThread<T>(txid);
         }
+
         //public static T Load<T>(TXID txid) where T : Component, new()
         //{
         //    return executionManager.LoadComponentFromExecutionThreadAsync<T>(txid).Result;

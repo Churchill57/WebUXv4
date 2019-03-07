@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ILuPreviewCustomer.cs" />
+    <Compile Include="ILuPreviewCustomerIncSearchAndSelect.cs" />
+    <Compile Include="IUxCustomerSearchCriteria.cs" />
+    <Compile Include="IUxPreviewCustomer.cs" />
+    <Compile Include="IUxSelectCustomer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

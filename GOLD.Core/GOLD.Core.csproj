@@ -61,6 +61,7 @@
     <Compile Include="Attributes\ComponentSearchTagsAttribute.cs" />
     <Compile Include="Attributes\ComponentSecondaryRouteAttribute.cs" />
     <Compile Include="Attributes\ComponentPrimaryRouteAttribute.cs" />
+    <Compile Include="Components\OutcomeComponent .cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\LuRedirect.cs" />
     <Compile Include="Enums\LogicalUnitStatusEnum.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Interfaces\IExecutionManager.cs" />
     <Compile Include="Interfaces\IExecutionManagerInternal.cs" />
     <Compile Include="Interfaces\ITXID.cs" />
+    <Compile Include="Interfaces\IUxPerformSearch.cs" />
     <Compile Include="Models\TXID.cs" />
     <Compile Include="Outcomes\ComponentInitializeOutcome.cs" />
     <Compile Include="Outcomes\ComponentBackOutcome.cs" />

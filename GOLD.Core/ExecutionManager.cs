@@ -78,6 +78,7 @@ namespace GOLD.Core
                     {
                         ExecutingID = 0, // Starts at 0 and will later be incremented for each additional component instance executing within the thread.
                         InterfaceFullname = typeof(LuLauncher).FullName, // a system Launcher Component is always the entry point to a thread
+                        TypeFullname = typeof(LuLauncher).FullName,
                         //URL = "?", // Relevant for LuLauncher??
                         Breadcrumb = "LuLauncher(0)", // Includes ExecutingID.
                         ParentExecutingID = 0, // No parent for entry point launcher
@@ -89,6 +90,7 @@ namespace GOLD.Core
                     {
                         ExecutingID = 1, // Starts at 0 and is incremented for each component executed within the thread.
                         InterfaceFullname = componentInterfaceFullname,
+                        //TypeFullname = "?", unknown until instantiated.
                         URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}",
                         Breadcrumb = $"LuLauncher(0)/{componentInterfaceName}(1)",
                         ClientRef = componentInterfaceName, 
@@ -134,6 +136,15 @@ namespace GOLD.Core
         //    return await AppExecution.LoadExecutionThreadAsync(tid);
         //}
 
+        public async Task<IComponent> LoadComponentAsync(string txid)
+        {
+            var txid2 = new TXID(txid);
+            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            return ExtractComponentFromExecutionThread(executionThread, txid2.xid);
+
+            //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
+        }
+
         public async Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new()
         {
             var txid2 = new TXID(txid);
@@ -175,6 +186,8 @@ namespace GOLD.Core
             if (component == null) return null;
 
             var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == xid);
+
+            if (string.IsNullOrEmpty(executingComponent.TypeFullname)) executingComponent.TypeFullname = typeof(T).FullName;
 
             //Component.executionManager = this; // See constructor
             component.executionThread = executionThread;
@@ -267,7 +280,10 @@ namespace GOLD.Core
             );
 
             var componentInterfaceFullname = typeof(T).GetCustomAttribute<ComponentInterfaceAttribute>()?.Type.FullName;
+            // TODO: Cater for unregistered components!
             var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+            if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
+
 
             if (executingComponent == null)
             {
@@ -282,6 +298,7 @@ namespace GOLD.Core
                 {
                     ExecutingID = nextExecutingID,
                     InterfaceFullname = componentInterfaceFullname,
+                    TypeFullname = t.GetType().FullName,
                     URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
                     Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
                     ClientRef = clientRef,
@@ -315,6 +332,7 @@ namespace GOLD.Core
             {
                 var componentInterfaceFullname = typeof(T).FullName;
                 var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+                if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
 
                 var parentExecutingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == parentComponent.TXID.xid);
                 if (parentExecutingComponent == null) throw new Exception($"Exececuting component with id'{parentComponent.TXID.xid}' not found in execution thread with id'{parentComponent.TXID.tid}.");
@@ -327,6 +345,7 @@ namespace GOLD.Core
                 {
                     ExecutingID = nextExecutingID,
                     InterfaceFullname = componentInterfaceFullname,
+                    TypeFullname = typeof(T).FullName,
                     URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
                     Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
                     ClientRef = clientRef,
@@ -357,6 +376,32 @@ namespace GOLD.Core
             return component;
         }
 
+        private IComponent ExtractComponentFromExecutionThread(ExecutionThread executionThread, int xid)
+        {
+            Component component = new OutcomeComponent();
+
+            var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == xid);
+
+            Type componentType = null;
+            try
+            {
+                componentType = CoreFunctions.GetType(executingComponent.TypeFullname);
+            }
+            catch (Exception)
+            {
+            }
+            if (componentType != null)
+                component = Activator.CreateInstance(componentType) as Component;
+
+            component.executionThread = executionThread;
+            component.TXID = new TXID(executionThread.ID, xid);
+            component.ClientRef = executingComponent.ClientRef;
+            component.State = executingComponent.State;
+
+            return component;
+        }
+
+
         public async Task<string> ExecuteLogicalUnitAsync<T>(string txid) where T : LogicalUnit, new()
         {
             var lu = await LoadComponentFromExecutionThreadAsync<T>(txid);
@@ -364,6 +409,7 @@ namespace GOLD.Core
             if (lu.executionThread.PendingOutcomeJson != null)
             {
                 var outcome = JsonConvert.DeserializeObject<Outcome>(lu.executionThread.PendingOutcomeJson);
+
                 Type outcomeType = null;
                 try
                 {
@@ -374,6 +420,8 @@ namespace GOLD.Core
                 }
                 if (outcomeType != null)
                     outcome = (Outcome)JsonConvert.DeserializeObject(lu.executionThread.PendingOutcomeJson, outcomeType);
+
+                outcome.SourceComponent = ExtractComponentFromExecutionThread(lu.executionThread, outcome.SourceExecutionID);
 
                 lu.HandleOutcome(outcome);
                 lu.executionThread.PendingOutcomeJson = null;
@@ -403,7 +451,9 @@ namespace GOLD.Core
                 e => e.ExecutingID == nextComponent.TXID.xid
             );
 
-            executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(CoreFunctions.ProxyAsJson(nextComponent));
+            executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(nextComponent));
+            //executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(CoreFunctions.ProxyAsJson(nextComponent));
+
             var url = executingComponent.URL;
 
             lu.executionThread = await AppExecution.SaveExecutionThreadAsync(lu.executionThread);

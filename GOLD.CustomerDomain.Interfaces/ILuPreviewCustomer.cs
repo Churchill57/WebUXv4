@@ -9,6 +9,18 @@ namespace GOLD.CustomerDomain.Interfaces
 {
     public interface ILuPreviewCustomer
     {
-        EntityContext CustomerToPreview { get; set; }
+
+        EntityContext CustomerContext { get; set; }
+
+        bool PreviewDifferentCustomer { get; set; }
+
+        bool ShowBackButton { get; set; }
+
+        string BackButtonText { get; set; } 
+
+        bool BackButtonAsLink { get; set; }
+
+        string DoneButtonText { get; set; }
+
     }
 }

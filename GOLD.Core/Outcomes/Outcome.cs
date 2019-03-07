@@ -1,4 +1,5 @@
-﻿using GOLD.Core.Interfaces;
+﻿using GOLD.Core.Components;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using Newtonsoft.Json;
 using System;
@@ -27,6 +28,7 @@ namespace GOLD.Core.Outcomes
         public int SourceExecutionID { get; set; }
         public int TargetExecutionID { get; set; }
         public Dictionary<string, object> Data { get; set; }
+        public IComponent SourceComponent { get; set; }
     }
 
     public abstract class Outcome<T> : Outcome
