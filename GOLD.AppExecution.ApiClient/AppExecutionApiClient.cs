@@ -39,10 +39,9 @@ namespace GOLD.AppExecution.ApiClient
 
         public ExecutionThread SaveExecutionThread(ExecutionThread executionThread)
         {
-            var task = httpClient.PutAsJsonAsync<ExecutionThread>("api/ExecutionThreads", executionThread);
+            HttpResponseMessage response = null;
+            Task task = Task.Run(async () => response = await  httpClient.PutAsJsonAsync<ExecutionThread>("api/ExecutionThreads", executionThread));
             task.Wait();
-            var response = task.Result;
-            response.EnsureSuccessStatusCode();
             return response.Content.ReadAsAsync<ExecutionThread>().Result;
         }
 
@@ -56,10 +55,9 @@ namespace GOLD.AppExecution.ApiClient
 
         public ExecutionThread LoadExecutionThread(int ID)
         {
-            var task = httpClient.GetAsync($"api/ExecutionThreads/{ID}");
+            HttpResponseMessage response = null;
+            Task task = Task.Run(async () => response = await httpClient.GetAsync($"api/ExecutionThreads/{ID}"));
             task.Wait();
-            var response = task.Result;
-            response.EnsureSuccessStatusCode();
             return response.Content.ReadAsAsync<ExecutionThread>().Result;
         }
 

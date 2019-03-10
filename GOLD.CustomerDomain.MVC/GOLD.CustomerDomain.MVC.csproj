@@ -253,6 +253,10 @@
       <Project>{bf46aaa5-216e-44ed-a81e-21035f31de5c}</Project>
       <Name>GOLD.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GOLD.CustomerDomain.ApiClient\GOLD.CustomerDomain.ApiClient.csproj">
+      <Project>{1045F494-5E2E-4D84-BA3B-975A37BB1D88}</Project>
+      <Name>GOLD.CustomerDomain.ApiClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GOLD.CustomerDomain.ApiModels\GOLD.CustomerDomain.ApiModels.csproj">
       <Project>{AB20C58D-A10C-4985-AC82-00E118E5A669}</Project>
       <Name>GOLD.CustomerDomain.ApiModels</Name>

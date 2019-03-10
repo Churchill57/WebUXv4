@@ -1,12 +1,15 @@
 ﻿using GOLD.Core.Attributes;
 using GOLD.Core.Components;
 using GOLD.Core.Interfaces;
+using GOLD.CustomerDomain.ApiClient.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GOLD.CustomerDomain.MVC.UserExperiences
 {
@@ -16,6 +19,16 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
     [ComponentSecondaryRoute("Customer/UxCustomerSearchCriteria")]
     public class UxCustomerSearchCriteria : UserExperience, IUxCustomerSearchCriteria, IUxPerformSearch<Customer>
     {
+        private readonly ICustomerDomainApiClient customerDomainApiClient;
+
+        public UxCustomerSearchCriteria(ICustomerDomainApiClient customerDomainApiClient)
+        {
+            this.customerDomainApiClient = customerDomainApiClient;
+        }
+        public UxCustomerSearchCriteria() : this(DependencyResolver.Current.GetService<ICustomerDomainApiClient>())
+        {
+
+        }
 
         //[ComponentInput("customer")]
         //public int? CustomerId { get; set;}
@@ -48,17 +61,9 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
         //    return new CustomerSearchSwitchAdvancedEventArgs(this, advancedSearch);
         //}
 
-        public IEnumerable<Customer> PerformSearch()
+        public async Task<IEnumerable<Customer>> PerformSearchAsync()
         {
-            var customers = new List<Customer>()
-            {
-                new Customer() {ID=1, FirstName="Fred", LastName="Norris"},
-                new Customer() {ID=2, FirstName="Harry", LastName="Grant"},
-                new Customer() {ID=3, FirstName="John", LastName="Smith"},
-                new Customer() {ID=4, FirstName="Penny", LastName="Jone"},
-                new Customer() {ID=5, FirstName="Michael", LastName="Harris"},
-                new Customer() {ID=6, FirstName="Claire", LastName="Front"}
-            };
+            var customers = await customerDomainApiClient.GetCustomerAsync();
 
             if (String.IsNullOrEmpty(CustomerName))
             {

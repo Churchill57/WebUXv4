@@ -1,6 +1,8 @@
 ﻿using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
+using GOLD.CustomerDomain.ApiClient;
+using GOLD.CustomerDomain.ApiClient.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.MVC.LogicalUnits;
 using GOLD.CustomerDomain.MVC.Models;
@@ -8,6 +10,7 @@ using GOLD.CustomerDomain.MVC.UserExperiences;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,9 +23,12 @@ namespace GOLD.CustomerDomain.MVC.Controllers
     public class CustomerController : Controller
     {
         private readonly IExecutionManager executionManager;
-        public CustomerController(IExecutionManager executionManager)
+        private readonly ICustomerDomainApiClient customerDomainApiClient;
+
+        public CustomerController(IExecutionManager executionManager, ICustomerDomainApiClient customerDomainApiClient)
         {
             this.executionManager = executionManager;
+            this.customerDomainApiClient = customerDomainApiClient;
         }
 
         public ContentResult CustomerDomainEntryPointNot()
@@ -65,15 +71,8 @@ namespace GOLD.CustomerDomain.MVC.Controllers
             var uxCustomerSearchCriteria = await executionManager.LoadComponentFromExecutionThreadAsync<UxCustomerSearchCriteria>(txid);
             uxCustomerSearchCriteria.CustomerName = customerSearchCriteria.Name;
             uxCustomerSearchCriteria.CustomerDateOfBirth = customerSearchCriteria.DOB;
+            await uxCustomerSearchCriteria.SaveAsync();
             return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
-        }
-
-        public async Task<ActionResult> UxPreviewCustomer(string txid)
-        {
-            var uxPreviewCustomer = await executionManager.LoadComponentFromExecutionThreadAsync<UxPreviewCustomer>(txid);
-            ViewBag.txid = txid;
-            return View(uxPreviewCustomer);
-
         }
 
         public async Task<ActionResult> UxSelectCustomer(string txid)
@@ -84,7 +83,7 @@ namespace GOLD.CustomerDomain.MVC.Controllers
             var txidSearch = new TXID(TXID.tid, xidSearch).ToString();
             var uxPerformCustomerSearch = await executionManager.LoadComponentAsync(txidSearch) as IUxPerformSearch<Customer>;
 
-            var model = uxPerformCustomerSearch.PerformSearch().ToList();
+            var model = await uxPerformCustomerSearch.PerformSearchAsync();
 
             ViewBag.ShowBackButton = uxSelectCustomer.ShowBackButton;
             ViewBag.BackButtonAsLink = uxSelectCustomer.BackButtonAsLink;
@@ -96,6 +95,25 @@ namespace GOLD.CustomerDomain.MVC.Controllers
 
         }
 
+        public async Task<ActionResult> UxSelectCustomer_CustomerSelected(string txid, int customerId, string fullName)
+        {
+            var TXID = new TXID(txid);
+            var uxSelectCustomer = await executionManager.LoadComponentFromExecutionThreadAsync<UxSelectCustomer>(txid);
+
+            uxSelectCustomer.SetCustomer(customerId, fullName);
+            uxSelectCustomer.Save(); // TODO: Is explicit saver really necessary. Could not executionManager.RaiseOutcomeAsync somehow do the save if the Ux and/or execution thread is dirty?
+
+            return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
+        }
+
+        public async Task<ActionResult> UxSelectCustomer_PreviewCustomer(string txid, int customerId)
+        {
+            var TXID = new TXID(txid);
+            return Redirect(await executionManager.RedirectLaunchAppAsync(txid, "GOLD.SomeDomain.Interfaces.ISomeComponent"));
+            // TODO: Properly launch 2ndary app
+            //return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
+        }
+
         public async Task<RedirectResult> Back(string txid)
         {
             return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentBackOutcome()));
@@ -103,124 +121,27 @@ namespace GOLD.CustomerDomain.MVC.Controllers
 
 
 
+        public async Task<ActionResult> UxPreviewCustomer(string txid)
+        {
+            var uxPreviewCustomer = await executionManager.LoadComponentFromExecutionThreadAsync<UxPreviewCustomer>(txid);
 
-        public async Task<RedirectResult> LuTest1Done(string txid)
+            var customerId = uxPreviewCustomer.CustomerContext.Id;
+            var model = await uxPreviewCustomer.LoadCustomerAsync(customerId);
+
+            ViewBag.PreviewDifferentCustomer = uxPreviewCustomer.PreviewDifferentCustomer;
+            ViewBag.ShowBackButton = uxPreviewCustomer.ShowBackButton;
+            ViewBag.BackButtonText = uxPreviewCustomer.BackButtonText;
+            ViewBag.BackButtonAsLink = uxPreviewCustomer.BackButtonAsLink;
+            ViewBag.DoneButtonText = uxPreviewCustomer.DoneButtonText;
+
+            ViewBag.txid = txid;
+            return View(model);
+        }
+
+        public async Task<ActionResult> UxPreviewCustomer_Done(string txid)
         {
             return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
         }
 
-        //public async Task<ActionResult> ux1(string txid)
-        //{
-
-        //}
-
-        //public async Task<ActionResult> u2x(string txid)
-        //{
-
-        //}
-
-        //public async Task<ActionResult> ux3(string txid)
-        //{
-
-        //}
-
-
-
-
-        //static string Baseurl = "http://localhost:19803/";
-        //private static HttpClient client = new HttpClient() { BaseAddress = new Uri(Baseurl) };
-        //private readonly IExecutionManager executionManager;
-
-        //public async Task<ActionResult> Index()
-        //{
-        //    var lu = new LuPreviewCustomer();
-
-
-        //    List<Customer> customers = new List<Customer>();
-
-        //    client.DefaultRequestHeaders.Clear();
-        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        //    var response = await client.GetAsync("api/customer");
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var EmpResponse = response.Content.ReadAsStringAsync().Result;
-        //        customers = JsonConvert.DeserializeObject<List<Customer>>(EmpResponse);
-        //    }
-        //    return View(customers);
-        //}
-
-        //// GET: Customer/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: Customer/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Customer/Create
-        //[HttpPost]
-        //public ActionResult Create(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Customer/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Customer/Edit/5
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Customer/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Customer/Delete/5
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

@@ -38,8 +38,8 @@ namespace GOLD.Core
             return httpClient;
         });
 
-        private static readonly Lazy<AppRegisterApiClient> lazyAppRegister = new Lazy<AppRegisterApiClient>(() => new AppRegisterApiClient(httpClientForAppRegister));
-        private static AppRegisterApiClient AppRegister => lazyAppRegister.Value;
+        private static readonly Lazy<AppRegisterApiClient> lazyAppRegisterApiClient = new Lazy<AppRegisterApiClient>(() => new AppRegisterApiClient(httpClientForAppRegister));
+        private static AppRegisterApiClient AppRegisterApiClient => lazyAppRegisterApiClient.Value;
 
 
         private static readonly Lazy<HttpClient> httpClientForAppExecution = new Lazy<HttpClient>(() =>
@@ -53,8 +53,8 @@ namespace GOLD.Core
             return httpClient;
         });
 
-        private static readonly Lazy<AppExecutionApiClient> lazyAppExecution = new Lazy<AppExecutionApiClient>(() => new AppExecutionApiClient(httpClientForAppExecution));
-        private static AppExecutionApiClient AppExecution => lazyAppExecution.Value;
+        private static readonly Lazy<AppExecutionApiClient> lazyAppExecutionApiClient = new Lazy<AppExecutionApiClient>(() => new AppExecutionApiClient(httpClientForAppExecution));
+        private static AppExecutionApiClient AppExecutionApiClient => lazyAppExecutionApiClient.Value;
 
         /// <summary>
         /// Returns URL of component instance after initiating a new execution thread.
@@ -64,7 +64,7 @@ namespace GOLD.Core
         public async Task<string> RedirectLaunchAppAsync(string componentInterfaceFullname, string returnUrl) // Potentially more params to come inc. returnTaskId, forceContextSearch, etc
         {
             // Get info about the registered component.
-            var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+            var registeredComponent = await AppRegisterApiClient.GetComponentByInterfaceFullName(componentInterfaceFullname);
             if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
             var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
 
@@ -110,7 +110,7 @@ namespace GOLD.Core
                 //JHPendingOutcome = null
             };
 
-            var persistedThread = await AppExecution.SaveNewExecutionThreadAsync(thread);
+            var persistedThread = await AppExecutionApiClient.SaveNewExecutionThreadAsync(thread);
 
             return await RedirectResumeExecutionThreadAsync(persistedThread.ID);
         }
@@ -118,7 +118,7 @@ namespace GOLD.Core
 
         public async Task<string> RedirectResumeExecutionThreadAsync(int tid)
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(tid);
             return await RedirectResumeExecutionThreadAsync(executionThread);
         }
 
@@ -127,7 +127,7 @@ namespace GOLD.Core
             var componentExecuting = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == executionThread.ComponentExecutingID);
             componentExecuting.URL = $"{componentExecuting.URL}/{executionThread.ID}.{executionThread.ComponentExecutingID}/";
             executionThread.ExecutionStatus = (int)LogicalUnitStatusEnum.Started;
-            executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
+            executionThread = await AppExecutionApiClient.SaveExecutionThreadAsync(executionThread);
             return componentExecuting.URL;
         }
 
@@ -139,7 +139,7 @@ namespace GOLD.Core
         public async Task<IComponent> LoadComponentAsync(string txid)
         {
             var txid2 = new TXID(txid);
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(txid2.tid);
             return ExtractComponentFromExecutionThread(executionThread, txid2.xid);
 
             //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
@@ -148,7 +148,7 @@ namespace GOLD.Core
         public async Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new()
         {
             var txid2 = new TXID(txid);
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(txid2.tid);
             return ExtractComponentFromExecutionThread<T>(executionThread, txid2.xid);
 
             //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
@@ -157,7 +157,7 @@ namespace GOLD.Core
         public T LoadComponentFromExecutionThread<T>(string txid) where T : Component, new()
         {
             var txid2 = new TXID(txid);
-            var executionThread = AppExecution.LoadExecutionThread(txid2.tid);
+            var executionThread = AppExecutionApiClient.LoadExecutionThread(txid2.tid);
             return ExtractComponentFromExecutionThread<T>(executionThread, txid2.xid);
 
             //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
@@ -166,7 +166,7 @@ namespace GOLD.Core
         public async Task<T> LoadComponentInterfaceFromExecutionThreadAsync<T>(string txid) where T : class
         {
             var txid2 = new TXID(txid);
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(txid2.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(txid2.tid);
             return ExtractComponentInterfaceFromExecutionThread<T>(executionThread, txid2.xid);
 
             //return await LoadComponentFromExecutionThreadAsync<T>(new TXID(txid));
@@ -223,12 +223,12 @@ namespace GOLD.Core
 
         public async Task SaveComponentToExecutionThreadAsync(Component component)
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(component.TXID.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(component.TXID.tid);
             await SaveComponentToExecutionThreadAsync(component, executionThread);
         }
         public void SaveComponentToExecutionThread(Component component)
         {
-            var executionThread = AppExecution.LoadExecutionThread(component.TXID.tid);
+            var executionThread = AppExecutionApiClient.LoadExecutionThread(component.TXID.tid);
             SaveComponentToExecutionThread(component, executionThread);
         }
 
@@ -236,14 +236,14 @@ namespace GOLD.Core
         {
             var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == component.TXID.xid);
             executingComponent.State = component.State;
-            executionThread = await AppExecution.SaveExecutionThreadAsync(executionThread);
+            executionThread = await AppExecutionApiClient.SaveExecutionThreadAsync(executionThread);
         }
 
         private void SaveComponentToExecutionThread(Component component, ExecutionThread executionThread)
         {
             var executingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == component.TXID.xid);
             executingComponent.State = component.State;
-            executionThread = AppExecution.SaveExecutionThread(executionThread);
+            executionThread = AppExecutionApiClient.SaveExecutionThread(executionThread);
         }
 
         internal T ExtractComponentFromExecutionThread<T>(Component parentComponent, string clientRef) where T : new()
@@ -281,7 +281,7 @@ namespace GOLD.Core
 
             var componentInterfaceFullname = typeof(T).GetCustomAttribute<ComponentInterfaceAttribute>()?.Type.FullName;
             // TODO: Cater for unregistered components!
-            var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+            var registeredComponent = await AppRegisterApiClient.GetComponentByInterfaceFullName(componentInterfaceFullname);
             if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
 
 
@@ -331,7 +331,7 @@ namespace GOLD.Core
             if (childComponentWithClientRefNotInThread)
             {
                 var componentInterfaceFullname = typeof(T).FullName;
-                var registeredComponent = await AppRegister.GetComponentByInterfaceFullName(componentInterfaceFullname);
+                var registeredComponent = await AppRegisterApiClient.GetComponentByInterfaceFullName(componentInterfaceFullname);
                 if (registeredComponent == null) throw new Exception($"Component interface '{componentInterfaceFullname}' is not registered.");
 
                 var parentExecutingComponent = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == parentComponent.TXID.xid);
@@ -429,12 +429,14 @@ namespace GOLD.Core
 
             var nextComponent = await lu.GetNextComponentAsync();
 
+            var executingLu = lu.executionThread.ExecutingComponents.FirstOrDefault(
+                e => e.ExecutingID == lu.TXID.xid
+            );
+            executingLu.State = lu.State;
+
             if (nextComponent == null) // lu Done?
             {
                 // Determine parent launcher...
-                var executingLu = lu.executionThread.ExecutingComponents.FirstOrDefault(
-                    e => e.ExecutingID == lu.TXID.xid
-                );
 
                 var executingLauncher = lu.executionThread.ExecutingComponents.FirstOrDefault(
                     e => e.ExecutingID == executingLu.ParentExecutingID
@@ -447,29 +449,25 @@ namespace GOLD.Core
             }
 
 
-            var executingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(
+            var nextExecutingComponent = lu.executionThread.ExecutingComponents.FirstOrDefault(
                 e => e.ExecutingID == nextComponent.TXID.xid
             );
-
-            executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(nextComponent));
+            nextExecutingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(nextComponent));
             //executingComponent.State = JsonConvert.DeserializeObject<Dictionary<string, object>>(CoreFunctions.ProxyAsJson(nextComponent));
+            lu.executionThread = await AppExecutionApiClient.SaveExecutionThreadAsync(lu.executionThread);
 
-            var url = executingComponent.URL;
-
-            lu.executionThread = await AppExecution.SaveExecutionThreadAsync(lu.executionThread);
-
-            return url;
+            return nextExecutingComponent.URL;
         }
 
         public async Task<string> RaiseOutcomeAsync(ITXID sourceTXID, Outcome outcome)
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(sourceTXID.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(sourceTXID.tid);
             return await RaiseOutcomeAsync(executionThread, sourceTXID, outcome);
         }
 
         public async Task<string> RaiseOutcomeAsync(IComponent sourceComponent, Outcome outcome)
         {
-            var executionThread = await AppExecution.LoadExecutionThreadAsync(sourceComponent.TXID.tid);
+            var executionThread = await AppExecutionApiClient.LoadExecutionThreadAsync(sourceComponent.TXID.tid);
             return await RaiseOutcomeAsync(executionThread, sourceComponent.TXID, outcome);
         }
 
@@ -494,10 +492,18 @@ namespace GOLD.Core
             executionThread.PendingOutcomeJson = JsonConvert.SerializeObject(outcome);
             //executionThread.PendingOutcomeJson = CoreFunctions.ProxyAsJson(outcome);
 
-            await AppExecution.SaveExecutionThreadAsync(executionThread);
+            await AppExecutionApiClient.SaveExecutionThreadAsync(executionThread);
 
             return parentExecutingComponent.URL;
         }
+
+        // TODO: Need whole new method to kaunch a secondary app from the current execution thread.
+        public async Task<string> RedirectLaunchAppAsync(ITXID parentTXID, string componentInterfaceFullname) // Potentially more params to come inc. returnTaskId, forceContextSearch, etc
+        {
+            // Temporary !!
+            return await RedirectLaunchAppAsync(componentInterfaceFullname, null);
+        }
+
 
         //public T NewOutcome<T>() where T : class
         //{

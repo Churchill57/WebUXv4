@@ -37,11 +37,12 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
         [PropertyIsComponentState]
         public bool ShowPreviewLink { get; set; } = false;
 
-        //public void SetCustomer(int id, string fullName)
-        //{
-        //    //SelectedCustomerId = id;
-        //    SelectedCustomerContext = CtxMan.SetContext(id, "customer", fullName) as EntityContext;
-        //}
+        public void SetCustomer(int id, string fullName)
+        {
+            SelectedCustomerContext = new EntityContext(id, fullName, fullName);
+            // TODO: Set current customer context;
+            //SelectedCustomerContext = CtxMan.SetContext(id, "customer", fullName) as EntityContext;
+        }
 
     }
 }

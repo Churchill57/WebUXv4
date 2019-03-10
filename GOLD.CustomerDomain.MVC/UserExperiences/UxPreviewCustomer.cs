@@ -2,11 +2,15 @@
 using GOLD.Core.Components;
 using GOLD.Core.Models;
 using GOLD.Core.Outcomes;
+using GOLD.CustomerDomain.ApiClient.Interfaces;
+using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GOLD.CustomerDomain.MVC.UserExperiences
 {
@@ -20,6 +24,16 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
     [ComponentSecondaryRoute("Customer/UxPreviewCustomer")]
     public class UxPreviewCustomer : UserExperience, IUxPreviewCustomer, ILuPreviewCustomer
     {
+        private readonly ICustomerDomainApiClient customerDomainApiClient;
+
+        public UxPreviewCustomer(ICustomerDomainApiClient customerDomainApiClient)
+        {
+            this.customerDomainApiClient = customerDomainApiClient;
+        }
+        public UxPreviewCustomer() : this(DependencyResolver.Current.GetService<ICustomerDomainApiClient>())
+        {
+
+        }
 
         [PropertyIsLaunchInput("Customer ID", "int")]
         [PropertyIsComponentState]
@@ -41,16 +55,12 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
         [PropertyIsComponentState]
         public string DoneButtonText { get; set; } = "Close";
 
-            // TODO: Customer API
-        //public Models.Customer LoadCustomer(int id)
-        //{
-        //    var db = new CustomerDbContext();
-        //    var result = db.Customers.Find(id);
-
-        //    CustomerContext = CtxMan.SetContext(result.Id, "customer", result.FullName) as EntityContext;
-
-        //    return result;
-        //}
+        public async Task<Customer> LoadCustomerAsync(int id)
+        {
+            var customer = await customerDomainApiClient.GetCustomerAsync(id);
+            CustomerContext = new EntityContext(customer.ID, "customer", customer.LastName); // TODO: customer Fullname for context
+            return customer;
+        }
 
     }
 }

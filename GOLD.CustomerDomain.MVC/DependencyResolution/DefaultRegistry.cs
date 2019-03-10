@@ -18,6 +18,8 @@
 namespace GOLD.CustomerDomain.MVC.DependencyResolution {
     using GOLD.Core;
     using GOLD.Core.Interfaces;
+    using GOLD.CustomerDomain.ApiClient;
+    using GOLD.CustomerDomain.ApiClient.Interfaces;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -36,6 +38,7 @@ namespace GOLD.CustomerDomain.MVC.DependencyResolution {
             //For<IExample>().Use<Example>();
             //For<IExecutionManager>().Use<ExecutionManager>().Singleton().Ctor<string>().Is(ExecutionManager.GoldDomainID());
             For<IExecutionManager>().Use<ExecutionManager>().Singleton();
+            For<ICustomerDomainApiClient>().Use<CustomerDomainApiClient>().Singleton();
         }
 
         #endregion

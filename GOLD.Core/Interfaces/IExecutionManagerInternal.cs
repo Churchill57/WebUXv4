@@ -12,6 +12,7 @@ namespace GOLD.Core.Interfaces
     internal interface IExecutionManagerInternal
     {
         Task<string> RedirectLaunchAppAsync(string componentInterfaceFullname, string returnUrl);
+        Task<string> RedirectLaunchAppAsync(ITXID parentTXID, string componentInterfaceFullname);
         Task<string> RedirectResumeExecutionThreadAsync(int ID);
         //Task<T> LoadComponentFromExecutionThreadAsync<T>(TXID txid) where T : Component, new();
         Task<T> LoadComponentFromExecutionThreadAsync<T>(string txid) where T : Component, new();

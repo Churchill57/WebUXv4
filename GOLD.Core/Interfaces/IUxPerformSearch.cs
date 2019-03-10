@@ -8,6 +8,6 @@ namespace GOLD.Core.Interfaces
 {
     public interface IUxPerformSearch<T>
     {
-        IEnumerable<T> PerformSearch();
+        Task<IEnumerable<T>> PerformSearchAsync();
     }
 }

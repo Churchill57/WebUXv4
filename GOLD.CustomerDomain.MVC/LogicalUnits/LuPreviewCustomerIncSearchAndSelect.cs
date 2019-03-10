@@ -101,63 +101,49 @@ namespace GOLD.CustomerDomain.MVC.LogicalUnits
         {
             if (outcome is ComponentDoneOutcome)
             {
-                UxCustomerSearchCriteria uxCustomerSearchCriteria;
-                Task task = Task.Run(async () => uxCustomerSearchCriteria = await UseComponentAsync<UxCustomerSearchCriteria>("Criteria"));
-                task.Wait();
-
-                //var uxCustomerSearchCriteria = UseComponentAsync<UxCustomerSearchCriteria>("Criteria").Result;
                 if (outcome.SourceComponent as UxCustomerSearchCriteria != null)
                 {
                     SearchTaskId = ((UxCustomerSearchCriteria)(outcome.SourceComponent)).TXID.xid;
                     NextStep = "Select";
+                    return;
                 }
 
-                //var uxSelectCustomer = UseComponentAsync<UxSelectCustomer>("Select");
-                //if (outcome.SourceExecutionID == uxSelectCustomer.TXID.xid)
-                //{
-                //    SelectedCustomerContext = uxSelectCustomer.SelectedCustomerContext;
-                //    NextStep = "Preview";
-                //}
+                if (outcome.SourceComponent as UxSelectCustomer != null)
+                {
+                    SelectedCustomerContext =((UxSelectCustomer)(outcome.SourceComponent)).SelectedCustomerContext;
+                    NextStep = "Preview";
+                    return;
+                }
 
-                //var uxPreviewCustomer = UseComponentAsync<UxPreviewCustomer>("Preview");
-                //if (outcome.SourceExecutionID == uxPreviewCustomer.TXID.xid)
-                //{
-                //    PreviewedCustomerContext = uxPreviewCustomer.CustomerContext;
-                //}
+                if (outcome.SourceComponent as UxPreviewCustomer != null)
+                {
+                    PreviewedCustomerContext =((UxPreviewCustomer)(outcome.SourceComponent)).CustomerContext;
+                    return;
+                }
+
             }
             if (outcome is ComponentBackOutcome)
             {
-                UxCustomerSearchCriteria uxCustomerSearchCriteria;
-                Task task = Task.Run(async () => uxCustomerSearchCriteria = await UseComponentAsync<UxCustomerSearchCriteria>("Criteria"));
-                task.Wait();
-                //var uxCustomerSearchCriteria = task.Result;
-
-                //var task = UseComponentAsync<UxCustomerSearchCriteria>("Criteria").ConfigureAwait(false);
-                //var awaiter = task.GetAwaiter();
-                //task.ConfigureAwait(false);
-                //task.Wait();
-                //var uxCustomerSearchCriteria = task.Result;
-
-
-                //var uxCustomerSearchCriteria = UseComponentAsync<UxCustomerSearchCriteria>("Criteria").Result;
-                //if (outcome.SourceExecutionID == uxCustomerSearchCriteria.TXID.xid)
-                //{
-                //    SearchTaskId = null;
-                //    NextStep = null;
-                //}
-
-                var uxSelectCustomer = UseComponentAsync<UxSelectCustomer>("Select").Result;
-                if (outcome.SourceExecutionID == uxSelectCustomer.TXID.xid)
+                if (outcome.SourceComponent as UxCustomerSearchCriteria != null)
                 {
-                    NextStep = "Criteria";
+                    SearchTaskId = null;
+                    NextStep = null;
+                    return;
                 }
 
-                var uxPreviewCustomer = UseComponentAsync<UxPreviewCustomer>("Preview").Result;
-                if (outcome.SourceExecutionID == uxPreviewCustomer.TXID.xid)
+                if (outcome.SourceComponent as UxSelectCustomer != null)
+                {
+                    SelectedCustomerContext = ((UxSelectCustomer)(outcome.SourceComponent)).SelectedCustomerContext;
+                    NextStep = "Criteria";
+                    return;
+                }
+
+                if (outcome.SourceComponent as UxPreviewCustomer != null)
                 {
                     SelectedCustomerContext = null;
                     NextStep = "Select";
                 }
+
             }
         }
 

@@ -1,66 +1,92 @@
 ﻿@model GOLD.CustomerDomain.ApiModels.Customer
 
 @{
-    ViewBag.Title = "UxPreviewCustomer";
+    var txid = ViewBag.txid + "/";
+
+    bool showBackButton = ViewBag.ShowBackButton;
+    bool previewDifferentCustomer = ViewBag.PreviewDifferentCustomer;
+    string backButtonText = ViewBag.BackButtonText;
+    bool backButtonAsLink = ViewBag.BackButtonAsLink;
+    string doneButtonText = ViewBag.DoneButtonText;
 }
 
-<h2>UxPreviewCustomer</h2>
+@{
+    if (previewDifferentCustomer)
+    {
+        @Html.ActionLink("Preview a different customer", "ResetCustomerContextInput", new { txid = txid })
+    }
+}
+
+@if (showBackButton && backButtonAsLink)
+{
+    @:&nbsp; &nbsp;
+    @Html.ActionLink(backButtonText, "Back", "Customer", new { txid = txid }, null)
+}
+
 
 <div>
-    <h4>Customer</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="row">
+        <div class="col-md-6">
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DOB)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DOB)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DOB)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.DOB)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NINO)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.NINO)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NINO)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.NINO)
+                </dd>
 
-    </dl>
+            </dl>
+
+            @if (showBackButton && !backButtonAsLink)
+            {
+                {
+                    @Html.ActionLink(backButtonText, "Back", "Customer", new { txid = txid }, new { @class = "btn btn-danger" })
+                    @:&nbsp; &nbsp;
+                }
+            }
+
+            @Html.ActionLink(doneButtonText, "UxPreviewCustomer_Done", "Customer", new { txid = txid }, new { @class = "btn btn-success" })
+
+        </div>
+
+        <div class="col-md-6">
+        </div>
+
+    </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

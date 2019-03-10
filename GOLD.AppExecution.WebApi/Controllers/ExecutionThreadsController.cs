@@ -49,6 +49,8 @@ namespace GOLD.AppExecution.WebApi.Controllers
         [ResponseType(typeof(ExecutionThread))]
         public async Task<IHttpActionResult> PutExecutionThreadAsync(ExecutionThread executionThread)
         {
+            //return BadRequest("SHIT HAPPENS");
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var executionThreadDB = Map(executionThread);
