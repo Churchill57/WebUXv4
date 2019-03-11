@@ -36,7 +36,8 @@ namespace GOLD.TestsDomain.MVC.Controllers
 
         public async Task<RedirectResult> LuTest1Done(string txid)
         {
-            return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
+            //return Redirect(await executionManager.RaiseOutcomeAsync(new TXID(txid), new ComponentDoneOutcome()));
+            return Redirect(await Component.RedirectRaiseOutcomeAsync(txid, new ComponentDoneOutcome()));
         }
 
         public ContentResult TestsDomainEntryPointNot()

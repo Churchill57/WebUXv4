@@ -4,6 +4,7 @@ using GOLD.Core.Interfaces;
 using GOLD.CustomerDomain.ApiClient.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.Interfaces;
+using GOLD.CustomerDomain.MVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,11 +57,6 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
             CustomerDateOfBirth = null;
         }
 
-        //public CustomerSearchSwitchAdvancedEventArgs SetAdvancedSearch(bool advancedSearch)
-        //{
-        //    return new CustomerSearchSwitchAdvancedEventArgs(this, advancedSearch);
-        //}
-
         public async Task<IEnumerable<Customer>> PerformSearchAsync()
         {
             var customers = await customerDomainApiClient.GetCustomerAsync();
@@ -81,6 +77,30 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
             return result;
         }
 
+        public async Task SaveCustomerSearchCriteriaAsync(CustomerSearchCriteriaViewModel criteria)
+        {
+            CustomerName = criteria.Name;
+            CustomerDateOfBirth = criteria.DOB;
+            await SaveAsync();
+        }
+
+        public UxCustomerSearchCriteriaViewModel GetViewModel()
+        {
+            return new UxCustomerSearchCriteriaViewModel()
+            {
+                Criteria = new CustomerSearchCriteriaViewModel()
+                {
+                    Name = CustomerName,
+                    DOB = CustomerDateOfBirth
+                },
+                BackButtonText = BackButtonText,
+                SearchButtonText = SearchButtonText,
+                ShowBackButton = ShowBackButton,
+                ShowSwitchToAdvanced = ShowSwitchToAdvanced,
+                txid = this.TXID.ToString()
+            };
+
+        }
 
     }
 }

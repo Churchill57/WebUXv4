@@ -1,15 +1,7 @@
-﻿@model GOLD.CustomerDomain.MVC.Models.CustomerSearchCriteria
+﻿@model GOLD.CustomerDomain.MVC.ViewModels.UxCustomerSearchCriteriaViewModel
 
-@{
-    var txid = ViewBag.txid + "/";
-    bool showSwitchToAdvanced = ViewBag.ShowSwitchToAdvanced;
-    bool showBackButton = ViewBag.ShowBackButton;
-    string backButtonText = ViewBag.BackButtonText;
-    string searchButtonText = ViewBag.SearchButtonText;
-}
-
-@if (showSwitchToAdvanced)
-{@Html.ActionLink("Switch to Advanced Search", "SwitchToAdvancedSearch", new { txid = txid })}
+@if (Model.ShowSwitchToAdvanced)
+{@Html.ActionLink("Switch to Advanced Search", "SwitchToAdvancedSearch", new { txid = Model.txid })}
 
 <hr />
 
@@ -28,34 +20,34 @@
 <div class="row">
     <div class="col-md-6">
 
-        @using (Html.BeginForm()) // "CaptureSearchCriteria","Customer", new { uxTaskId = uxTaskId }))
+        @using (Html.BeginForm())
         {
             @*@Html.AntiForgeryToken()*@
 
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Criteria.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Criteria.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Criteria.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Criteria.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Criteria.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Criteria.DOB, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                @if (showBackButton)
+                @if (Model.ShowBackButton)
                 {
-                    @Html.ActionLink(backButtonText, "Back", "Customer", new { txid = txid }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink(Model.BackButtonText, "Back", "Customer", new { txid = Model.txid }, new { @class = "btn btn-danger" })
                     <span>&nbsp; &nbsp;</span>
                 }
-                <input type="submit" value="@searchButtonText" class="btn btn-success" />
+                <input type="submit" value="@Model.SearchButtonText" class="btn btn-success" />
                 <br />
                 <br />
                 <br />
@@ -71,54 +63,3 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-
-
-@*@model GOLD.CustomerDomain.MVC.Models.CustomerSearchCriteria
-
-    @{
-        ViewBag.Title = "UxCustomerSearchCriteria";
-    }
-
-    <h2>UxCustomerSearchCriteria</h2>
-
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>CustomerSearchCriteria</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }*@

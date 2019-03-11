@@ -25,7 +25,7 @@ namespace GOLD.Core.Models
 
         public TXID(string txid)
         {
-            var parts = txid.Split('.');
+            var parts = txid.Split('-');
             int.TryParse(parts[0], out _tid);
             int.TryParse(parts[1], out _xid);
         }
@@ -35,7 +35,7 @@ namespace GOLD.Core.Models
 
         public override string ToString()
         {
-            return $"{_tid}.{_xid}";
+            return $"{_tid}-{_xid}";
         }
     }
 }

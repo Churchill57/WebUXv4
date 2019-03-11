@@ -1,10 +1,14 @@
 ﻿using GOLD.Core.Attributes;
 using GOLD.Core.Components;
+using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
+using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.Interfaces;
+using GOLD.CustomerDomain.MVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace GOLD.CustomerDomain.MVC.UserExperiences
@@ -37,11 +41,29 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
         [PropertyIsComponentState]
         public bool ShowPreviewLink { get; set; } = false;
 
-        public void SetCustomer(int id, string fullName)
+        public async Task<UxSelectCustomerViewModel> GetSearchResultsViewModelAsync()
         {
-            SelectedCustomerContext = new EntityContext(id, fullName, fullName);
+            var uxPerformCustomerSearch = Load(SearchTaskId.Value) as IUxPerformSearch<Customer>;
+            var customers = await uxPerformCustomerSearch.PerformSearchAsync();
+            return new UxSelectCustomerViewModel()
+            {
+                Customers = customers.ToList(),
+                BackButtonAsLink = BackButtonAsLink,
+                BackButtonText = BackButtonText,
+                SelectButtonText = SelectButtonText,
+                ShowBackButton = ShowBackButton,
+                ShowPreviewLink = ShowPreviewLink,
+                txid = this.TXID.ToString()
+            };
+        }
+
+        public async Task SaveSelectedCustomerContextAsync(int id, string fullName)
+        {
             // TODO: Set current customer context;
-            //SelectedCustomerContext = CtxMan.SetContext(id, "customer", fullName) as EntityContext;
+            SelectedCustomerContext = new EntityContext(id, "customer", fullName);
+
+            // TODO: Is explicit saver really necessary. Could not executionManager.RaiseOutcomeAsync somehow do the save if the Ux and/or execution thread is dirty?
+            await SaveAsync();
         }
 
     }

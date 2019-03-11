@@ -1,26 +1,17 @@
-﻿@model IEnumerable<GOLD.CustomerDomain.ApiModels.Customer>
+﻿@model GOLD.CustomerDomain.MVC.ViewModels.UxSelectCustomerViewModel
 
-@{
-    var txid = ViewBag.txid + "/";
-    bool showBackButton = ViewBag.ShowBackButton;
-    bool backButtonAsLink = ViewBag.BackButtonAsLink;
-    string backButtonText = ViewBag.BackButtonText;
-    string selectButtonText = ViewBag.SelectButtonText;
-    bool showPreviewLink = ViewBag.ShowPreviewLink;
-}
-
-@if (showBackButton && !backButtonAsLink)
+@if (Model.ShowBackButton && !Model.BackButtonAsLink)
 {
     {
-        @Html.ActionLink(backButtonText, "Back", "Customer", new { txid = txid }, new { @class = "btn btn-danger" })
+        @Html.ActionLink(Model.BackButtonText, "Back", "Customer", new { txid = Model.txid }, new { @class = "btn btn-danger" })
         @:&nbsp; &nbsp;
     }
 }
-@Html.ActionLink("Refresh", "UxSelectCustomer", "Customer", new { txid = txid }, new { @class = "btn btn-warning" })
-@if (showBackButton && backButtonAsLink)
+@Html.ActionLink("Refresh", "UxSelectCustomer", "Customer", new { txid = Model.txid }, new { @class = "btn btn-warning" })
+@if (Model.ShowBackButton && Model.BackButtonAsLink)
 {
     @:&nbsp; &nbsp;
-    @Html.ActionLink(backButtonText, "Back", "Customer", new { txid = txid }, null)
+    @Html.ActionLink(Model.BackButtonText, "Back", "Customer", new { txid = Model.txid }, null)
     @:&nbsp; &nbsp;
 
 }
@@ -34,26 +25,26 @@
         @*<th>
         </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Customers[0].Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Customers[0].FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Customers[0].LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DOB)
+            @Html.DisplayNameFor(model => model.Customers[0].DOB)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NINO)
+            @Html.DisplayNameFor(model => model.Customers[0].NINO)
         </th>
         <th></th>
     </tr>
 
     @{
 
-        foreach (var item in Model)
+        foreach (var item in Model.Customers)
         {
             var trClass=  ""; // = (item.Id == ViewBag.Id) ? "success" : "";
             <tr class="@trClass">
@@ -76,12 +67,12 @@
                     @Html.DisplayFor(modelItem => item.NINO)
                 </td>
                 <td>
-                    @Html.ActionLink(selectButtonText, "UxSelectCustomer_CustomerSelected", "Customer", new { txid = txid, customerId = item.ID, fullName = item.LastName }, new { @class = "btn btn-success" })
+                    @Html.ActionLink(Model.SelectButtonText, "UxSelectCustomer_CustomerSelected", "Customer", new { txid = Model.txid, customerId = item.ID, fullName = item.LastName }, new { @class = "btn btn-success" })
                     @*@Html.ActionLink(selectButtonText, "UxSelectCustomer_CustomerSelected", "Customer", new { txid = txid, customerId = item.ID, fullName = item.FullName }, new { @class = "btn btn-success" })*@
-                    @if (showPreviewLink)
+                    @if (Model.ShowPreviewLink)
                     {
                         <span>&nbsp;&nbsp;</span>
-                        @Html.ActionLink("Preview", "UxSelectCustomer_PreviewCustomer", "Customer", new { txid = txid, customerId = item.ID }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Preview", "UxSelectCustomer_PreviewCustomer", "Customer", new { txid = Model.txid, customerId = item.ID }, new { @class = "btn btn-warning" })
                     }
 
                 </td>

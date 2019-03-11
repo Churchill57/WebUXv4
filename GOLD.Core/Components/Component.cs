@@ -2,6 +2,7 @@
 using GOLD.Core.Attributes;
 using GOLD.Core.Interfaces;
 using GOLD.Core.Models;
+using GOLD.Core.Outcomes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -95,19 +96,26 @@ namespace GOLD.Core.Components
         {
             await executionManager.SaveComponentToExecutionThreadAsync(this);
         }
-        public static T Load<T>(string txid) where T : Component, new()
+
+        public IComponent Load(int xid)
         {
-            return executionManager.LoadComponentFromExecutionThread<T>(txid);
+            return executionManager.ExtractComponentFromExecutionThread(executionThread, xid);
         }
+
+
+        //public static T Load<T>(string txid) where T : Component, new()
+        //{
+        //    return executionManager.LoadComponentFromExecutionThread<T>(txid);
+        //}
 
         //public static T Load<T>(TXID txid) where T : Component, new()
         //{
         //    return executionManager.LoadComponentFromExecutionThreadAsync<T>(txid).Result;
         //}
-        public async static Task<T> LoadAsync<T>(string txid) where T : Component, new()
-        {
-            return await executionManager.LoadComponentFromExecutionThreadAsync<T>(txid);
-        }
+        //public async static Task<T> LoadAsync<T>(string txid) where T : Component, new()
+        //{
+        //    return await executionManager.LoadComponentFromExecutionThreadAsync<T>(txid);
+        //}
         //public async static Task<T> LoadAsync<T>(TXID txid) where T : Component, new()
         //{
         //    return await executionManager.LoadComponentFromExecutionThreadAsync<T>(txid);
@@ -127,6 +135,19 @@ namespace GOLD.Core.Components
             // TODO: put proxy into thread/get it out from state
             //((IComponent)proxy).TXID = new TXID("1.2");
             //return proxy;
+        }
+
+        public async Task<string> RedirectRaiseOutcomeAsync(Outcome outcome)
+        {
+            await this.SaveAsync();
+            var url = await executionManager.RaiseOutcomeAsync(this.TXID, outcome);
+            return url;
+        }
+
+        public static async Task<string> RedirectRaiseOutcomeAsync(string txid, Outcome outcome)
+        {
+            var url = await executionManager.RaiseOutcomeAsync(new TXID(txid), outcome);
+            return url;
         }
 
         //if (typeof(T).IsSubclassOf(typeof(Component)))

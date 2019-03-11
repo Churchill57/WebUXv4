@@ -133,7 +133,6 @@ namespace GOLD.CustomerDomain.MVC.LogicalUnits
 
                 if (outcome.SourceComponent as UxSelectCustomer != null)
                 {
-                    SelectedCustomerContext = ((UxSelectCustomer)(outcome.SourceComponent)).SelectedCustomerContext;
                     NextStep = "Criteria";
                     return;
                 }

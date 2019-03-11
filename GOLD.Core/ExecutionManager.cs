@@ -124,8 +124,9 @@ namespace GOLD.Core
 
         public async Task<string> RedirectResumeExecutionThreadAsync(ExecutionThread executionThread)
         {
+            var txid = new TXID(executionThread.ID, executionThread.ComponentExecutingID).ToString();
             var componentExecuting = executionThread.ExecutingComponents.FirstOrDefault(e => e.ExecutingID == executionThread.ComponentExecutingID);
-            componentExecuting.URL = $"{componentExecuting.URL}/{executionThread.ID}.{executionThread.ComponentExecutingID}/";
+            componentExecuting.URL = $"{componentExecuting.URL}/{txid}";
             executionThread.ExecutionStatus = (int)LogicalUnitStatusEnum.Started;
             executionThread = await AppExecutionApiClient.SaveExecutionThreadAsync(executionThread);
             return componentExecuting.URL;
@@ -294,12 +295,14 @@ namespace GOLD.Core
                 var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
 
                 int nextExecutingID = executionThread.ExecutingComponents.Count(); // Zero based.
+
+                var nextTXID = new TXID(executionThread.ID, nextExecutingID).ToString();
                 executingComponent = new ExecutingComponent()
                 {
                     ExecutingID = nextExecutingID,
                     InterfaceFullname = componentInterfaceFullname,
                     TypeFullname = t.GetType().FullName,
-                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
+                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{nextTXID}",
                     Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
                     ClientRef = clientRef,
                     ParentExecutingID = parentExecutingComponent.ExecutingID,
@@ -341,12 +344,13 @@ namespace GOLD.Core
                 var componentInterfaceName = componentInterfaceFullname.Split('.').LastOrDefault();
 
                 int nextExecutingID = executionThread.ExecutingComponents.Count(); // Zero based.
+                var nextTXID = new TXID(executionThread.ID, nextExecutingID).ToString();
                 executingComponent = new ExecutingComponent()
                 {
                     ExecutingID = nextExecutingID,
                     InterfaceFullname = componentInterfaceFullname,
                     TypeFullname = typeof(T).FullName,
-                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{executionThread.ID}.{nextExecutingID}/",
+                    URL = $"{registeredComponent.DomainName}/{registeredComponent.PrimaryAppRoute}/{nextTXID}",
                     Breadcrumb = $"{parentExecutingComponent.Breadcrumb}/{componentInterfaceName}({nextExecutingID})",
                     ClientRef = clientRef,
                     ParentExecutingID = parentExecutingComponent.ExecutingID,
@@ -376,7 +380,7 @@ namespace GOLD.Core
             return component;
         }
 
-        private IComponent ExtractComponentFromExecutionThread(ExecutionThread executionThread, int xid)
+        public IComponent ExtractComponentFromExecutionThread(ExecutionThread executionThread, int xid)
         {
             Component component = new OutcomeComponent();
 

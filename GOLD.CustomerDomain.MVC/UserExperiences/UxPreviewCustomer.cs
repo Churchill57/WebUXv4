@@ -5,6 +5,7 @@ using GOLD.Core.Outcomes;
 using GOLD.CustomerDomain.ApiClient.Interfaces;
 using GOLD.CustomerDomain.ApiModels;
 using GOLD.CustomerDomain.Interfaces;
+using GOLD.CustomerDomain.MVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,23 @@ namespace GOLD.CustomerDomain.MVC.UserExperiences
             var customer = await customerDomainApiClient.GetCustomerAsync(id);
             CustomerContext = new EntityContext(customer.ID, "customer", customer.LastName); // TODO: customer Fullname for context
             return customer;
+        }
+
+        public async Task<UxPreviewCustomerViewModel> GetViewModel()
+        {
+            var customer = await customerDomainApiClient.GetCustomerAsync(CustomerContext.Id);
+            CustomerContext = new EntityContext(customer.ID, "customer", customer.LastName); // TODO: customer Fullname for context
+            return new UxPreviewCustomerViewModel()
+            {
+                Customer = customer,
+                BackButtonAsLink = BackButtonAsLink,
+                BackButtonText = BackButtonText,
+                DoneButtonText = DoneButtonText,
+                PreviewDifferentCustomer = PreviewDifferentCustomer,
+                ShowBackButton = ShowBackButton,
+                txid = this.TXID.ToString()
+            };
+
         }
 
     }
